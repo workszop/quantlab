@@ -1,5 +1,15 @@
-// Quantica Lab – Theme Toggle
+// Quantica Lab – Interactive Effects
 
+// Accordion
+(function(){
+    document.querySelectorAll('.accordion-trigger').forEach(function(trigger) {
+        trigger.addEventListener('click', function() {
+            trigger.closest('.accordion-item').classList.toggle('open');
+        });
+    });
+})();
+
+// Theme toggle (light/dark)
 (function(){
     var saved = localStorage.getItem('theme') || 'dark';
     document.body.setAttribute('data-theme', saved);
