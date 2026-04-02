@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Szablon KPI Przed/Po – AI dla Kadry Projektowej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 24px 36px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.5rem; font-weight: 700; }
+.page-header p { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.meta-bar {
+  background: white;
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.meta-field { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 140px; }
+.meta-label { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; }
+.meta-input {
+  font-size: 0.88rem; font-weight: 600; color: #1a1a2e;
+  border: none; outline: none; background: transparent;
+  border-bottom: 1.5px solid #e0e0e0; padding-bottom: 2px;
+}
+.meta-input:focus { border-bottom-color: #1a1a2e; }
+
+.main-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+  overflow: hidden;
+  max-width: 1300px;
+  margin: 0 auto 20px;
+}
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+thead th {
+  background: #1a1a2e;
+  color: white;
+  padding: 11px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+thead th:first-child { text-align: left; padding-left: 14px; min-width: 160px; }
+thead th.group-header {
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.col-baseline { background: #1d2d4e; }
+.col-target { background: #1d4e1d; }
+.col-change { background: #3d2800; }
+.col-method { background: #2d2d2d; }
+.col-date { background: #2d1d3d; }
+.col-owner { background: #1d3d2d; }
+
+tbody tr { border-bottom: 1px solid #f0f0f0; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:nth-child(even) { background: #fafafa; }
+
+td {
+  padding: 8px 8px;
+  vertical-align: middle;
+  text-align: center;
+  border-right: 1px solid #f0f0f0;
+}
+td:last-child { border-right: none; }
+td:first-child { text-align: left; padding-left: 14px; }
+
+.cell-input {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.78rem;
+  color: #1a1a2e;
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid transparent;
+  padding: 2px 4px;
+}
+.cell-input:focus { background: #f0f4ff; border-bottom: 1px solid #1a1a2e; border-radius: 3px; }
+.cell-input.left { text-align: left; }
+.cell-input.kpi-name { font-weight: 600; font-size: 0.83rem; }
+
+.change-cell {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.change-pos { color: #065f46; background: #d1fae5; }
+.change-neg { color: #991b1b; background: #fee2e2; }
+.change-zero { color: #aaa; background: #f3f4f6; }
+.change-empty { color: #ccc; }
+
+.row-num {
+  display: inline-flex;
+  width: 22px; height: 22px;
+  background: #1a1a2e;
+  color: white;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.add-btn-row td {
+  padding: 10px;
+  text-align: center;
+  border-right: none;
+}
+.add-btn {
+  background: none;
+  border: 2px dashed #ddd;
+  color: #aaa;
+  padding: 6px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: all 0.15s;
+}
+.add-btn:hover { border-color: #1a1a2e; color: #1a1a2e; }
+
+.summary-bar {
+  padding: 16px 20px;
+  background: #f8fafc;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.summary-stat { display: flex; flex-direction: column; gap: 2px; }
+.stat-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; }
+.stat-value { font-size: 1.2rem; font-weight: 800; color: #1a1a2e; }
+
+.smart-note {
+  padding: 14px 20px;
+  background: #fffbeb;
+  border-top: 1px solid #fde68a;
+  font-size: 0.75rem;
+  color: #92400e;
+  line-height: 1.6;
+}
+.smart-note strong { color: #1a1a2e; }
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.72rem;
+  color: #bbb;
+  padding: 10px;
+}
+
+@media print {
+  body { background: white; padding: 8px; }
+  .page-header { border-radius: 6px; padding: 14px 20px; margin-bottom: 12px; }
+  .main-card { box-shadow: none; border: 1px solid #ddd; }
+  .meta-bar { box-shadow: none; border: 1px solid #ddd; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Szablon KPI: Przed / Po Wdrożeniu AI</h1>
+    <p>Zdefiniuj mierniki sukcesu inicjatywy AI – wartości bazowe, cele i sposób pomiaru</p>
+  </div>
+  <div class="module-tag">Moduł 3 · AI dla Kadry Projektowej</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-field" style="flex:2">
+    <span class="meta-label">Nazwa inicjatywy AI</span>
+    <input type="text" class="meta-input" placeholder="np. Automatyczna klasyfikacja zgłoszeń klienta">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Właściciel KPI</span>
+    <input type="text" class="meta-input" placeholder="Imię i nazwisko">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Data bazowa</span>
+    <input type="text" class="meta-input" placeholder="np. Q1 2026">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Data weryfikacji</span>
+    <input type="text" class="meta-input" placeholder="np. Q3 2026">
+  </div>
+</div>
+
+<div class="main-card">
+  <div class="table-wrap">
+    <table id="kpiTable">
+      <thead>
+        <tr>
+          <th rowspan="2" style="text-align:left;padding-left:14px;min-width:170px;">Miernik KPI</th>
+          <th rowspan="2" style="min-width:80px;">Jednostka</th>
+          <th class="col-baseline group-header">Wartość</th>
+          <th class="col-target group-header">Cel</th>
+          <th class="col-change group-header">Zmiana</th>
+          <th rowspan="2" class="col-method" style="min-width:130px;">Sposób pomiaru</th>
+          <th rowspan="2" class="col-date" style="min-width:90px;">Termin</th>
+          <th rowspan="2" class="col-owner" style="min-width:100px;">Właściciel</th>
+        </tr>
+        <tr>
+          <th class="col-baseline">Bazowa</th>
+          <th class="col-target">Docelowa</th>
+          <th class="col-change">% lub delta</th>
+        </tr>
+      </thead>
+      <tbody id="kpiBody">
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bar">
+    <div class="summary-stat">
+      <span class="stat-label">Zdefiniowane KPI</span>
+      <span class="stat-value" id="statDefined">0</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-label">Z wartością docelową</span>
+      <span class="stat-value" id="statWithTarget">0</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-label">Śr. zmiana</span>
+      <span class="stat-value" id="statAvgChange">–</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-label">KPI z właścicielem</span>
+      <span class="stat-value" id="statOwned">0</span>
+    </div>
+  </div>
+
+  <div class="smart-note">
+    <strong>Kryteria SMART dla KPI:</strong> &nbsp;
+    <strong>S</strong>pecific – konkretny, jednoznaczny &nbsp;·&nbsp;
+    <strong>M</strong>easurable – mierzalny, wyliczalny &nbsp;·&nbsp;
+    <strong>A</strong>chievable – osiągalny przy założeniach projektu &nbsp;·&nbsp;
+    <strong>R</strong>elevant – powiązany z celem biznesowym inicjatywy &nbsp;·&nbsp;
+    <strong>T</strong>ime-bound – z określonym terminem weryfikacji
+  </div>
+</div>
+
+<footer class="page-footer">
+  10_szablon_KPI_przed_po.html · AI dla Kadry Projektowej · Narzędzie do definiowania mierników
+</footer>
+
+<script>
+const defaultKPIs = [
+  { name: 'Czas obsługi jednego przypadku', unit: 'minuty', base: '', target: '', method: '', deadline: '', owner: '' },
+  { name: 'Koszt procesu (na jednostkę)', unit: 'PLN', base: '', target: '', method: '', deadline: '', owner: '' },
+  { name: 'Dokładność / jakość wyniku', unit: '%', base: '', target: '', method: '', deadline: '', owner: '' },
+  { name: 'Wolumen obsługiwanych przypadków', unit: 'szt./miesiąc', base: '', target: '', method: '', deadline: '', owner: '' },
+  { name: 'Satysfakcja klienta (NPS / CSAT)', unit: 'pkt.', base: '', target: '', method: '', deadline: '', owner: '' },
+  { name: 'Liczba błędów / reklamacji', unit: 'szt./miesiąc', base: '', target: '', method: '', deadline: '', owner: '' },
+  { name: '', unit: '', base: '', target: '', method: '', deadline: '', owner: '' },
+  { name: '', unit: '', base: '', target: '', method: '', deadline: '', owner: '' },
+];
+
+let kpis = defaultKPIs.map(k => ({...k}));
+
+function calcChange(base, target) {
+  const b = parseFloat(base);
+  const t = parseFloat(target);
+  if (isNaN(b) || isNaN(t) || b === 0) return null;
+  return ((t - b) / Math.abs(b) * 100).toFixed(1);
+}
+
+function renderTable() {
+  const tbody = document.getElementById('kpiBody');
+  tbody.innerHTML = '';
+
+  kpis.forEach((kpi, i) => {
+    const tr = document.createElement('tr');
+
+    // Name
+    const nameTd = document.createElement('td');
+    nameTd.innerHTML = `<span class="row-num">${i+1}</span><input class="cell-input kpi-name left" value="${kpi.name}" placeholder="Nazwa miernika" onchange="kpis[${i}].name=this.value;updateSummary()">`;
+    tr.appendChild(nameTd);
+
+    // Unit
+    const unitTd = document.createElement('td');
+    unitTd.innerHTML = `<input class="cell-input" value="${kpi.unit}" placeholder="np. %" onchange="kpis[${i}].unit=this.value">`;
+    tr.appendChild(unitTd);
+
+    // Base
+    const baseTd = document.createElement('td');
+    baseTd.style.background = '#f0f4ff';
+    baseTd.innerHTML = `<input class="cell-input" value="${kpi.base}" placeholder="–" onchange="kpis[${i}].base=this.value;renderTable()">`;
+    tr.appendChild(baseTd);
+
+    // Target
+    const targetTd = document.createElement('td');
+    targetTd.style.background = '#f0fff4';
+    targetTd.innerHTML = `<input class="cell-input" value="${kpi.target}" placeholder="–" onchange="kpis[${i}].target=this.value;renderTable()">`;
+    tr.appendChild(targetTd);
+
+    // Change (auto)
+    const changeTd = document.createElement('td');
+    const chg = calcChange(kpi.base, kpi.target);
+    if (chg !== null) {
+      const cls = parseFloat(chg) > 0 ? 'change-pos' : parseFloat(chg) < 0 ? 'change-neg' : 'change-zero';
+      const sign = parseFloat(chg) > 0 ? '+' : '';
+      changeTd.innerHTML = `<span class="change-cell ${cls}">${sign}${chg}%</span>`;
+    } else {
+      changeTd.innerHTML = `<span class="change-empty">–</span>`;
+    }
+    tr.appendChild(changeTd);
+
+    // Method
+    const methodTd = document.createElement('td');
+    methodTd.innerHTML = `<input class="cell-input left" value="${kpi.method}" placeholder="np. raport CRM, obserwacja" onchange="kpis[${i}].method=this.value">`;
+    tr.appendChild(methodTd);
+
+    // Deadline
+    const deadlineTd = document.createElement('td');
+    deadlineTd.innerHTML = `<input class="cell-input" value="${kpi.deadline}" placeholder="np. Q3 2026" onchange="kpis[${i}].deadline=this.value">`;
+    tr.appendChild(deadlineTd);
+
+    // Owner
+    const ownerTd = document.createElement('td');
+    ownerTd.innerHTML = `<input class="cell-input" value="${kpi.owner}" placeholder="Rola / osoba" onchange="kpis[${i}].owner=this.value;updateSummary()">`;
+    tr.appendChild(ownerTd);
+
+    tbody.appendChild(tr);
+  });
+
+  // Add row button
+  const addTr = document.createElement('tr');
+  addTr.className = 'add-btn-row';
+  const addTd = document.createElement('td');
+  addTd.colSpan = 8;
+  addTd.innerHTML = `<button class="add-btn" onclick="addKPI()">+ Dodaj miernik KPI</button>`;
+  addTr.appendChild(addTd);
+  tbody.appendChild(addTr);
+
+  updateSummary();
+}
+
+function addKPI() {
+  kpis.push({ name: '', unit: '', base: '', target: '', method: '', deadline: '', owner: '' });
+  renderTable();
+}
+
+function updateSummary() {
+  const defined = kpis.filter(k => k.name.trim() !== '').length;
+  const withTarget = kpis.filter(k => k.name.trim() !== '' && k.target.trim() !== '').length;
+  const owned = kpis.filter(k => k.name.trim() !== '' && k.owner.trim() !== '').length;
+
+  const changes = kpis.map(k => calcChange(k.base, k.target)).filter(v => v !== null).map(v => parseFloat(v));
+  const avgChange = changes.length ? (changes.reduce((a,b) => a+b, 0) / changes.length).toFixed(1) : null;
+
+  document.getElementById('statDefined').textContent = defined;
+  document.getElementById('statWithTarget').textContent = withTarget;
+  document.getElementById('statAvgChange').textContent = avgChange !== null ? (parseFloat(avgChange) >= 0 ? '+' : '') + avgChange + '%' : '–';
+  document.getElementById('statOwned').textContent = owned;
+}
+
+renderTable();
+</script>
+</body>
+</html>

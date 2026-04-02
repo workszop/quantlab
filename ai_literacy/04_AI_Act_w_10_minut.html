@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>AI Act w 10 minut</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 16px; }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  .page {
+    max-width: 1050px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.01em; }
+  header .sub { font-size: 0.75rem; opacity: 0.6; margin-top: 3px; }
+  .eu-tag {
+    background: #003399;
+    border: 2px solid #ffcc00;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .eu-tag .stars { color: #ffcc00; letter-spacing: 2px; font-size: 0.65rem; display: block; }
+
+  .intro-bar {
+    background: #f5f7ff;
+    padding: 10px 28px;
+    border-bottom: 1px solid #dde4f5;
+    font-size: 0.82rem;
+    color: #333;
+    line-height: 1.5;
+  }
+  .intro-bar strong { color: #0f3460; }
+
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 0;
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  /* LEFT: Piramida ryzyka */
+  .pyramid-col {
+    padding: 20px 20px 16px;
+    border-right: 2px solid #e8e8e8;
+  }
+  .col-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .pyramid { display: flex; flex-direction: column; gap: 4px; }
+  .level {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+  }
+  .level-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    color: white;
+    font-weight: 800;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: center;
+    border-radius: 4px 0 0 4px;
+    min-width: 100px;
+    flex-shrink: 0;
+  }
+  .level-content {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1.5px solid;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .level-label { font-size: 0.78rem; font-weight: 800; margin-bottom: 3px; }
+  .level-examples { font-size: 0.7rem; line-height: 1.5; }
+  .level-examples span { display: block; color: inherit; opacity: 0.8; }
+  .level-examples span::before { content: "· "; }
+
+  .l-banned .level-bar { background: #c0392b; }
+  .l-banned .level-content { border-color: #e74c3c; background: #fff5f5; color: #7a0d0d; }
+  .l-high .level-bar { background: #e67e22; }
+  .l-high .level-content { border-color: #f39c12; background: #fffbf0; color: #7d4800; }
+  .l-limited .level-bar { background: #2980b9; }
+  .l-limited .level-content { border-color: #3498db; background: #eef6ff; color: #0d3b70; }
+  .l-minimal .level-bar { background: #27ae60; }
+  .l-minimal .level-content { border-color: #2ecc71; background: #edfbf0; color: #0d5c30; }
+
+  /* RIGHT: Obowiązki + Harmonogram */
+  .right-col { display: flex; flex-direction: column; }
+  .obligations-section { padding: 20px 22px; border-bottom: 1px solid #e8e8e8; flex: 1; }
+  .timeline-section { padding: 16px 22px; }
+
+  .obligations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .obl-card {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border-left: 3px solid;
+  }
+  .obl-provider { border-color: #0f3460; background: #f0f4ff; }
+  .obl-deployer { border-color: #27ae60; background: #edfaf5; }
+  .obl-title { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
+  .obl-provider .obl-title { color: #0f3460; }
+  .obl-deployer .obl-title { color: #0d5c30; }
+  .obl-items { font-size: 0.75rem; color: #444; line-height: 1.6; }
+  .obl-items li { margin-left: 12px; }
+
+  /* Harmonogram */
+  .timeline { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+  .tl-item { display: flex; gap: 10px; align-items: flex-start; }
+  .tl-date {
+    min-width: 80px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: white;
+    background: #0f3460;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-align: center;
+    flex-shrink: 0;
+    line-height: 1.4;
+  }
+  .tl-date.passed { background: #888; }
+  .tl-date.now { background: #27ae60; }
+  .tl-date.soon { background: #e67e22; }
+  .tl-date.future { background: #0f3460; }
+  .tl-content { font-size: 0.75rem; color: #333; line-height: 1.5; padding-top: 2px; }
+  .tl-content strong { color: #1a1a2e; }
+
+  /* Bottom row */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-top: 2px solid #e8e8e8;
+  }
+  .bottom-card {
+    padding: 14px 18px;
+    border-right: 1px solid #e8e8e8;
+  }
+  .bottom-card:last-child { border-right: none; }
+  .bottom-card-title {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .bottom-card ul { padding-left: 14px; }
+  .bottom-card li { font-size: 0.75rem; color: #444; line-height: 1.6; }
+
+  footer {
+    background: #1a1a2e;
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+    font-size: 0.65rem;
+    padding: 7px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>🏛️ AI Act w 10 minut</h1>
+      <div class="sub">AI Literacy · Pierwsza na świecie kompleksowa regulacja sztucznej inteligencji · Ściągawka bez prawniczego żargonu</div>
+    </div>
+    <div class="eu-tag">
+      <span class="stars">★ ★ ★ ★ ★</span>
+      Rozporządzenie UE<br>2024/1689
+    </div>
+  </header>
+
+  <div class="intro-bar">
+    <strong>Czym jest AI Act?</strong> Unijne prawo regulujące tworzenie i używanie systemów AI — obowiązuje wszystkich, którzy <em>tworzą, wdrażają lub używają</em> AI w UE. Podejście oparte na ryzyku: im większe ryzyko dla ludzi, tym surowsze wymogi. Nie zakazuje AI — wymaga odpowiedzialności.
+  </div>
+
+  <div class="main-grid">
+
+    <!-- PIRAMIDA -->
+    <div class="pyramid-col">
+      <div class="col-title">🔺 Klasyfikacja ryzyka — piramida</div>
+      <div class="pyramid">
+
+        <div class="level l-banned">
+          <div class="level-bar">ZAKAZ</div>
+          <div class="level-content">
+            <div class="level-label">Ryzyko niedopuszczalne</div>
+            <div class="level-examples">
+              <span>Scoring społeczny obywateli przez rząd</span>
+              <span>Manipulacja zachowaniem bez świadomości osoby</span>
+              <span>Rozpoznawanie emocji w miejscu pracy / szkołach</span>
+              <span>Masowe biometryczne śledzenie w przestrzeni publicznej (z wyjątkami)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="level l-high">
+          <div class="level-bar">WYSOKIE</div>
+          <div class="level-content">
+            <div class="level-label">Wysokie ryzyko — surowe wymogi</div>
+            <div class="level-examples">
+              <span>Rekrutacja i ocena pracowników</span>
+              <span>Kredyty i scoring finansowy</span>
+              <span>Diagnostyka medyczna</span>
+              <span>Infrastruktura krytyczna (energia, woda)</span>
+              <span>Systemy wymiaru sprawiedliwości</span>
+              <span>Zarządzanie migracją i granicami</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="level l-limited">
+          <div class="level-bar">OGRANI-CZONE</div>
+          <div class="level-content">
+            <div class="level-label">Ograniczone ryzyko — obowiązek przejrzystości</div>
+            <div class="level-examples">
+              <span>Chatboty — muszą ujawniać, że to AI</span>
+              <span>Deepfake — musi być oznaczony</span>
+              <span>Generowana treść — wymaga oznaczenia</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="level l-minimal">
+          <div class="level-bar">MINIMALNE</div>
+          <div class="level-content">
+            <div class="level-label">Minimalne ryzyko — brak specjalnych wymogów</div>
+            <div class="level-examples">
+              <span>Filtry spamu, rekomendacje treści</span>
+              <span>AI w grach wideo</span>
+              <span>Narzędzia produktywności biurowej (AI w Wordzie, Excelu)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PRAWY: Obowiązki + Timeline -->
+    <div class="right-col">
+      <div class="obligations-section">
+        <div class="col-title">⚖️ Kluczowe obowiązki — dla kogo co?</div>
+        <div class="obligations-grid">
+          <div class="obl-card obl-provider">
+            <div class="obl-title">🏭 Dostawca AI (tworzy / szkoli model)</div>
+            <ul class="obl-items">
+              <li>Zarządzanie ryzykiem przez cały cykl życia</li>
+              <li>Dokumentacja techniczna i rejestracja w bazie UE</li>
+              <li>Testy na bias i bezpieczeństwo przed wdrożeniem</li>
+              <li>Oznaczanie treści generowanych (watermarking)</li>
+              <li>Ujawnianie danych treningowych (modele ogólne)</li>
+              <li>Zgłaszanie poważnych incydentów</li>
+            </ul>
+          </div>
+          <div class="obl-card obl-deployer">
+            <div class="obl-title">🏢 Wdrażający AI (używa w biznesie)</div>
+            <ul class="obl-items">
+              <li>Ocena ryzyka przed wdrożeniem systemu wysokiego ryzyka</li>
+              <li>Nadzór ludzki w procesie — human in the loop</li>
+              <li>Informowanie pracowników o pracy z AI</li>
+              <li>Rejestr zastosowań AI wysokiego ryzyka</li>
+              <li>Ocena skutków dla praw podstawowych</li>
+              <li>Szkolenie osób używających AI (Ty!)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-section">
+        <div class="col-title">📅 Harmonogram wchodzenia w życie</div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-date passed">Sierpień<br>2024</div>
+            <div class="tl-content"><strong>AI Act wchodzi w życie</strong> — 20 dni po publikacji w Dzienniku Urzędowym UE</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date passed">Luty<br>2025</div>
+            <div class="tl-content"><strong>Zakazy obowiązują</strong> — systemy AI niedopuszczalnego ryzyka muszą zostać wycofane</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date now">Sierpień<br>2025</div>
+            <div class="tl-content"><strong>Modele ogólnego zastosowania (GPAI)</strong> — m.in. GPT-4, Claude, Gemini — obowiązki dostawców wchodzą w życie</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date soon">Sierpień<br>2026</div>
+            <div class="tl-content"><strong>Systemy wysokiego ryzyka</strong> — rekrutacja, kredyty, infrastruktura krytyczna — pełne wymogi</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date future">2027</div>
+            <div class="tl-content"><strong>Systemy wysokiego ryzyka w regulowanych sektorach</strong> (medycyna, lotnictwo, pojazdy) — dostosowanie standardów</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-row">
+    <div class="bottom-card">
+      <div class="bottom-card-title">💰 Kary za naruszenia</div>
+      <ul>
+        <li>Zakaz systemu: do <strong>35 mln € lub 7% obrotu</strong></li>
+        <li>Inne naruszenia: do <strong>15 mln € lub 3% obrotu</strong></li>
+        <li>Fałszywe informacje: do <strong>7,5 mln € lub 1% obrotu</strong></li>
+        <li>Dla MŚP — niższy próg procentowy</li>
+      </ul>
+    </div>
+    <div class="bottom-card">
+      <div class="bottom-card-title">✅ Co musisz zrobić jako pracownik</div>
+      <ul>
+        <li>Wiedz, jakie AI stosujesz w pracy</li>
+        <li>Poinformuj klienta, jeśli AI podejmuje decyzję go dotyczącą</li>
+        <li>Zachowaj nadzór ludzki — nie oddawaj decyzji AI</li>
+        <li>Zgłoś incydenty związane z AI do przełożonego</li>
+      </ul>
+    </div>
+    <div class="bottom-card">
+      <div class="bottom-card-title">❓ Najczęstsze pytania</div>
+      <ul>
+        <li><strong>ChatGPT to AI wysokiego ryzyka?</strong> Nie — ale jego użycie w HR już tak.</li>
+        <li><strong>Copilot w Excelu podlega AI Act?</strong> Minimal risk — brak specjalnych wymogów.</li>
+        <li><strong>Kto to egzekwuje?</strong> Krajowy organ nadzoru (w PL: prawdopodobnie UKE lub nowy urząd).</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>AI Literacy · AI Act w 10 minut · Uproszczone podsumowanie · Nie jest poradą prawną · Źródło: Rozporządzenie UE 2024/1689</footer>
+</div>
+</body>
+</html>

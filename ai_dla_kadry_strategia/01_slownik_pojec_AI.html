@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Słownik Kluczowych Pojęć AI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 24px;
+            color: #1a1a2e;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 24px 36px;
+            margin-bottom: 28px;
+        }
+        .module-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .page-header h1 {
+            font-size: 1.65rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .page-header p {
+            font-size: 0.88rem;
+            opacity: 0.85;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+        .term-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-stripe {
+            height: 6px;
+            width: 100%;
+        }
+        .card-body {
+            padding: 18px 20px 14px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-icon {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+        .card-term {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .category-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 10px;
+        }
+        .badge-podstawy { background: #e0e7ff; color: #3b82f6; }
+        .badge-technologia { background: #ede9fe; color: #8b5cf6; }
+        .badge-zastosowanie { background: #d1fae5; color: #059669; }
+        .badge-ryzyko { background: #fee2e2; color: #e74c3c; }
+        .badge-regulacje { background: #f3f4f6; color: #6b7280; }
+        .card-desc {
+            font-size: 0.81rem;
+            line-height: 1.55;
+            color: #444;
+            flex: 1;
+        }
+        .card-insight {
+            border-top: 1px solid #eee;
+            margin-top: 14px;
+            padding-top: 10px;
+            font-size: 0.73rem;
+            font-style: italic;
+            color: #777;
+        }
+        .card-insight .label {
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #aaa;
+            font-style: normal;
+            display: block;
+            margin-bottom: 4px;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #bbb;
+            padding: 18px 0 8px;
+        }
+        @media print {
+            body { background: white; }
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <div class="module-tag">Moduł 1 · AI dla Kadry Strategicznej</div>
+        <h1>Słownik Kluczowych Pojęć AI</h1>
+        <p>Najważniejsze terminy AI, ML i GenAI wyjaśnione bez żargonu – dla kadry zarządzającej</p>
+    </header>
+
+    <div class="card-grid">
+        <!-- 1. Sztuczna Inteligencja -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #3b82f6;"></div>
+            <div class="card-body">
+                <div class="card-icon">🤖</div>
+                <div class="card-term">Sztuczna Inteligencja (AI)</div>
+                <span class="category-badge badge-podstawy">Podstawy</span>
+                <div class="card-desc">Systemy komputerowe wykonujące zadania wymagające ludzkiej inteligencji. Nie „myślą" – przetwarzają dane według wzorców. Dzielą się na wąską AI (jedna dziedzina) i ogólną (AGI – wciąż teoretyczną).</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    AI to narzędzie wspierające decyzje, nie zastępujące decydentów – kluczowe jest zrozumienie jej granic.
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Machine Learning -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #8b5cf6;"></div>
+            <div class="card-body">
+                <div class="card-icon">📈</div>
+                <div class="card-term">Machine Learning (ML)</div>
+                <span class="category-badge badge-technologia">Technologia</span>
+                <div class="card-desc">Poddziedzina AI, w której algorytmy uczą się z danych zamiast być programowane regułami. Model analizuje historyczne przykłady i sam odkrywa wzorce do przyszłych predykcji.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Jakość danych historycznych decyduje o jakości predykcji – inwestycja w dane to fundament ML.
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Deep Learning -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #10b981;"></div>
+            <div class="card-body">
+                <div class="card-icon">🧠</div>
+                <div class="card-term">Deep Learning</div>
+                <span class="category-badge badge-technologia">Technologia</span>
+                <div class="card-desc">ML z użyciem sieci neuronowych o wielu warstwach. Radzi sobie z niestrukturyzowanymi danymi (obrazy, tekst, dźwięk). Wymaga dużych zbiorów danych i mocy obliczeniowej.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Wymaga większych inwestycji w infrastrukturę, ale umożliwia automatyzację złożonych zadań.
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Generatywna AI -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #f59e0b;"></div>
+            <div class="card-body">
+                <div class="card-icon">✨</div>
+                <div class="card-term">Generatywna AI (GenAI)</div>
+                <span class="category-badge badge-technologia">Technologia</span>
+                <div class="card-desc">AI tworząca nowe treści: tekst, obrazy, kod, audio, wideo. Oparta na dużych modelach (LLM, dyfuzyjnych). Przykłady: ChatGPT, Claude, DALL-E, Midjourney.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Najszybciej wdrażana forma AI – może natychmiast zwiększyć produktywność zespołów.
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. LLM -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #e74c3c;"></div>
+            <div class="card-body">
+                <div class="card-icon">📝</div>
+                <div class="card-term">Duży Model Językowy (LLM)</div>
+                <span class="category-badge badge-technologia">Technologia</span>
+                <div class="card-desc">Model AI wytrenowany na miliardach tekstów, rozumiejący i generujący język naturalny. Nie przechowuje „wiedzy" – przewiduje najbardziej prawdopodobny ciąg słów na podstawie kontekstu.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    LLM to fundament GenAI – wybór modelu (GPT, Claude, Gemini) wpływa na koszty i możliwości.
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Prompt -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #6366f1;"></div>
+            <div class="card-body">
+                <div class="card-icon">💬</div>
+                <div class="card-term">Prompt</div>
+                <span class="category-badge badge-podstawy">Podstawy</span>
+                <div class="card-desc">Instrukcja/pytanie przekazane modelowi AI. Jakość odpowiedzi zależy od jakości promptu. Prompt engineering to umiejętność formułowania precyzyjnych instrukcji dla AI.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Umiejętność pisania promptów staje się kluczową kompetencją w każdym dziale organizacji.
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Halucynacja AI -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #3b82f6;"></div>
+            <div class="card-body">
+                <div class="card-icon">👻</div>
+                <div class="card-term">Halucynacja AI</div>
+                <span class="category-badge badge-ryzyko">Ryzyko</span>
+                <div class="card-desc">Gdy model generuje treści brzmiące wiarygodnie, ale nieprawdziwe. LLM „nie wiedzą, czego nie wiedzą" – mogą wymyślać fakty, cytaty, dane. Kluczowe ryzyko w zastosowaniach biznesowych.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Każdy output AI wymaga weryfikacji – procesy kontroli jakości są obowiązkowe.
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Fine-tuning -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #8b5cf6;"></div>
+            <div class="card-body">
+                <div class="card-icon">🔧</div>
+                <div class="card-term">Fine-tuning</div>
+                <span class="category-badge badge-technologia">Technologia</span>
+                <div class="card-desc">Dostrajanie gotowego modelu AI do specyficznej domeny firmy poprzez dotrenowanie na własnych danych. Droższa i bardziej złożona alternatywa dla RAG.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Rozważ fine-tuning dopiero gdy RAG nie wystarcza – wymaga budżetu i zespołu technicznego.
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. RAG -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #10b981;"></div>
+            <div class="card-body">
+                <div class="card-icon">🔍</div>
+                <div class="card-term">RAG (Retrieval-Augmented Generation)</div>
+                <span class="category-badge badge-technologia">Technologia</span>
+                <div class="card-desc">Technika łącząca LLM z wyszukiwaniem w bazie dokumentów firmy. AI odpowiada na pytania w oparciu o aktualne, wewnętrzne dane – redukuje halucynacje.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Najczęściej rekomendowany pierwszy krok wdrożenia AI na firmowych danych.
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Token -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #f59e0b;"></div>
+            <div class="card-body">
+                <div class="card-icon">🧮</div>
+                <div class="card-term">Token</div>
+                <span class="category-badge badge-podstawy">Podstawy</span>
+                <div class="card-desc">Jednostka tekstu przetwarzana przez LLM (słowo lub część słowa). Modele mają limit tokenów (okno kontekstowe) – wpływa to na długość rozmowy i koszty użycia API.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Tokeny bezpośrednio przekładają się na koszty – optymalizacja promptów to oszczędności.
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. Computer Vision -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #e74c3c;"></div>
+            <div class="card-body">
+                <div class="card-icon">👁️</div>
+                <div class="card-term">Computer Vision</div>
+                <span class="category-badge badge-zastosowanie">Zastosowanie</span>
+                <div class="card-desc">AI analizujące obrazy i wideo: rozpoznawanie obiektów, twarzy, tekstu (OCR), defektów. Dojrzała technologia stosowana w kontroli jakości, bezpieczeństwie, medycynie.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Jedna z najdojrzalszych technologii AI – realne ROI w produkcji i logistyce.
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. NLP -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #6366f1;"></div>
+            <div class="card-body">
+                <div class="card-icon">🗣️</div>
+                <div class="card-term">NLP (Natural Language Processing)</div>
+                <span class="category-badge badge-zastosowanie">Zastosowanie</span>
+                <div class="card-desc">Przetwarzanie języka naturalnego – AI rozumiejące tekst ludzki. Zastosowania: analiza sentymentu, klasyfikacja dokumentów, tłumaczenia, ekstrakcja danych.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Podstawa automatyzacji pracy z dokumentami i komunikacją z klientami.
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. RPA + AI -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #3b82f6;"></div>
+            <div class="card-body">
+                <div class="card-icon">⚙️</div>
+                <div class="card-term">RPA + AI (Inteligentna automatyzacja)</div>
+                <span class="category-badge badge-zastosowanie">Zastosowanie</span>
+                <div class="card-desc">Połączenie automatyzacji procesów robotycznych z AI. Boty RPA wykonują powtarzalne zadania, a AI dodaje zdolność rozumienia dokumentów, podejmowania prostych decyzji.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Ewolucja istniejących wdrożeń RPA – dodanie AI zwielokrotnia zwrot z inwestycji.
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. AI Agent -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #8b5cf6;"></div>
+            <div class="card-body">
+                <div class="card-icon">🕵️</div>
+                <div class="card-term">AI Agent</div>
+                <span class="category-badge badge-technologia">Technologia</span>
+                <div class="card-desc">Autonomiczny system AI planujący i wykonujący wieloetapowe zadania. Używa narzędzi, podejmuje decyzje, uczy się z wyników. Wciąż eksperymentalna technologia, ale szybko dojrzewająca.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Trend na 2025-2026 – warto obserwować, ale ostrożnie z wdrożeniami produkcyjnymi.
+                </div>
+            </div>
+        </div>
+
+        <!-- 15. EU AI Act -->
+        <div class="term-card">
+            <div class="card-stripe" style="background: #10b981;"></div>
+            <div class="card-body">
+                <div class="card-icon">🇪🇺</div>
+                <div class="card-term">EU AI Act</div>
+                <span class="category-badge badge-regulacje">Regulacje</span>
+                <div class="card-desc">Europejskie rozporządzenie o AI (od 2025). Klasyfikuje systemy AI według ryzyka, nakłada obowiązki na dostawców i użytkowników. Kluczowe dla planowania wdrożeń AI w UE.</div>
+                <div class="card-insight">
+                    <span class="label">Znaczenie dla kadry</span>
+                    Każde wdrożenie AI musi uwzględniać klasyfikację ryzyka wg EU AI Act – niezgodność = kary.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>01_slownik_pojec_AI.html · AI dla Kadry Strategicznej · Opracowanie: Q1 2026</footer>
+</body>
+</html>

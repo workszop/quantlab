@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Canvas Wizji AI dla Organizacji – AI dla Kadry Strategicznej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 18px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 18px 28px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.page-header h1 { font-size: 1.3rem; font-weight: 700; }
+.page-header p { font-size: 0.78rem; opacity: 0.7; margin-top: 3px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.canvas-meta {
+  background: white;
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.meta-field { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 3px; }
+.meta-label { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; }
+.meta-input {
+  font-size: 0.85rem; font-weight: 600; color: #1a1a2e;
+  border: none; outline: none; background: transparent;
+  border-bottom: 1.5px solid #e0e0e0; padding-bottom: 2px; width: 100%;
+}
+.meta-input:focus { border-bottom-color: #1a1a2e; }
+
+.canvas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 12px;
+}
+
+.canvas-section {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.sec-icon { font-size: 1.1rem; flex-shrink: 0; }
+.sec-title { font-size: 0.85rem; font-weight: 700; color: #1a1a2e; }
+.sec-subtitle { font-size: 0.68rem; color: #aaa; margin-top: 1px; }
+
+.s1 .section-header { border-left: 4px solid #3b82f6; }
+.s2 .section-header { border-left: 4px solid #10b981; }
+.s3 .section-header { border-left: 4px solid #8b5cf6; }
+.s4 .section-header { border-left: 4px solid #f59e0b; }
+.s5 .section-header { border-left: 4px solid #e74c3c; }
+.s6 .section-header { border-left: 4px solid #6b7280; }
+
+.section-body { padding: 12px 14px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+.write-area {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.78rem; color: #333; border: none; outline: none; resize: none;
+  background: #fafafa; border-radius: 6px; padding: 7px 9px;
+  line-height: 1.5; width: 100%; min-height: 55px;
+}
+.write-area:focus { background: #f0f4ff; }
+.write-area::placeholder { color: #ccc; font-style: italic; }
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.75rem;
+  color: #bbb;
+  padding: 12px;
+}
+
+@media print {
+  @page { size: A3 landscape; margin: 8mm; }
+  body { background: white; padding: 0; }
+  .page-header { border-radius: 4px; padding: 10px 16px; margin-bottom: 8px; }
+  .canvas-meta { margin-bottom: 8px; box-shadow: none; border: 1px solid #ddd; }
+  .canvas-section { box-shadow: none; border: 1px solid #ddd; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Canvas Wizji AI dla Organizacji</h1>
+    <p>Zdefiniuj strategiczną wizję wykorzystania AI w Twojej organizacji</p>
+  </div>
+  <div class="module-tag">Moduł 2 · AI dla Kadry Strategicznej</div>
+</div>
+
+<div class="canvas-meta">
+  <div class="meta-field" style="flex:2">
+    <span class="meta-label">Nazwa organizacji</span>
+    <input type="text" class="meta-input" placeholder="Wpisz nazwę organizacji">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Data</span>
+    <input type="text" class="meta-input" placeholder="DD.MM.RRRR">
+  </div>
+  <div class="meta-field" style="flex:2">
+    <span class="meta-label">Uczestnicy warsztatu</span>
+    <input type="text" class="meta-input" placeholder="Imiona i nazwiska / role">
+  </div>
+</div>
+
+<div class="canvas-grid">
+
+  <!-- S1: Dlaczego AI? -->
+  <div class="canvas-section s1">
+    <div class="section-header">
+      <span class="sec-icon">🎯</span>
+      <div>
+        <div class="sec-title">1. Dlaczego AI?</div>
+        <div class="sec-subtitle">Jaki problem biznesowy chcemy rozwiązać? Jakie szanse rynkowe chcemy wykorzystać?</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <textarea class="write-area" style="min-height:100px;" placeholder="np. Konkurenci wdrażają AI w obsłudze klienta – tracimy udział rynkowy. Chcemy skrócić czas obsługi i zwiększyć satysfakcję."></textarea>
+    </div>
+  </div>
+
+  <!-- S2: Wizja za 3 lata -->
+  <div class="canvas-section s2">
+    <div class="section-header">
+      <span class="sec-icon">🔭</span>
+      <div>
+        <div class="sec-title">2. Wizja za 3 lata</div>
+        <div class="sec-subtitle">Jak wygląda nasza organizacja z wdrożonym AI? Co się zmieni?</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <textarea class="write-area" style="min-height:100px;" placeholder="np. AI wspiera 60% procesów decyzyjnych, czas obsługi klienta skrócony o 50%, pracownicy skupieni na zadaniach kreatywnych."></textarea>
+    </div>
+  </div>
+
+  <!-- S3: Kluczowi interesariusze -->
+  <div class="canvas-section s3">
+    <div class="section-header">
+      <span class="sec-icon">👥</span>
+      <div>
+        <div class="sec-title">3. Kluczowi interesariusze</div>
+        <div class="sec-subtitle">Kogo angażujemy? Kto będzie sponsorem? Kto będzie użytkownikiem?</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <textarea class="write-area" style="min-height:100px;" placeholder="Sponsor: CTO/COO&#10;Komitet sterujący: ...&#10;Użytkownicy kluczowi: ...&#10;Partnerzy technologiczni: ..."></textarea>
+    </div>
+  </div>
+
+  <!-- S4: Główne obszary zastosowań -->
+  <div class="canvas-section s4">
+    <div class="section-header">
+      <span class="sec-icon">📋</span>
+      <div>
+        <div class="sec-title">4. Główne obszary zastosowań</div>
+        <div class="sec-subtitle">Które procesy/funkcje biznesowe priorytetyzujemy?</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <textarea class="write-area" style="min-height:100px;" placeholder="1. ...&#10;2. ...&#10;3. ...&#10;(max 3-5 obszarów na start)"></textarea>
+    </div>
+  </div>
+
+  <!-- S5: Ograniczenia i ryzyka -->
+  <div class="canvas-section s5">
+    <div class="section-header">
+      <span class="sec-icon">⚠️</span>
+      <div>
+        <div class="sec-title">5. Ograniczenia i ryzyka</div>
+        <div class="sec-subtitle">Jakie bariery mogą nas zatrzymać? Na co musimy uważać?</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <textarea class="write-area" style="min-height:100px;" placeholder="Dane: ...&#10;Kompetencje: ...&#10;Budżet: ...&#10;Regulacje: ...&#10;Opór organizacyjny: ..."></textarea>
+    </div>
+  </div>
+
+  <!-- S6: Mierniki sukcesu -->
+  <div class="canvas-section s6">
+    <div class="section-header">
+      <span class="sec-icon">📊</span>
+      <div>
+        <div class="sec-title">6. Mierniki sukcesu</div>
+        <div class="sec-subtitle">Po czym poznamy, że wizja się realizuje?</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <textarea class="write-area" style="min-height:100px;" placeholder="KPI 1: ...&#10;KPI 2: ...&#10;KPI 3: ...&#10;Horyzont pomiaru: ..."></textarea>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  04_canvas_wizji_AI.html · AI dla Kadry Strategicznej · Format A3 landscape zalecany
+</footer>
+
+</body>
+</html>

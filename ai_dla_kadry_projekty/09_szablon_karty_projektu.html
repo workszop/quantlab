@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Szablon Karty Projektu AI – AI dla Kadry Projektowej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 20px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 18px 28px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.3rem; font-weight: 700; }
+.page-header p { font-size: 0.78rem; opacity: 0.7; margin-top: 3px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.print-note {
+  text-align: center;
+  font-size: 0.72rem;
+  color: #aaa;
+  margin-bottom: 12px;
+}
+
+.project-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+  margin-bottom: 16px;
+  overflow: hidden;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.project-card + .project-card { margin-top: 0; }
+
+.card-top {
+  background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%);
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-top-title { color: white; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.7; }
+
+/* Priority toggle */
+.priority-toggle { display: flex; gap: 4px; }
+.prio-btn {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  opacity: 0.5;
+  transition: all 0.15s;
+}
+.prio-btn.active { opacity: 1; }
+.prio-high { background: #e74c3c; color: white; }
+.prio-med { background: #e67e22; color: white; }
+.prio-low { background: #27ae60; color: white; }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.card-field {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  border-right: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.card-field:nth-child(even) { border-right: none; }
+.card-field.full-width { grid-column: 1 / -1; border-right: none; }
+.field-label {
+  font-size: 0.63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #aaa;
+}
+.field-input {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.83rem;
+  color: #1a1a2e;
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom: 1.5px solid #e0e0e0;
+  padding-bottom: 2px;
+  width: 100%;
+}
+.field-input:focus { border-bottom-color: #1a1a2e; }
+.field-textarea {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.8rem;
+  color: #1a1a2e;
+  border: none;
+  outline: none;
+  background: transparent;
+  resize: none;
+  width: 100%;
+  min-height: 52px;
+  line-height: 1.5;
+}
+.field-textarea:focus { background: #fafafa; border-radius: 4px; }
+
+/* Readiness rating */
+.readiness-group { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+.ready-btn {
+  padding: 4px 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #ccc;
+  transition: all 0.12s;
+}
+.ready-btn.active-1 { border-color: #e74c3c; background: #fee2e2; color: #c0392b; }
+.ready-btn.active-2 { border-color: #e67e22; background: #fef3c7; color: #d35400; }
+.ready-btn.active-3 { border-color: #f59e0b; background: #fefce8; color: #b45309; }
+.ready-btn.active-4 { border-color: #27ae60; background: #dcfce7; color: #1e8449; }
+.ready-btn.active-5 { border-color: #059669; background: #d1fae5; color: #065f46; }
+
+.ready-labels { font-size: 0.65rem; color: #bbb; margin-top: 3px; display: flex; justify-content: space-between; }
+
+/* Competency checkboxes */
+.comp-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 4px; }
+.comp-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.comp-check input[type="checkbox"] { width: 14px; height: 14px; accent-color: #1a1a2e; cursor: pointer; }
+.comp-check span { font-size: 0.75rem; color: #444; }
+
+/* Risk checkboxes */
+.risk-checks { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+.risk-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.risk-check input[type="checkbox"] { width: 14px; height: 14px; accent-color: #e74c3c; cursor: pointer; }
+.risk-check span { font-size: 0.75rem; color: #444; }
+
+.card-footer {
+  padding: 8px 16px;
+  background: #f8f9fa;
+  font-size: 0.68rem;
+  color: #bbb;
+  border-top: 1px solid #f0f0f0;
+  text-align: center;
+}
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.72rem;
+  color: #bbb;
+  padding: 8px;
+}
+
+@media print {
+  body { background: white; padding: 4mm; }
+  .page-header { display: none; }
+  .print-note { display: none; }
+  .project-card { box-shadow: none; border: 1.5px solid #ddd; margin-bottom: 6mm; break-inside: avoid; max-width: 100%; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Karta Inicjatywy AI</h1>
+    <p>Szablon do dokumentowania i priorytetyzacji inicjatyw AI – 2 kopie na stronę</p>
+  </div>
+  <div class="module-tag">Moduł 3 · AI dla Kadry Projektowej</div>
+</div>
+
+<p class="print-note">Wydrukuj w orientacji pionowej (portrait) · A4 · Obie karty mieszczą się na jednej stronie</p>
+
+<!-- CARD 1 -->
+<div class="project-card" id="card1">
+  <div class="card-top">
+    <span class="card-top-title">Karta Inicjatywy AI</span>
+    <div class="priority-toggle">
+      <button class="prio-btn prio-high" onclick="setPrio(this,'card1','high')">Wysoki</button>
+      <button class="prio-btn prio-med" onclick="setPrio(this,'card1','med')">Średni</button>
+      <button class="prio-btn prio-low" onclick="setPrio(this,'card1','low')">Niski</button>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card-field">
+      <span class="field-label">Nazwa inicjatywy</span>
+      <input type="text" class="field-input" placeholder="np. Automatyczna klasyfikacja zgłoszeń">
+    </div>
+    <div class="card-field">
+      <span class="field-label">Sponsor biznesowy</span>
+      <input type="text" class="field-input" placeholder="Imię, nazwisko, rola">
+    </div>
+    <div class="card-field full-width">
+      <span class="field-label">Cel biznesowy</span>
+      <textarea class="field-textarea" placeholder="Co chcemy osiągnąć? Jaki problem rozwiązujemy? Jaką wartość tworzy inicjatywa?"></textarea>
+    </div>
+    <div class="card-field full-width">
+      <span class="field-label">Wymagane dane</span>
+      <textarea class="field-textarea" placeholder="Jakich danych potrzebuje model AI? Skąd pochodzą? Czy są dostępne?"></textarea>
+    </div>
+    <div class="card-field full-width">
+      <span class="field-label">Gotowość danych (1=bardzo niska · 5=w pełni gotowe)</span>
+      <div class="readiness-group" id="ready1">
+        <button class="ready-btn" onclick="setReady('ready1',1,this)">1</button>
+        <button class="ready-btn" onclick="setReady('ready1',2,this)">2</button>
+        <button class="ready-btn" onclick="setReady('ready1',3,this)">3</button>
+        <button class="ready-btn" onclick="setReady('ready1',4,this)">4</button>
+        <button class="ready-btn" onclick="setReady('ready1',5,this)">5</button>
+      </div>
+      <div class="ready-labels"><span>Brak danych</span><span>Pełna gotowość</span></div>
+    </div>
+    <div class="card-field">
+      <span class="field-label">Wymagane kompetencje zespołu</span>
+      <div class="comp-checks">
+        <label class="comp-check"><input type="checkbox"><span>Analiza danych / ML</span></label>
+        <label class="comp-check"><input type="checkbox"><span>Prompt engineering</span></label>
+        <label class="comp-check"><input type="checkbox"><span>Integracja IT / API</span></label>
+        <label class="comp-check"><input type="checkbox"><span>Zarządzanie proj. AI</span></label>
+        <label class="comp-check"><input type="checkbox"><span>Wiedza domenowa</span></label>
+        <label class="comp-check"><input type="checkbox"><span>Bezpieczeństwo AI</span></label>
+      </div>
+    </div>
+    <div class="card-field">
+      <span class="field-label">Ryzyka inicjatywy</span>
+      <div class="risk-checks">
+        <label class="risk-check"><input type="checkbox"><span>Ryzyko jakości danych</span></label>
+        <label class="risk-check"><input type="checkbox"><span>Ryzyko prawne / RODO</span></label>
+        <label class="risk-check"><input type="checkbox"><span>Opór organizacyjny</span></label>
+        <label class="risk-check"><input type="checkbox"><span>Ryzyko technologiczne</span></label>
+        <label class="risk-check"><input type="checkbox"><span>Ryzyko budżetowe</span></label>
+      </div>
+    </div>
+    <div class="card-field full-width">
+      <span class="field-label">Zależności od systemów / uwagi dodatkowe</span>
+      <textarea class="field-textarea" placeholder="Jakie systemy muszą być zaangażowane? Jakie są blokery lub zależności?"></textarea>
+    </div>
+  </div>
+  <div class="card-footer">Karta 1 · Data: _________________ · ID inicjatywy: _________________</div>
+</div>
+
+<!-- CARD 2 -->
+<div class="project-card" id="card2">
+  <div class="card-top">
+    <span class="card-top-title">Karta Inicjatywy AI</span>
+    <div class="priority-toggle">
+      <button class="prio-btn prio-high" onclick="setPrio(this,'card2','high')">Wysoki</button>
+      <button class="prio-btn prio-med" onclick="setPrio(this,'card2','med')">Średni</button>
+      <button class="prio-btn prio-low" onclick="setPrio(this,'card2','low')">Niski</button>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card-field">
+      <span class="field-label">Nazwa inicjatywy</span>
+      <input type="text" class="field-input" placeholder="np. Chatbot obsługi klienta">
+    </div>
+    <div class="card-field">
+      <span class="field-label">Sponsor biznesowy</span>
+      <input type="text" class="field-input" placeholder="Imię, nazwisko, rola">
+    </div>
+    <div class="card-field full-width">
+      <span class="field-label">Cel biznesowy</span>
+      <textarea class="field-textarea" placeholder="Co chcemy osiągnąć? Jaki problem rozwiązujemy? Jaką wartość tworzy inicjatywa?"></textarea>
+    </div>
+    <div class="card-field full-width">
+      <span class="field-label">Wymagane dane</span>
+      <textarea class="field-textarea" placeholder="Jakich danych potrzebuje model AI? Skąd pochodzą? Czy są dostępne?"></textarea>
+    </div>
+    <div class="card-field full-width">
+      <span class="field-label">Gotowość danych (1=bardzo niska · 5=w pełni gotowe)</span>
+      <div class="readiness-group" id="ready2">
+        <button class="ready-btn" onclick="setReady('ready2',1,this)">1</button>
+        <button class="ready-btn" onclick="setReady('ready2',2,this)">2</button>
+        <button class="ready-btn" onclick="setReady('ready2',3,this)">3</button>
+        <button class="ready-btn" onclick="setReady('ready2',4,this)">4</button>
+        <button class="ready-btn" onclick="setReady('ready2',5,this)">5</button>
+      </div>
+      <div class="ready-labels"><span>Brak danych</span><span>Pełna gotowość</span></div>
+    </div>
+    <div class="card-field">
+      <span class="field-label">Wymagane kompetencje zespołu</span>
+      <div class="comp-checks">
+        <label class="comp-check"><input type="checkbox"><span>Analiza danych / ML</span></label>
+        <label class="comp-check"><input type="checkbox"><span>Prompt engineering</span></label>
+        <label class="comp-check"><input type="checkbox"><span>Integracja IT / API</span></label>
+        <label class="comp-check"><input type="checkbox"><span>Zarządzanie proj. AI</span></label>
+        <label class="comp-check"><input type="checkbox"><span>Wiedza domenowa</span></label>
+        <label class="comp-check"><input type="checkbox"><span>Bezpieczeństwo AI</span></label>
+      </div>
+    </div>
+    <div class="card-field">
+      <span class="field-label">Ryzyka inicjatywy</span>
+      <div class="risk-checks">
+        <label class="risk-check"><input type="checkbox"><span>Ryzyko jakości danych</span></label>
+        <label class="risk-check"><input type="checkbox"><span>Ryzyko prawne / RODO</span></label>
+        <label class="risk-check"><input type="checkbox"><span>Opór organizacyjny</span></label>
+        <label class="risk-check"><input type="checkbox"><span>Ryzyko technologiczne</span></label>
+        <label class="risk-check"><input type="checkbox"><span>Ryzyko budżetowe</span></label>
+      </div>
+    </div>
+    <div class="card-field full-width">
+      <span class="field-label">Zależności od systemów / uwagi dodatkowe</span>
+      <textarea class="field-textarea" placeholder="Jakie systemy muszą być zaangażowane? Jakie są blokery lub zależności?"></textarea>
+    </div>
+  </div>
+  <div class="card-footer">Karta 2 · Data: _________________ · ID inicjatywy: _________________</div>
+</div>
+
+<footer class="page-footer">
+  09_szablon_karty_projektu.html · AI dla Kadry Projektowej · 2 karty na stronę A4
+</footer>
+
+<script>
+function setPrio(btn, cardId, level) {
+  const card = document.getElementById(cardId);
+  card.querySelectorAll('.prio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function setReady(groupId, val, btn) {
+  const group = document.getElementById(groupId);
+  group.querySelectorAll('.ready-btn').forEach((b, i) => {
+    b.className = 'ready-btn' + (i < val ? ` active-${i+1}` : '');
+  });
+}
+</script>
+</body>
+</html>

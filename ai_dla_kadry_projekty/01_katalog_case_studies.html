@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Katalog Case Studies AI – AI dla Kadry Projektowej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 28px 36px;
+  border-radius: 12px;
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.6rem; font-weight: 700; }
+.page-header p { font-size: 0.85rem; opacity: 0.75; margin-top: 4px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-stripe {
+  height: 6px;
+}
+.card-header {
+  padding: 14px 18px 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.card-icon { font-size: 1.8rem; flex-shrink: 0; }
+.card-header-text {}
+.industry-badge {
+  display: inline-block;
+  font-size: 0.67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 2px 9px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+}
+.company-type { font-size: 0.88rem; font-weight: 700; color: #1a1a2e; line-height: 1.3; }
+
+.card-body { padding: 14px 18px 16px; flex: 1; display: flex; flex-direction: column; gap: 9px; }
+.field { display: flex; flex-direction: column; gap: 2px; }
+.field-label {
+  font-size: 0.63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #aaa;
+}
+.field-value { font-size: 0.81rem; color: #333; line-height: 1.5; }
+
+.card-footer {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid #f0f0f0;
+}
+.footer-item {
+  flex: 1;
+  padding: 9px 12px;
+  font-size: 0.75rem;
+  text-align: center;
+  border-right: 1px solid #f0f0f0;
+}
+.footer-item:last-child { border-right: none; }
+.footer-item-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: #bbb; font-weight: 700; display: block; margin-bottom: 2px; }
+.footer-item-value { font-weight: 600; color: #1a1a2e; }
+
+/* Industry colours */
+.retail    { background: #e8f5e9; color: #2e7d32; }
+.stripe-retail { background: #27ae60; }
+.manufacturing { background: #e3f2fd; color: #1565c0; }
+.stripe-manufacturing { background: #2980b9; }
+.banking   { background: #fce4ec; color: #880e4f; }
+.stripe-banking { background: #c0392b; }
+.hr        { background: #f3e5f5; color: #6a1b9a; }
+.stripe-hr { background: #8e44ad; }
+.logistics { background: #fff3e0; color: #e65100; }
+.stripe-logistics { background: #e67e22; }
+.healthcare { background: #e0f7fa; color: #006064; }
+.stripe-healthcare { background: #16a085; }
+.customer  { background: #e8eaf6; color: #283593; }
+.stripe-customer { background: #2c3e50; }
+.legal     { background: #fafafa; color: #424242; }
+.stripe-legal { background: #7f8c8d; }
+.marketing { background: #fce4ec; color: #ad1457; }
+.stripe-marketing { background: #e91e8c; }
+.finance   { background: #e8f5e9; color: #1b5e20; }
+.stripe-finance { background: #1abc9c; }
+.realestate { background: #fff8e1; color: #f57f17; }
+.stripe-realestate { background: #f39c12; }
+.energy    { background: #f1f8e9; color: #33691e; }
+.stripe-energy { background: #2ecc71; }
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 0.75rem;
+  color: #bbb;
+  padding: 12px;
+}
+
+@media print {
+  body { background: white; padding: 8px; }
+  .page-header { border-radius: 6px; padding: 16px 20px; margin-bottom: 14px; }
+  .page-header h1 { font-size: 1.2rem; }
+  .cards-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .card { break-inside: avoid; box-shadow: none; border: 1.5px solid #ddd; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Katalog Case Studies AI</h1>
+    <p>12 przykładów wdrożeń AI w różnych branżach – wzorce problemów, rozwiązań i wyników biznesowych</p>
+  </div>
+  <div class="module-tag">Moduł 1 · AI dla Kadry Projektowej</div>
+</div>
+
+<div class="cards-grid">
+
+  <!-- 1. Retail -->
+  <div class="card">
+    <div class="card-stripe stripe-retail"></div>
+    <div class="card-header">
+      <div class="card-icon">🛒</div>
+      <div class="card-header-text">
+        <span class="industry-badge retail">Handel detaliczny</span>
+        <div class="company-type">Sieć supermarketów (200+ sklepów)</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Nadmierne zapasy w jednych sklepach i braki w innych; duże straty na produktach świeżych.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">Prognozowanie popytu (demand forecasting) na poziomie SKU/sklep z uwzględnieniem pogody, świąt i promocji.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Redukcja marnowania żywności o 23%, obniżenie zapasów o 18%, wzrost dostępności produktów o 7 p.p.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">4–6 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Historia sprzedaży 3 lata, dane POS, pogoda</span></div>
+    </div>
+  </div>
+
+  <!-- 2. Manufacturing -->
+  <div class="card">
+    <div class="card-stripe stripe-manufacturing"></div>
+    <div class="card-header">
+      <div class="card-icon">🏭</div>
+      <div class="card-header-text">
+        <span class="industry-badge manufacturing">Produkcja</span>
+        <div class="company-type">Zakład produkcji przemysłowej</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Nieplanowane awarie maszyn powodują zatrzymania linii produkcyjnej i kosztowne naprawy awaryjne.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">Predykcyjne utrzymanie ruchu (predictive maintenance) – analiza danych z czujników IoT i modelowanie degradacji komponentów.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Redukcja nieplanowanych przestojów o 35%, obniżenie kosztów serwisu o 22%, wzrost OEE o 8%.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">6–9 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Dane czujników IoT, logi awarii, harmonogramy serwisów</span></div>
+    </div>
+  </div>
+
+  <!-- 3. Banking -->
+  <div class="card">
+    <div class="card-stripe stripe-banking"></div>
+    <div class="card-header">
+      <div class="card-icon">🏦</div>
+      <div class="card-header-text">
+        <span class="industry-badge banking">Bankowość</span>
+        <div class="company-type">Bank detaliczny (2 mln klientów)</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Wzrost liczby fraudów kartowych – tradycyjne reguły nie nadążają za nowymi wzorcami oszustw.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">Model ML do wykrywania anomalii transakcyjnych w czasie rzeczywistym (real-time fraud detection) z uczeniem ciągłym.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Wykrywalność fraudów wzrosła o 41%, fałszywe alarmy spadły o 60%, oszczędności 12 mln PLN rocznie.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">3–5 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Historia transakcji 2 lata, etykiety fraudów, dane klienta</span></div>
+    </div>
+  </div>
+
+  <!-- 4. HR -->
+  <div class="card">
+    <div class="card-stripe stripe-hr"></div>
+    <div class="card-header">
+      <div class="card-icon">👥</div>
+      <div class="card-header-text">
+        <span class="industry-badge hr">HR / Rekrutacja</span>
+        <div class="company-type">Korporacja (5000+ pracowników)</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Przetwarzanie setek CV na każde ogłoszenie pochłania tygodnie pracy rekruterów; niespójne kryteria oceny.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">AI do przesiewania CV (CV screening) z NLP – automatyczne dopasowanie profilu kandydata do wymagań roli i ranking shortlisty.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Czas do shortlisty skrócony z 5 dni do 4 godzin, koszt rekrutacji niższy o 30%, poprawa jakości zatrudnionych.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">2–4 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Opisy stanowisk, historyczne CV z decyzjami, kompetencje</span></div>
+    </div>
+  </div>
+
+  <!-- 5. Logistics -->
+  <div class="card">
+    <div class="card-stripe stripe-logistics"></div>
+    <div class="card-header">
+      <div class="card-icon">🚚</div>
+      <div class="card-header-text">
+        <span class="industry-badge logistics">Logistyka</span>
+        <div class="company-type">Firma kurierska (krajowa)</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Manualnie planowane trasy dostawców są nieoptymalne – wysokie koszty paliwa i opóźnienia w dostawach.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">Optymalizacja tras (route optimization) z AI uwzględniająca okna czasowe, pojemność pojazdów i dane o ruchu drogowym w czasie rzeczywistym.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Redukcja kosztów paliwa o 17%, terminowość dostaw wzrosła z 82% do 94%, liczba przejechanych km spadła o 12%.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">3–6 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Historia tras, dane GPS, mapy, dane o ruchu, zamówienia</span></div>
+    </div>
+  </div>
+
+  <!-- 6. Healthcare -->
+  <div class="card">
+    <div class="card-stripe stripe-healthcare"></div>
+    <div class="card-header">
+      <div class="card-icon">🏥</div>
+      <div class="card-header-text">
+        <span class="industry-badge healthcare">Ochrona zdrowia</span>
+        <div class="company-type">Sieć przychodni specjalistycznych</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Długi czas oczekiwania na wyniki badań obrazowych – radiolodzy przeciążeni; ryzyko przeoczenia zmian.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">AI wspomagający diagnostykę obrazową (diagnostic support) – wykrywanie anomalii na zdjęciach RTG/CT z priorytetyzacją pilnych przypadków.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Czas do diagnozy skrócony o 45%, wykrywalność wczesnych zmian wzrosła o 18%, przepustowość radiologów +30%.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">9–18 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Obrazy DICOM z etykietami, dane kliniczne, zgody RODO</span></div>
+    </div>
+  </div>
+
+  <!-- 7. Customer Service -->
+  <div class="card">
+    <div class="card-stripe stripe-customer"></div>
+    <div class="card-header">
+      <div class="card-icon">💬</div>
+      <div class="card-header-text">
+        <span class="industry-badge customer">Obsługa klienta</span>
+        <div class="company-type">Operator telekomunikacyjny</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Centrum obsługi klienta przeciążone – 70% zapytań dotyczy tych samych 10 tematów; długie kolejki oczekiwania.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">Chatbot konwersacyjny oparty na LLM obsługujący FAQ, sprawdzanie faktury, zmianę planu taryfowego i zgłaszanie awarii.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Chatbot obsługuje 62% zgłoszeń bez udziału agenta, CSAT wzrósł o 12 pkt., koszty obsługi spadły o 28%.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">3–5 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Logi czatów/ticketów, baza wiedzy, FAQ, dane kontraktowe</span></div>
+    </div>
+  </div>
+
+  <!-- 8. Legal -->
+  <div class="card">
+    <div class="card-stripe stripe-legal"></div>
+    <div class="card-header">
+      <div class="card-icon">⚖️</div>
+      <div class="card-header-text">
+        <span class="industry-badge legal">Prawo / Compliance</span>
+        <div class="company-type">Dział prawny spółki giełdowej</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Analiza setek kontraktów przed podpisaniem zajmuje tygodnie pracy prawników; ryzyko przeoczenia klauzul ryzyka.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">AI do analizy kontraktów (contract analysis) – ekstrakcja kluczowych klauzul, porównanie ze standardem, flagowanie ryzyk.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Czas analizy kontraktu skrócony z 3 dni do 2 godzin, liczba przeoczonych klauzul ryzyka spadła o 80%.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">4–7 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Kontrakty historyczne (min. 500), szablony, rejestry ryzyk</span></div>
+    </div>
+  </div>
+
+  <!-- 9. Marketing -->
+  <div class="card">
+    <div class="card-stripe stripe-marketing"></div>
+    <div class="card-header">
+      <div class="card-icon">🎯</div>
+      <div class="card-header-text">
+        <span class="industry-badge marketing">Marketing</span>
+        <div class="company-type">Platforma e-commerce (B2C)</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Masowe kampanie e-mail z niskim CTR; brak personalizacji treści dla różnych segmentów klientów.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">Silnik personalizacji AI generujący indywidualne rekomendacje produktów i dynamiczne treści e-mail na podstawie zachowań użytkownika.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">CTR e-maili wzrósł o 340%, konwersja z kampanii +58%, wartość koszyka śr. wyższa o 22%.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">2–4 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Historia zakupów, kliknięcia, profil klienta, katalog produktów</span></div>
+    </div>
+  </div>
+
+  <!-- 10. Finance -->
+  <div class="card">
+    <div class="card-stripe stripe-finance"></div>
+    <div class="card-header">
+      <div class="card-icon">📊</div>
+      <div class="card-header-text">
+        <span class="industry-badge finance">Finanse</span>
+        <div class="company-type">Dział finansowy grupy kapitałowej</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Miesięczne zamknięcie ksiąg i przygotowanie raportów zarządczych pochłania 10 dni roboczych działu finansów.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">Automatyzacja raportowania finansowego (reporting automation) z AI – agregacja danych z ERP, generowanie narracji analitycznej i wizualizacji.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Zamknięcie miesięczne skrócone do 3 dni, 80% raportów generowanych automatycznie, błędy ręczne wyeliminowane.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">4–6 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Dane ERP/GL, plan kont, szablony raportów, dane budżetowe</span></div>
+    </div>
+  </div>
+
+  <!-- 11. Real Estate -->
+  <div class="card">
+    <div class="card-stripe stripe-realestate"></div>
+    <div class="card-header">
+      <div class="card-icon">🏠</div>
+      <div class="card-header-text">
+        <span class="industry-badge realestate">Nieruchomości</span>
+        <div class="company-type">Portal ogłoszeniowy nieruchomości</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Wyceny nieruchomości zajmują dni i są niespójne; klienci oczekują natychmiastowej informacji o wartości.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">Automatyczna wycena nieruchomości (AVM – Automated Valuation Model) z ML uwzględniający lokalizację, metraż, standard, trendy rynkowe.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Wycena w 3 sekundy (vs. 3 dni), dokładność modelu 94% (vs. rynkowej transakcji), wzrost konwersji na portalu o 27%.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">5–8 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Historia transakcji, dane GUS, zdjęcia, opisy, lokalizacja</span></div>
+    </div>
+  </div>
+
+  <!-- 12. Energy -->
+  <div class="card">
+    <div class="card-stripe stripe-energy"></div>
+    <div class="card-header">
+      <div class="card-icon">⚡</div>
+      <div class="card-header-text">
+        <span class="industry-badge energy">Energetyka</span>
+        <div class="company-type">Spółka dystrybucji energii</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <span class="field-label">Problem</span>
+        <span class="field-value">Szczytowe obciążenia sieci są trudne do przewidzenia; nadwyżki i braki energii generują wysokie koszty bilansowania.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Rozwiązanie AI</span>
+        <span class="field-value">Optymalizacja zużycia energii (consumption optimization) – prognozowanie popytu i automatyczne zarządzanie obciążeniem sieci z AI.</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Wynik biznesowy</span>
+        <span class="field-value">Koszty bilansowania niższe o 19%, dokładność prognozy obciążenia 97%, redukcja emisji CO₂ o 8% rocznie.</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-item"><span class="footer-item-label">Czas wdrożenia</span><span class="footer-item-value">6–12 mies.</span></div>
+      <div class="footer-item"><span class="footer-item-label">Wymagane dane</span><span class="footer-item-value">Pomiary liczników (smart metering), pogoda, dane przemysłowe</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  01_katalog_case_studies.html · AI dla Kadry Projektowej · Wszelkie wartości liczbowe są przykładowe i służą celom szkoleniowym
+</footer>
+
+</body>
+</html>

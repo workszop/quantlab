@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Canvas Planu Pilotażowego – AI dla Kadry Projektowej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 18px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 18px 28px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.page-header h1 { font-size: 1.3rem; font-weight: 700; }
+.page-header p { font-size: 0.78rem; opacity: 0.7; margin-top: 3px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pilot-meta {
+  background: white;
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.meta-field { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 3px; }
+.meta-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; }
+.meta-input {
+  font-size: 0.85rem; font-weight: 600; color: #1a1a2e;
+  border: none; outline: none; background: transparent;
+  border-bottom: 1.5px solid #e0e0e0; padding-bottom: 2px; width: 100%;
+}
+.meta-input:focus { border-bottom-color: #1a1a2e; }
+
+.status-select {
+  padding: 4px 10px;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.canvas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 12px;
+}
+
+.canvas-section {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.sec-icon { font-size: 1.1rem; flex-shrink: 0; }
+.sec-num {
+  width: 20px; height: 20px;
+  background: currentColor;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 800;
+  flex-shrink: 0;
+  color: white;
+}
+.sec-title { font-size: 0.85rem; font-weight: 700; color: #1a1a2e; }
+.sec-subtitle { font-size: 0.68rem; color: #aaa; margin-top: 1px; }
+
+.s1 .section-header { border-left: 4px solid #3b82f6; }
+.s2 .section-header { border-left: 4px solid #10b981; }
+.s3 .section-header { border-left: 4px solid #8b5cf6; }
+.s4 .section-header { border-left: 4px solid #f59e0b; }
+.s5 .section-header { border-left: 4px solid #e74c3c; }
+.s6 .section-header { border-left: 4px solid #6b7280; }
+
+.section-body { padding: 12px 14px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+.scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.scope-block { display: flex; flex-direction: column; gap: 4px; }
+.scope-label {
+  font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+  padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 2px;
+}
+.label-in { background: #d1fae5; color: #065f46; }
+.label-out { background: #fee2e2; color: #991b1b; }
+
+.write-area {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.78rem; color: #333; border: none; outline: none; resize: none;
+  background: #fafafa; border-radius: 6px; padding: 7px 9px;
+  line-height: 1.5; width: 100%; min-height: 55px;
+}
+.write-area:focus { background: #f0f4ff; }
+.write-area::placeholder { color: #ccc; font-style: italic; }
+
+.write-line-field { display: flex; flex-direction: column; gap: 2px; }
+.write-line-label { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #bbb; }
+.write-line {
+  border-bottom: 1.5px solid #e0e0e0; min-height: 22px; padding: 2px 4px;
+  font-size: 0.78rem; outline: none;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.write-line[contenteditable]:focus { background: #f8f9ff; border-radius: 3px; }
+
+/* Milestone timeline */
+.timeline { display: flex; flex-direction: column; gap: 6px; }
+.milestone {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.ms-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.ms-dot-green { background: #22c55e; }
+.ms-dot-blue { background: #3b82f6; }
+.ms-dot-orange { background: #f59e0b; }
+.ms-dot-red { background: #e74c3c; }
+.ms-content { flex: 1; display: flex; gap: 8px; align-items: center; }
+.ms-week {
+  font-size: 0.68rem; font-weight: 700; color: #aaa;
+  white-space: nowrap; min-width: 40px;
+}
+.ms-desc {
+  font-size: 0.75rem; color: #333; flex: 1;
+  border-bottom: 1px dashed #e0e0e0; outline: none;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 1px 0;
+}
+
+/* Team roles */
+.role-row { display: flex; align-items: center; gap: 8px; }
+.role-badge {
+  font-size: 0.65rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+  white-space: nowrap; flex-shrink: 0; min-width: 90px; text-align: center;
+}
+.role-name-input {
+  font-size: 0.78rem; color: #333; border: none; outline: none; background: transparent;
+  border-bottom: 1px dashed #e0e0e0; flex: 1; padding-bottom: 1px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.role-name-input:focus { border-bottom-color: #1a1a2e; background: #f8f9ff; }
+
+/* KPI thresholds */
+.kpi-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 6px;
+  align-items: center;
+  font-size: 0.76rem;
+  padding: 5px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+.kpi-row:last-child { border-bottom: none; }
+.kpi-name-in { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.75rem; border: none; outline: none; background: transparent; border-bottom: 1px dashed #ddd; width: 100%; }
+.kpi-val {
+  font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.73rem; border: none; outline: none; background: transparent;
+  border-bottom: 1px dashed #ddd; text-align: center; width: 100%; padding: 1px 3px;
+}
+.kpi-header { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #bbb; text-align: center; }
+
+/* Decision tree */
+.decision-tree { display: flex; flex-direction: column; gap: 6px; }
+.decision-node {
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+.d-question { background: #e8edf5; border-left: 3px solid #3b82f6; }
+.d-go { background: #d1fae5; border-left: 3px solid #22c55e; color: #065f46; }
+.d-nogo { background: #fee2e2; border-left: 3px solid #e74c3c; color: #991b1b; }
+.d-arrow { text-align: center; color: #bbb; font-size: 0.8rem; }
+.d-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+.d-write { border-bottom: 1px dashed rgba(0,0,0,0.15); min-height: 16px; outline: none; font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.73rem; }
+
+/* Escalation */
+.esc-row { display: flex; flex-direction: column; gap: 3px; padding: 6px 0; border-bottom: 1px solid #f5f5f5; }
+.esc-row:last-child { border-bottom: none; }
+.esc-type { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 3px; }
+.esc-tech { background: #e0f2fe; color: #0369a1; }
+.esc-biz { background: #fce7f3; color: #9d174d; }
+.esc-data { background: #f0fdf4; color: #14532d; }
+.esc-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.esc-field { display: flex; flex-direction: column; gap: 2px; }
+.esc-label { font-size: 0.6rem; color: #bbb; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.esc-input { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.73rem; border: none; outline: none; background: transparent; border-bottom: 1px dashed #ddd; width: 100%; }
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 0.72rem;
+  color: #bbb;
+  padding: 8px;
+}
+
+@media print {
+  @page { size: A3 landscape; margin: 8mm; }
+  body { background: white; padding: 0; }
+  .page-header { border-radius: 4px; padding: 10px 16px; margin-bottom: 8px; }
+  .pilot-meta { margin-bottom: 8px; box-shadow: none; border: 1px solid #ddd; }
+  .canvas-section { box-shadow: none; border: 1px solid #ddd; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Canvas Planu Pilotażowego AI</h1>
+    <p>Zaplanuj pilota inicjatywy AI – zakres, zespół, kryteria sukcesu i plan eskalacji</p>
+  </div>
+  <div class="module-tag">Moduł 4 · AI dla Kadry Projektowej</div>
+</div>
+
+<div class="pilot-meta">
+  <div class="meta-field" style="flex:2">
+    <span class="meta-label">Nazwa pilota</span>
+    <input type="text" class="meta-input" placeholder="np. Pilot AI do klasyfikacji zgłoszeń – Centrum Obsługi Klienta">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Data startu</span>
+    <input type="text" class="meta-input" placeholder="DD.MM.RRRR">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Data zakończenia</span>
+    <input type="text" class="meta-input" placeholder="DD.MM.RRRR">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Status</span>
+    <select class="status-select">
+      <option>Planowanie</option>
+      <option>W trakcie</option>
+      <option>Go/No-Go pending</option>
+      <option>Zakończony: GO</option>
+      <option>Zakończony: NO GO</option>
+    </select>
+  </div>
+</div>
+
+<div class="canvas-grid">
+
+  <!-- S1: Zakres -->
+  <div class="canvas-section s1">
+    <div class="section-header">
+      <span class="sec-icon">🎯</span>
+      <div>
+        <div class="sec-title">1. Zakres pilotu</div>
+        <div class="sec-subtitle">Co jest w zakresie, a co nie</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="scope-grid">
+        <div class="scope-block">
+          <span class="scope-label label-in">W zakresie ✓</span>
+          <textarea class="write-area" style="min-height:80px;" placeholder="Co jest testowane w pilocie?&#10;np. klasyfikacja 3 kategorii zgłoszeń&#10;Jeden dział / lokalizacja&#10;Procesy o niskim ryzyku błędu"></textarea>
+        </div>
+        <div class="scope-block">
+          <span class="scope-label label-out">Poza zakresem ✗</span>
+          <textarea class="write-area" style="min-height:80px;" placeholder="Co NIE wchodzi w pilot?&#10;np. integracja z ERP&#10;Procesy VIP / krytyczne&#10;Dane wrażliwe / RODO"></textarea>
+        </div>
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Definicja sukcesu pilotu (1 zdanie)</span>
+        <div class="write-line" contenteditable="true" placeholder="np. AI poprawnie klasyfikuje &gt;80% zgłoszeń w ciągu 6 tygodni"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2: Timeline -->
+  <div class="canvas-section s2">
+    <div class="section-header">
+      <span class="sec-icon">📅</span>
+      <div>
+        <div class="sec-title">2. Czas trwania i kamienie milowe</div>
+        <div class="sec-subtitle">Harmonogram pilotu</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="timeline">
+        <div class="milestone">
+          <div class="ms-dot ms-dot-blue"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 1</span>
+            <div class="ms-desc" contenteditable="true">Kickoff, przygotowanie środowiska, dane treningowe</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="ms-dot ms-dot-blue"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 2–3</span>
+            <div class="ms-desc" contenteditable="true">Wdrożenie techniczne, testy jednostkowe, szkolenia</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="ms-dot ms-dot-orange"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 4–5</span>
+            <div class="ms-desc" contenteditable="true">Uruchomienie pilota – praca równoległa z dotychczasowym procesem</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="ms-dot ms-dot-orange"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 6</span>
+            <div class="ms-desc" contenteditable="true">Zbieranie danych KPI, korekty modelu</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="ms-dot ms-dot-red"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 7</span>
+            <div class="ms-desc" contenteditable="true">Ewaluacja wyników, raport Go/No-Go, decyzja sponsora</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="ms-dot ms-dot-green"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 8</span>
+            <div class="ms-desc" contenteditable="true">Decyzja skalowania / plan pełnego wdrożenia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3: Zespół -->
+  <div class="canvas-section s3">
+    <div class="section-header">
+      <span class="sec-icon">👥</span>
+      <div>
+        <div class="sec-title">3. Zespół pilotażowy</div>
+        <div class="sec-subtitle">Role i osoby odpowiedzialne</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="role-row">
+        <span class="role-badge" style="background:#e0f2fe;color:#0369a1;">Sponsor</span>
+        <input type="text" class="role-name-input" placeholder="Imię i nazwisko / dział">
+      </div>
+      <div class="role-row">
+        <span class="role-badge" style="background:#f3e5f5;color:#7b1fa2;">Kierownik pilota</span>
+        <input type="text" class="role-name-input" placeholder="Imię i nazwisko / dział">
+      </div>
+      <div class="role-row">
+        <span class="role-badge" style="background:#fff3e0;color:#e65100;">Data Owner</span>
+        <input type="text" class="role-name-input" placeholder="Imię i nazwisko / dział">
+      </div>
+      <div class="role-row">
+        <span class="role-badge" style="background:#e8f5e9;color:#2e7d32;">IT / Architekt</span>
+        <input type="text" class="role-name-input" placeholder="Imię i nazwisko / dział">
+      </div>
+      <div class="role-row">
+        <span class="role-badge" style="background:#fce4ec;color:#880e4f;">Użytkownicy biznes.</span>
+        <input type="text" class="role-name-input" placeholder="np. 5 agentów z działu X">
+      </div>
+      <div class="role-row">
+        <span class="role-badge" style="background:#f5f5f5;color:#616161;">Ambasador zmiany</span>
+        <input type="text" class="role-name-input" placeholder="Imię i nazwisko / dział">
+      </div>
+      <div class="role-row">
+        <span class="role-badge" style="background:#e0f7fa;color:#006064;">Prawnik / DPO</span>
+        <input type="text" class="role-name-input" placeholder="Imię i nazwisko (jeśli dotyczy)">
+      </div>
+    </div>
+  </div>
+
+  <!-- S4: Kryteria sukcesu -->
+  <div class="canvas-section s4">
+    <div class="section-header">
+      <span class="sec-icon">📊</span>
+      <div>
+        <div class="sec-title">4. Kryteria sukcesu / porażki</div>
+        <div class="sec-subtitle">Progi KPI do decyzji Go/No-Go</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="kpi-row">
+        <span class="kpi-header">Miernik KPI</span>
+        <span class="kpi-header">Próg GO</span>
+        <span class="kpi-header">Próg NO-GO</span>
+      </div>
+      <div class="kpi-row">
+        <input class="kpi-name-in" placeholder="np. Dokładność klasyfikacji">
+        <input class="kpi-val" placeholder="≥ 80%">
+        <input class="kpi-val" style="color:#e74c3c;" placeholder="&lt; 65%">
+      </div>
+      <div class="kpi-row">
+        <input class="kpi-name-in" placeholder="np. Czas odpowiedzi AI">
+        <input class="kpi-val" placeholder="≤ 3 sek.">
+        <input class="kpi-val" style="color:#e74c3c;" placeholder="&gt; 10 sek.">
+      </div>
+      <div class="kpi-row">
+        <input class="kpi-name-in" placeholder="np. Satysfakcja użytkowników">
+        <input class="kpi-val" placeholder="≥ 3.5/5">
+        <input class="kpi-val" style="color:#e74c3c;" placeholder="&lt; 2.5/5">
+      </div>
+      <div class="kpi-row">
+        <input class="kpi-name-in" placeholder="np. Dostępność systemu">
+        <input class="kpi-val" placeholder="≥ 99%">
+        <input class="kpi-val" style="color:#e74c3c;" placeholder="&lt; 95%">
+      </div>
+      <div class="kpi-row">
+        <input class="kpi-name-in" placeholder="Dodatkowy miernik">
+        <input class="kpi-val" placeholder="Próg GO">
+        <input class="kpi-val" style="color:#e74c3c;" placeholder="Próg NO-GO">
+      </div>
+      <div class="write-line-field" style="margin-top:4px;">
+        <span class="write-line-label">Uwagi do kryteriów</span>
+        <textarea class="write-area" style="min-height:36px;" placeholder="np. w przypadku wyników między progami – decyzja Sponsora"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5: Go/No-Go -->
+  <div class="canvas-section s5">
+    <div class="section-header">
+      <span class="sec-icon">🔀</span>
+      <div>
+        <div class="sec-title">5. Scenariusz Go / No-Go</div>
+        <div class="sec-subtitle">Drzewo decyzyjne po zakończeniu pilotu</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="decision-tree">
+        <div class="decision-node d-question">
+          <div class="d-label">Pytanie decyzyjne</div>
+          <div>Czy wszystkie kluczowe KPI osiągnęły próg GO?</div>
+        </div>
+        <div class="d-arrow">▼ TAK &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NIE ▼</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div class="decision-node d-go">
+            <div class="d-label">Decyzja: GO</div>
+            <div class="d-write" contenteditable="true" placeholder="Następne kroki przy GO...">Skalowanie wdrożenia, plan pełnej implementacji, aktualizacja zasobów</div>
+          </div>
+          <div class="decision-node d-nogo">
+            <div class="d-label">Decyzja: NO-GO</div>
+            <div class="d-write" contenteditable="true" placeholder="Następne kroki przy NO-GO...">Analiza przyczyn, korekta podejścia lub zakończenie inicjatywy</div>
+          </div>
+        </div>
+        <div class="decision-node" style="background:#f8f9fa;border-left:3px solid #6b7280;">
+          <div class="d-label">Decyzja: WARUNKOWO</div>
+          <div class="d-write" contenteditable="true" placeholder="Kryteria warunkowe...">Przedłuż pilota o 4 tygodnie z korektami, jeśli KPI są między progami</div>
+        </div>
+        <div class="write-line-field">
+          <span class="write-line-label">Kto podejmuje finalną decyzję Go/No-Go?</span>
+          <div class="write-line" contenteditable="true"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6: Eskalacja -->
+  <div class="canvas-section s6">
+    <div class="section-header">
+      <span class="sec-icon">🚨</span>
+      <div>
+        <div class="sec-title">6. Plan eskalacji</div>
+        <div class="sec-subtitle">Kiedy, do kogo i w jakiej sprawie</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="esc-row">
+        <span class="esc-type esc-tech">Problem techniczny</span>
+        <div class="esc-fields">
+          <div class="esc-field">
+            <span class="esc-label">Do kogo</span>
+            <input type="text" class="esc-input" placeholder="np. CTO / Architekt IT">
+          </div>
+          <div class="esc-field">
+            <span class="esc-label">Kiedy / próg</span>
+            <input type="text" class="esc-input" placeholder="np. &gt;4h niedostępności">
+          </div>
+          <div class="esc-field" style="grid-column:1/-1;">
+            <span class="esc-label">Kanał</span>
+            <input type="text" class="esc-input" placeholder="np. Teams / telefon / e-mail">
+          </div>
+        </div>
+      </div>
+      <div class="esc-row">
+        <span class="esc-type esc-biz">Problem biznesowy / opór</span>
+        <div class="esc-fields">
+          <div class="esc-field">
+            <span class="esc-label">Do kogo</span>
+            <input type="text" class="esc-input" placeholder="np. Sponsor / Dyrektor działu">
+          </div>
+          <div class="esc-field">
+            <span class="esc-label">Kiedy / próg</span>
+            <input type="text" class="esc-input" placeholder="np. odmowa użycia przez &gt;30% zespołu">
+          </div>
+          <div class="esc-field" style="grid-column:1/-1;">
+            <span class="esc-label">Kanał</span>
+            <input type="text" class="esc-input" placeholder="np. spotkanie 1:1 w ciągu 48h">
+          </div>
+        </div>
+      </div>
+      <div class="esc-row">
+        <span class="esc-type esc-data">Problem z danymi / RODO</span>
+        <div class="esc-fields">
+          <div class="esc-field">
+            <span class="esc-label">Do kogo</span>
+            <input type="text" class="esc-input" placeholder="np. DPO / Data Owner">
+          </div>
+          <div class="esc-field">
+            <span class="esc-label">Kiedy / próg</span>
+            <input type="text" class="esc-input" placeholder="np. wykrycie anomalii danych">
+          </div>
+          <div class="esc-field" style="grid-column:1/-1;">
+            <span class="esc-label">Kanał</span>
+            <input type="text" class="esc-input" placeholder="np. zgłoszenie w systemie ticketowym">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  11_canvas_planu_pilotazowego.html · AI dla Kadry Projektowej · Format A3 landscape zalecany
+</footer>
+
+</body>
+</html>

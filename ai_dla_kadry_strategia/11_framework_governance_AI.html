@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Framework Governance AI – AI dla Kadry Strategicznej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f0f2f5;
+  padding: 24px;
+  color: #1a1a2e;
+}
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 24px 36px;
+  margin-bottom: 24px;
+}
+.module-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.page-header h1 {
+  font-size: 1.65rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.page-header p {
+  font-size: 0.88rem;
+  opacity: 0.85;
+}
+
+.grid-2x3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 14px 20px 10px;
+  border-left: 4px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.card-header h2 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-header h2 .icon { font-size: 1.1rem; }
+.card-subtitle {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+.card-body {
+  padding: 0 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 0.63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #aaa;
+}
+
+.field-input {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  border-bottom: 1.5px solid #e0e0e0;
+  padding-bottom: 3px;
+}
+.field-input:focus { border-bottom-color: #1a1a2e; }
+
+.field-textarea {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.78rem;
+  border: none;
+  outline: none;
+  resize: none;
+  background: #fafafa;
+  border-radius: 6px;
+  padding: 7px 9px;
+  color: #333;
+  line-height: 1.5;
+  min-height: 52px;
+}
+.field-textarea::placeholder { color: #ccc; font-style: italic; }
+
+.radio-group {
+  display: flex;
+  gap: 8px;
+}
+.radio-btn {
+  flex: 1;
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.15s;
+  user-select: none;
+}
+.radio-btn:hover { border-color: #3b82f6; color: #3b82f6; }
+.radio-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
+
+footer.page-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #bbb;
+  padding: 8px;
+}
+
+@media print {
+  @page { size: A3 portrait; margin: 12mm; }
+  body { background: white; padding: 0; }
+  .page-header { border-radius: 4px; padding: 14px 20px; margin-bottom: 12px; }
+  .card { box-shadow: none; border: 1px solid #ddd; }
+  .radio-btn { border: 1.5px solid #ccc; }
+  .radio-btn.active { background: #3b82f6; color: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="module-tag">Moduł 4 · AI dla Kadry Strategicznej</div>
+  <h1>Framework Governance AI</h1>
+  <p>Zaprojektuj zasady odpowiedzialnego zarządzania AI w Twojej organizacji</p>
+</div>
+
+<div class="grid-2x3">
+
+  <!-- Section 1: Struktura organizacyjna AI -->
+  <div class="card">
+    <div class="card-header" style="border-left-color: #3b82f6;">
+      <h2><span class="icon">&#127963;</span> Struktura organizacyjna AI</h2>
+      <div class="card-subtitle">Kto odpowiada za AI w organizacji?</div>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">AI Sponsor (C-level)</label>
+        <input type="text" class="field-input" placeholder="Imię, nazwisko, stanowisko">
+      </div>
+      <div class="field-group">
+        <label class="field-label">AI Center of Excellence</label>
+        <input type="text" class="field-input" placeholder="Nazwa jednostki, lider, lokalizacja w strukturze">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Komitet AI / Rada</label>
+        <textarea class="field-textarea" placeholder="Skład, częstotliwość spotkań, zakres decyzji"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Model organizacyjny</label>
+        <div class="radio-group">
+          <div class="radio-btn" onclick="selectRadio(this)">Centralny</div>
+          <div class="radio-btn" onclick="selectRadio(this)">Federacyjny</div>
+          <div class="radio-btn" onclick="selectRadio(this)">Hybrydowy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Polityka użycia AI -->
+  <div class="card">
+    <div class="card-header" style="border-left-color: #10b981;">
+      <h2><span class="icon">&#128203;</span> Polityka użycia AI</h2>
+      <div class="card-subtitle">Zasady korzystania z AI w organizacji</div>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">Dozwolone zastosowania</label>
+        <textarea class="field-textarea" placeholder="np. Generowanie treści wewnętrznych, analiza danych, automatyzacja..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Zakazane zastosowania</label>
+        <textarea class="field-textarea" placeholder="np. Decyzje kadrowe bez nadzoru, dane osobowe w publicznych LLM..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Zasady korzystania z publicznych narzędzi AI</label>
+        <textarea class="field-textarea" placeholder="np. ChatGPT, Copilot – co wolno, czego nie"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Etyka i odpowiedzialność -->
+  <div class="card">
+    <div class="card-header" style="border-left-color: #8b5cf6;">
+      <h2><span class="icon">&#9878;&#65039;</span> Etyka i odpowiedzialność</h2>
+      <div class="card-subtitle">Zasady odpowiedzialnego AI</div>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">Transparentność</label>
+        <textarea class="field-textarea" placeholder="Kiedy informujemy, że AI podejmuje/wspiera decyzję?"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Fairness / brak dyskryminacji</label>
+        <textarea class="field-textarea" placeholder="Jak monitorujemy bias w modelach AI?"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Odpowiedzialność za decyzje AI</label>
+        <textarea class="field-textarea" placeholder="Kto odpowiada za błąd AI? Eskalacja?"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Prawo do odwołania</label>
+        <textarea class="field-textarea" placeholder="Czy użytkownik/klient może żądać decyzji przez człowieka?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Bezpieczeństwo danych -->
+  <div class="card">
+    <div class="card-header" style="border-left-color: #f59e0b;">
+      <h2><span class="icon">&#128274;</span> Bezpieczeństwo danych</h2>
+      <div class="card-subtitle">Ochrona danych w kontekście AI</div>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">Klasyfikacja danych do AI</label>
+        <textarea class="field-textarea" placeholder="Jakie dane mogą zasilać modele AI? Jakie nie?"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Anonimizacja i pseudonimizacja</label>
+        <textarea class="field-textarea" placeholder="Zasady przed wysłaniem danych do LLM/chmury"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Retencja danych AI</label>
+        <textarea class="field-textarea" placeholder="Jak długo przechowujemy dane treningowe, logi promptów?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Monitorowanie i audyt -->
+  <div class="card">
+    <div class="card-header" style="border-left-color: #e74c3c;">
+      <h2><span class="icon">&#128202;</span> Monitorowanie i audyt</h2>
+      <div class="card-subtitle">Jak kontrolujemy systemy AI?</div>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">Monitoring wydajności modeli</label>
+        <textarea class="field-textarea" placeholder="Częstotliwość, KPI, progi alertów"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Audyt AI</label>
+        <textarea class="field-textarea" placeholder="Kto, jak często, zakres audytu wewnętrznego/zewnętrznego"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Rejestr systemów AI</label>
+        <textarea class="field-textarea" placeholder="Centralny rejestr wdrożonych rozwiązań AI – kto prowadzi?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Szkolenia i świadomość -->
+  <div class="card">
+    <div class="card-header" style="border-left-color: #6b7280;">
+      <h2><span class="icon">&#127891;</span> Szkolenia i świadomość</h2>
+      <div class="card-subtitle">Budowanie kompetencji AI w organizacji</div>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">Szkolenia obowiązkowe</label>
+        <textarea class="field-textarea" placeholder="Dla kogo, zakres, częstotliwość"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Certyfikacje i ścieżki rozwoju</label>
+        <textarea class="field-textarea" placeholder="Jakie certyfikacje AI wspieramy?"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Komunikacja wewnętrzna</label>
+        <textarea class="field-textarea" placeholder="Jak informujemy pracowników o inicjatywach AI?"></textarea>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  11_framework_governance_AI.html · AI dla Kadry Strategicznej · Narzędzie warsztatowe
+</footer>
+
+<script>
+function selectRadio(el) {
+  const siblings = el.parentElement.querySelectorAll('.radio-btn');
+  siblings.forEach(s => s.classList.remove('active'));
+  el.classList.toggle('active');
+}
+</script>
+
+</body>
+</html>

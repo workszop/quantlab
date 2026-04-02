@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Plan Zarządzania Zmianą – Wdrożenie AI · AI dla Kadry Strategicznej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 24px 36px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.page-header h1 { font-size: 1.3rem; font-weight: 700; }
+.page-header p { font-size: 0.78rem; opacity: 0.7; margin-top: 3px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.change-meta {
+  background: white;
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.meta-field { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 3px; }
+.meta-label { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; }
+.meta-input {
+  font-size: 0.85rem; font-weight: 600; color: #1a1a2e;
+  border: none; outline: none; background: transparent;
+  border-bottom: 1.5px solid #e0e0e0; padding-bottom: 2px; width: 100%;
+}
+.meta-input:focus { border-bottom-color: #1a1a2e; }
+
+.change-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.change-section {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.sec-icon { font-size: 1.1rem; flex-shrink: 0; }
+.sec-title { font-size: 0.85rem; font-weight: 700; color: #1a1a2e; }
+
+.s1 .section-header { border-left: 4px solid #3b82f6; }
+.s2 .section-header { border-left: 4px solid #e74c3c; }
+.s3 .section-header { border-left: 4px solid #10b981; }
+.s4 .section-header { border-left: 4px solid #8b5cf6; }
+.s5 .section-header { border-left: 4px solid #f59e0b; }
+.s6 .section-header { border-left: 4px solid #0ea5e9; }
+.s7 .section-header { border-left: 4px solid #6b7280; }
+.s8 .section-header { border-left: 4px solid #dc2626; }
+
+.section-body { padding: 12px 14px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+.field-label {
+  font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa;
+}
+
+.write-area {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.78rem; color: #333; border: none; outline: none; resize: none;
+  background: #fafafa; border-radius: 6px; padding: 7px 9px;
+  line-height: 1.5; width: 100%; min-height: 55px;
+}
+.write-area:focus { background: #f0f4ff; }
+.write-area::placeholder { color: #ccc; font-style: italic; }
+
+.write-line {
+  border-bottom: 1.5px solid #e0e0e0; min-height: 22px; padding: 2px 4px;
+  font-size: 0.78rem; outline: none;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.write-line[contenteditable]:focus { background: #f8f9ff; border-radius: 3px; }
+
+.write-line-field { display: flex; flex-direction: column; gap: 2px; }
+.write-line-label { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #bbb; }
+
+/* Scale options */
+.scale-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.scale-opt {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #e0e0e0;
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fafafa;
+}
+.scale-opt:hover { border-color: #3b82f6; color: #3b82f6; background: #eff6ff; }
+.scale-opt.active { border-color: #3b82f6; color: white; background: #3b82f6; }
+
+/* Mini tables */
+.mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+.mini-table th {
+  font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  color: #aaa; padding: 5px 6px; text-align: left;
+  border-bottom: 2px solid #f0f0f0;
+  white-space: nowrap;
+}
+.mini-table td {
+  padding: 5px 6px;
+  border-bottom: 1px solid #f5f5f5;
+  vertical-align: top;
+  color: #444;
+  line-height: 1.4;
+}
+.mini-table td:last-child { border-bottom-color: #f5f5f5; }
+.mini-table tr:last-child td { border-bottom: none; }
+.mini-table .cell-input {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.72rem; border: none; outline: none; background: transparent;
+  border-bottom: 1px dashed #ddd; width: 100%; padding: 1px 2px;
+}
+.mini-table .cell-input:focus { background: #f8f9ff; border-bottom-color: #1a1a2e; }
+.mini-table .cell-fixed { font-size: 0.72rem; color: #555; }
+
+/* KPI rows */
+.kpi-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr;
+  gap: 6px;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+.kpi-row:last-child { border-bottom: none; }
+.kpi-header { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #bbb; }
+.kpi-input {
+  font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.73rem; border: none; outline: none; background: transparent;
+  border-bottom: 1px dashed #ddd; width: 100%; padding: 1px 3px;
+}
+.kpi-input:focus { background: #f8f9ff; border-bottom-color: #1a1a2e; }
+
+/* Timeline */
+.timeline { display: flex; flex-direction: column; gap: 8px; }
+.milestone { display: flex; align-items: flex-start; gap: 10px; }
+.ms-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.ms-dot-blue { background: #3b82f6; }
+.ms-dot-purple { background: #8b5cf6; }
+.ms-dot-green { background: #22c55e; }
+.ms-dot-orange { background: #f59e0b; }
+.ms-dot-red { background: #e74c3c; }
+.ms-content { flex: 1; display: flex; gap: 8px; align-items: center; }
+.ms-week {
+  font-size: 0.68rem; font-weight: 700; color: #aaa;
+  white-space: nowrap; min-width: 55px;
+}
+.ms-phase {
+  font-size: 0.73rem; font-weight: 600; color: #1a1a2e;
+  white-space: nowrap; min-width: 170px;
+}
+.ms-desc {
+  font-size: 0.75rem; color: #333; flex: 1;
+  border-bottom: 1px dashed #e0e0e0; outline: none;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 1px 0;
+}
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.75rem;
+  color: #bbb;
+  padding: 12px;
+}
+
+@media print {
+  @page { size: A3 landscape; margin: 8mm; }
+  body { background: white; padding: 0; }
+  .page-header { border-radius: 4px; padding: 10px 16px; margin-bottom: 8px; }
+  .change-meta { margin-bottom: 8px; box-shadow: none; border: 1px solid #ddd; }
+  .change-section { box-shadow: none; border: 1px solid #ddd; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Plan Zarządzania Zmianą – Wdrożenie AI</h1>
+    <p>Zaplanuj działania zmiany organizacyjnej towarzyszące wdrożeniu AI</p>
+  </div>
+  <div class="module-tag">Moduł 4 · AI dla Kadry Strategicznej</div>
+</div>
+
+<div class="change-meta">
+  <div class="meta-field" style="flex:2">
+    <span class="meta-label">Nazwa inicjatywy AI</span>
+    <input type="text" class="meta-input" placeholder="np. Wdrożenie asystenta AI w dziale obsługi klienta">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Sponsor zmiany</span>
+    <input type="text" class="meta-input" placeholder="Imię i nazwisko">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Change Manager</span>
+    <input type="text" class="meta-input" placeholder="Imię i nazwisko">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Data</span>
+    <input type="text" class="meta-input" placeholder="DD.MM.RRRR">
+  </div>
+</div>
+
+<div class="change-grid">
+
+  <!-- S1: Definicja zmiany -->
+  <div class="change-section s1">
+    <div class="section-header">
+      <span class="sec-icon">🎯</span>
+      <div class="sec-title">1. Definicja zmiany</div>
+    </div>
+    <div class="section-body">
+      <div>
+        <div class="field-label">Co się zmienia?</div>
+        <textarea class="write-area" placeholder="Opisz zmianę: nowy proces, narzędzie, sposób pracy..."></textarea>
+      </div>
+      <div>
+        <div class="field-label">Kogo dotyczy zmiana?</div>
+        <textarea class="write-area" placeholder="Grupy pracowników, liczebność, lokalizacje..."></textarea>
+      </div>
+      <div>
+        <div class="field-label">Skala zmiany</div>
+        <div class="scale-options">
+          <div class="scale-opt" onclick="selectScale(this)">Mała (1 zespół)</div>
+          <div class="scale-opt" onclick="selectScale(this)">Średnia (1 dział)</div>
+          <div class="scale-opt" onclick="selectScale(this)">Duża (cała organizacja)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2: Analiza oporu -->
+  <div class="change-section s2">
+    <div class="section-header">
+      <span class="sec-icon">⚠️</span>
+      <div class="sec-title">2. Analiza oporu</div>
+    </div>
+    <div class="section-body">
+      <div>
+        <div class="field-label">Źródła oporu</div>
+        <textarea class="write-area" placeholder="np. Strach przed utratą pracy, brak zaufania do AI, przyzwyczajenia..."></textarea>
+      </div>
+      <div>
+        <div class="field-label">Grupy ryzyka</div>
+        <textarea class="write-area" placeholder="Które grupy będą najbardziej oporne? Dlaczego?"></textarea>
+      </div>
+      <div>
+        <div class="field-label">Strategie łagodzenia</div>
+        <textarea class="write-area" placeholder="Co zrobimy, żeby zmniejszyć opór?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3: Plan komunikacji -->
+  <div class="change-section s3" style="grid-column: 1 / -1;">
+    <div class="section-header">
+      <span class="sec-icon">📢</span>
+      <div class="sec-title">3. Plan komunikacji</div>
+    </div>
+    <div class="section-body">
+      <table class="mini-table">
+        <thead>
+          <tr>
+            <th>Grupa docelowa</th>
+            <th>Przekaz kluczowy</th>
+            <th>Kanał</th>
+            <th>Częstotliwość</th>
+            <th>Odpowiedzialny</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-fixed">Zarząd</td>
+            <td class="cell-fixed">Postęp strategiczny, ROI</td>
+            <td class="cell-fixed">Prezentacja na zarządzie</td>
+            <td class="cell-fixed">Miesięcznie</td>
+            <td><input type="text" class="cell-input" placeholder="Imię i nazwisko"></td>
+          </tr>
+          <tr>
+            <td class="cell-fixed">Kadra średnia</td>
+            <td class="cell-fixed">Wpływ na ich obszar, korzyści</td>
+            <td class="cell-fixed">Warsztaty, Teams</td>
+            <td class="cell-fixed">Co 2 tyg.</td>
+            <td><input type="text" class="cell-input" placeholder="Imię i nazwisko"></td>
+          </tr>
+          <tr>
+            <td class="cell-fixed">Pracownicy operacyjni</td>
+            <td class="cell-fixed">Jak zmieni się ich praca, wsparcie</td>
+            <td class="cell-fixed">Town hall, e-mail, szkolenia</td>
+            <td class="cell-fixed">Przed każdym etapem</td>
+            <td><input type="text" class="cell-input" placeholder="Imię i nazwisko"></td>
+          </tr>
+          <tr>
+            <td class="cell-fixed">Związki / Rada pracowników</td>
+            <td class="cell-fixed">Brak redukcji, reskilling</td>
+            <td class="cell-fixed">Spotkanie dedykowane</td>
+            <td class="cell-fixed">Przed startem + kwartalnie</td>
+            <td><input type="text" class="cell-input" placeholder="Imię i nazwisko"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S4: Plan szkoleń -->
+  <div class="change-section s4" style="grid-column: 1 / -1;">
+    <div class="section-header">
+      <span class="sec-icon">🎓</span>
+      <div class="sec-title">4. Plan szkoleń</div>
+    </div>
+    <div class="section-body">
+      <table class="mini-table">
+        <thead>
+          <tr>
+            <th>Grupa</th>
+            <th>Zakres szkolenia</th>
+            <th>Format</th>
+            <th>Czas trwania</th>
+            <th>Termin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-fixed">Kadra zarządzająca</td>
+            <td class="cell-fixed">AI literacy, strategia</td>
+            <td class="cell-fixed">Warsztat</td>
+            <td class="cell-fixed">4h</td>
+            <td><input type="text" class="cell-input" placeholder="DD.MM.RRRR"></td>
+          </tr>
+          <tr>
+            <td class="cell-fixed">Użytkownicy kluczowi</td>
+            <td class="cell-fixed">Obsługa narzędzia AI, prompt engineering</td>
+            <td class="cell-fixed">Hands-on training</td>
+            <td class="cell-fixed">2 dni</td>
+            <td><input type="text" class="cell-input" placeholder="DD.MM.RRRR"></td>
+          </tr>
+          <tr>
+            <td class="cell-fixed">Wszyscy pracownicy</td>
+            <td class="cell-fixed">Podstawy AI, polityka firmy</td>
+            <td class="cell-fixed">E-learning</td>
+            <td class="cell-fixed">1h</td>
+            <td><input type="text" class="cell-input" placeholder="DD.MM.RRRR"></td>
+          </tr>
+          <tr>
+            <td class="cell-fixed">IT / Admin</td>
+            <td class="cell-fixed">Administracja, monitoring, troubleshooting</td>
+            <td class="cell-fixed">Szkolenie techniczne</td>
+            <td class="cell-fixed">2 dni</td>
+            <td><input type="text" class="cell-input" placeholder="DD.MM.RRRR"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S5: Ambasadorzy zmiany -->
+  <div class="change-section s5">
+    <div class="section-header">
+      <span class="sec-icon">🌟</span>
+      <div class="sec-title">5. Ambasadorzy zmiany</div>
+    </div>
+    <div class="section-body">
+      <div>
+        <div class="field-label">Kryteria wyboru ambasadorów</div>
+        <textarea class="write-area" placeholder="np. Entuzjaści technologii, autorytet w zespole, otwartość na zmiany..."></textarea>
+      </div>
+      <div>
+        <div class="field-label">Lista ambasadorów</div>
+        <div class="write-line-field">
+          <span class="write-line-label">Ambasador 1</span>
+          <div class="write-line" contenteditable="true"></div>
+        </div>
+        <div class="write-line-field" style="margin-top:4px;">
+          <span class="write-line-label">Ambasador 2</span>
+          <div class="write-line" contenteditable="true"></div>
+        </div>
+        <div class="write-line-field" style="margin-top:4px;">
+          <span class="write-line-label">Ambasador 3</span>
+          <div class="write-line" contenteditable="true"></div>
+        </div>
+        <div class="write-line-field" style="margin-top:4px;">
+          <span class="write-line-label">Ambasador 4</span>
+          <div class="write-line" contenteditable="true"></div>
+        </div>
+        <div class="write-line-field" style="margin-top:4px;">
+          <span class="write-line-label">Ambasador 5</span>
+          <div class="write-line" contenteditable="true"></div>
+        </div>
+      </div>
+      <div>
+        <div class="field-label">Rola ambasadora</div>
+        <textarea class="write-area" placeholder="Wsparcie kolegów, zbieranie feedbacku, demonstrowanie korzyści..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6: Mierniki zmiany -->
+  <div class="change-section s6">
+    <div class="section-header">
+      <span class="sec-icon">📊</span>
+      <div class="sec-title">6. Mierniki zmiany</div>
+    </div>
+    <div class="section-body">
+      <div class="kpi-row">
+        <div class="kpi-header">Nazwa KPI</div>
+        <div class="kpi-header">Cel</div>
+        <div class="kpi-header">Sposób pomiaru</div>
+        <div class="kpi-header">Częstotliwość</div>
+      </div>
+      <div class="kpi-row">
+        <input type="text" class="kpi-input" placeholder="Adoption rate">
+        <input type="text" class="kpi-input" placeholder="np. 80%">
+        <input type="text" class="kpi-input" placeholder="Logowania do systemu">
+        <input type="text" class="kpi-input" placeholder="Tygodniowo">
+      </div>
+      <div class="kpi-row">
+        <input type="text" class="kpi-input" placeholder="Satysfakcja użytkowników">
+        <input type="text" class="kpi-input" placeholder="np. 4/5">
+        <input type="text" class="kpi-input" placeholder="Ankieta NPS">
+        <input type="text" class="kpi-input" placeholder="Miesięcznie">
+      </div>
+      <div class="kpi-row">
+        <input type="text" class="kpi-input" placeholder="Czas realizacji procesu">
+        <input type="text" class="kpi-input" placeholder="np. -30%">
+        <input type="text" class="kpi-input" placeholder="Pomiar przed/po">
+        <input type="text" class="kpi-input" placeholder="Miesięcznie">
+      </div>
+      <div class="kpi-row">
+        <input type="text" class="kpi-input" placeholder="Liczba zgłoszeń wsparcia">
+        <input type="text" class="kpi-input" placeholder="np. <10/tyg.">
+        <input type="text" class="kpi-input" placeholder="Helpdesk tickety">
+        <input type="text" class="kpi-input" placeholder="Tygodniowo">
+      </div>
+    </div>
+  </div>
+
+  <!-- S7: Harmonogram zmiany -->
+  <div class="change-section s7">
+    <div class="section-header">
+      <span class="sec-icon">📅</span>
+      <div class="sec-title">7. Harmonogram zmiany</div>
+    </div>
+    <div class="section-body">
+      <div class="timeline">
+        <div class="milestone">
+          <div class="ms-dot ms-dot-blue"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 1-2</span>
+            <span class="ms-phase">Przygotowanie</span>
+            <div class="ms-desc" contenteditable="true"></div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="ms-dot ms-dot-purple"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 3-4</span>
+            <span class="ms-phase">Komunikacja i szkolenia</span>
+            <div class="ms-desc" contenteditable="true"></div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="ms-dot ms-dot-green"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 5-8</span>
+            <span class="ms-phase">Pilot / soft launch</span>
+            <div class="ms-desc" contenteditable="true"></div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="ms-dot ms-dot-orange"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 9-12</span>
+            <span class="ms-phase">Pełne wdrożenie</span>
+            <div class="ms-desc" contenteditable="true"></div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="ms-dot ms-dot-red"></div>
+          <div class="ms-content">
+            <span class="ms-week">Tyg. 13+</span>
+            <span class="ms-phase">Stabilizacja i optymalizacja</span>
+            <div class="ms-desc" contenteditable="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S8: Plan awaryjny -->
+  <div class="change-section s8">
+    <div class="section-header">
+      <span class="sec-icon">🚨</span>
+      <div class="sec-title">8. Plan awaryjny</div>
+    </div>
+    <div class="section-body">
+      <div>
+        <div class="field-label">Scenariusz: opór przekracza próg</div>
+        <textarea class="write-area" placeholder="Co robimy, gdy opór jest zbyt duży? Kto decyduje o dalszych krokach?"></textarea>
+      </div>
+      <div>
+        <div class="field-label">Scenariusz: problemy techniczne</div>
+        <textarea class="write-area" placeholder="Co robimy, gdy narzędzie AI nie działa prawidłowo?"></textarea>
+      </div>
+      <div>
+        <div class="field-label">Scenariusz: brak adopcji</div>
+        <textarea class="write-area" placeholder="Co robimy, gdy pracownicy nie korzystają z nowego rozwiązania?"></textarea>
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Decydent eskalacji</span>
+        <div class="write-line" contenteditable="true"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  12_plan_zarzadzania_zmiana.html · AI dla Kadry Strategicznej · Narzędzie do planowania zmiany organizacyjnej
+</footer>
+
+<script>
+function selectScale(el) {
+  el.parentElement.querySelectorAll('.scale-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>

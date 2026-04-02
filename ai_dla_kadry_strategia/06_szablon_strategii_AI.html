@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Szablon Strategii AI – One-Pager – AI dla Kadry Strategicznej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 24px 36px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.5rem; font-weight: 700; }
+.page-header p { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.strategy-meta {
+  background: white;
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.meta-field { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 3px; }
+.meta-label { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; }
+.meta-input {
+  font-size: 0.85rem; font-weight: 600; color: #1a1a2e;
+  border: none; outline: none; background: transparent;
+  border-bottom: 1.5px solid #e0e0e0; padding-bottom: 2px; width: 100%;
+}
+.meta-input:focus { border-bottom-color: #1a1a2e; }
+
+.strategy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.strategy-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.sec-icon { font-size: 1.1rem; flex-shrink: 0; }
+.sec-title { font-size: 0.88rem; font-weight: 700; color: #1a1a2e; }
+.sec-subtitle { font-size: 0.68rem; color: #aaa; margin-top: 1px; }
+
+.s1 .section-header { border-left: 4px solid #3b82f6; }
+.s2 .section-header { border-left: 4px solid #10b981; }
+.s3 .section-header { border-left: 4px solid #8b5cf6; }
+.s4 .section-header { border-left: 4px solid #f59e0b; }
+.s5 .section-header { border-left: 4px solid #e74c3c; }
+.s6 .section-header { border-left: 4px solid #0ea5e9; }
+.s7 .section-header { border-left: 4px solid #6b7280; }
+.s8 .section-header { border-left: 4px solid #1a1a2e; }
+
+.section-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+.write-area {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.78rem; color: #333; border: none; outline: none; resize: none;
+  background: #fafafa; border-radius: 6px; padding: 7px 9px;
+  line-height: 1.5; width: 100%; min-height: 55px;
+}
+.write-area:focus { background: #f0f4ff; }
+.write-area::placeholder { color: #ccc; font-style: italic; }
+
+.write-line-field { display: flex; flex-direction: column; gap: 2px; }
+.write-line-label { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; }
+.write-line {
+  border: none; outline: none; background: transparent;
+  border-bottom: 1.5px solid #e0e0e0; min-height: 22px; padding: 2px 4px;
+  font-size: 0.78rem; color: #333;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.write-line:focus { background: #f8f9ff; border-radius: 3px; border-bottom-color: #1a1a2e; }
+
+/* Roadmapa horizons */
+.horizon-block {
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+}
+.horizon-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.h1-block { background: #d1fae5; }
+.h1-block .horizon-label { color: #065f46; }
+.h2-block { background: #dbeafe; }
+.h2-block .horizon-label { color: #1e40af; }
+.h3-block { background: #f3e8ff; }
+.h3-block .horizon-label { color: #6b21a8; }
+.horizon-area {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.75rem; color: #333; border: none; outline: none; resize: none;
+  background: rgba(255,255,255,0.6); border-radius: 4px; padding: 5px 7px;
+  line-height: 1.5; width: 100%; min-height: 36px;
+}
+.horizon-area:focus { background: rgba(255,255,255,0.9); }
+.horizon-area::placeholder { color: #bbb; font-style: italic; }
+
+/* Full-width section spanning both columns */
+.full-width { grid-column: 1 / -1; }
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.75rem;
+  color: #bbb;
+  padding: 12px;
+}
+
+@media print {
+  @page { size: A4 portrait; margin: 10mm; }
+  body { background: white; padding: 0; }
+  .page-header { border-radius: 6px; padding: 14px 20px; margin-bottom: 12px; }
+  .strategy-meta { box-shadow: none; border: 1px solid #ddd; margin-bottom: 10px; }
+  .strategy-section { box-shadow: none; border: 1px solid #ddd; }
+  .strategy-grid { gap: 10px; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Szablon Strategii AI – One-Pager</h1>
+    <p>Jednostronicowe podsumowanie strategii AI organizacji – do komunikacji z zarządem i interesariuszami</p>
+  </div>
+  <div class="module-tag">Moduł 2 · AI dla Kadry Strategicznej</div>
+</div>
+
+<div class="strategy-meta">
+  <div class="meta-field" style="flex:2">
+    <span class="meta-label">Nazwa organizacji</span>
+    <input type="text" class="meta-input" placeholder="Wpisz nazwę organizacji">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Autor</span>
+    <input type="text" class="meta-input" placeholder="Imię i nazwisko">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Data</span>
+    <input type="text" class="meta-input" placeholder="DD.MM.RRRR">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Wersja</span>
+    <input type="text" class="meta-input" placeholder="np. 1.0">
+  </div>
+</div>
+
+<div class="strategy-grid">
+
+  <!-- S1: Kontekst strategiczny -->
+  <div class="strategy-section s1">
+    <div class="section-header">
+      <span class="sec-icon">🌍</span>
+      <div>
+        <div class="sec-title">1. Kontekst strategiczny</div>
+        <div class="sec-subtitle">Pozycja rynkowa firmy, presja konkurencyjna, trendy branżowe</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <textarea class="write-area" placeholder="Opisz aktualną sytuację rynkową, kluczowe wyzwania branżowe i presję ze strony konkurencji w kontekście AI..."></textarea>
+    </div>
+  </div>
+
+  <!-- S2: Wizja AI -->
+  <div class="strategy-section s2">
+    <div class="section-header">
+      <span class="sec-icon">🔭</span>
+      <div>
+        <div class="sec-title">2. Wizja AI</div>
+        <div class="sec-subtitle">Jedno zdanie opisujące docelowy stan wykorzystania AI za 2-3 lata</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <textarea class="write-area" style="min-height:40px;font-size:0.88rem;font-weight:600;" placeholder="np. &quot;W 2028 roku AI jest integralną częścią każdego procesu decyzyjnego, wspierając pracowników w dostarczaniu najwyższej wartości klientom.&quot;"></textarea>
+    </div>
+  </div>
+
+  <!-- S3: Cele strategiczne AI -->
+  <div class="strategy-section s3">
+    <div class="section-header">
+      <span class="sec-icon">🎯</span>
+      <div>
+        <div class="sec-title">3. Cele strategiczne AI</div>
+        <div class="sec-subtitle">3-5 mierzalnych celów</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="write-line-field">
+        <span class="write-line-label">Cel 1</span>
+        <input type="text" class="write-line" placeholder="np. Zwiększyć produktywność operacyjną o 25% do końca 2027">
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Cel 2</span>
+        <input type="text" class="write-line" placeholder="np. Wdrożyć AI w 3 kluczowych procesach biznesowych w ciągu 12 miesięcy">
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Cel 3</span>
+        <input type="text" class="write-line" placeholder="np. Zbudować wewnętrzny zespół kompetencji AI (min. 5 osób)">
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Cel 4</span>
+        <input type="text" class="write-line" placeholder="np. Osiągnąć ROI >200% na pilotach AI w pierwszym roku">
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Cel 5</span>
+        <input type="text" class="write-line" placeholder="Opcjonalny dodatkowy cel...">
+      </div>
+    </div>
+  </div>
+
+  <!-- S4: Priorytetowe obszary wdrożeń -->
+  <div class="strategy-section s4">
+    <div class="section-header">
+      <span class="sec-icon">⚡</span>
+      <div>
+        <div class="sec-title">4. Priorytetowe obszary wdrożeń</div>
+        <div class="sec-subtitle">Top 3 inicjatywy AI z krótkim opisem</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="write-line-field">
+        <span class="write-line-label">Inicjatywa 1</span>
+        <textarea class="write-area" style="min-height:36px;" placeholder="Nazwa i krótki opis: co, dla kogo, jaki efekt?"></textarea>
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Inicjatywa 2</span>
+        <textarea class="write-area" style="min-height:36px;" placeholder="Nazwa i krótki opis: co, dla kogo, jaki efekt?"></textarea>
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Inicjatywa 3</span>
+        <textarea class="write-area" style="min-height:36px;" placeholder="Nazwa i krótki opis: co, dla kogo, jaki efekt?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5: Model operacyjny AI -->
+  <div class="strategy-section s5">
+    <div class="section-header">
+      <span class="sec-icon">🏗️</span>
+      <div>
+        <div class="sec-title">5. Model operacyjny AI</div>
+        <div class="sec-subtitle">Podejście: Build / Buy / Partner? Centralizacja vs decentralizacja. Center of Excellence?</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <textarea class="write-area" placeholder="Opisz podejście organizacji do AI:&#10;• Build / Buy / Partner – co budujemy sami, co kupujemy, z kim współpracujemy?&#10;• Centralizacja vs decentralizacja – kto jest właścicielem inicjatyw AI?&#10;• Center of Excellence – czy tworzymy centralny zespół AI?"></textarea>
+    </div>
+  </div>
+
+  <!-- S6: Budżet i zasoby -->
+  <div class="strategy-section s6">
+    <div class="section-header">
+      <span class="sec-icon">💰</span>
+      <div>
+        <div class="sec-title">6. Budżet i zasoby</div>
+        <div class="sec-subtitle">Orientacyjny budżet, kluczowe zasoby, potrzeby rekrutacyjne</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="write-line-field">
+        <span class="write-line-label">Budżet roczny (orientacyjny)</span>
+        <input type="text" class="write-line" placeholder="np. 500 tys. – 1 mln PLN na pierwszy rok">
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Kluczowe zasoby</span>
+        <input type="text" class="write-line" placeholder="np. infrastruktura cloud, licencje narzędzi AI, dane treningowe">
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Potrzeby rekrutacyjne</span>
+        <input type="text" class="write-line" placeholder="np. AI/ML Engineer, Data Analyst, AI Project Manager">
+      </div>
+      <div class="write-line-field">
+        <span class="write-line-label">Źródło finansowania</span>
+        <input type="text" class="write-line" placeholder="np. budżet IT, innowacje, dedykowany fundusz AI">
+      </div>
+    </div>
+  </div>
+
+  <!-- S7: Governance i etyka -->
+  <div class="strategy-section s7">
+    <div class="section-header">
+      <span class="sec-icon">⚖️</span>
+      <div>
+        <div class="sec-title">7. Governance i etyka</div>
+        <div class="sec-subtitle">Zasady governance, odpowiedzialność, etyka AI</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <textarea class="write-area" placeholder="Opisz zasady zarządzania AI w organizacji:&#10;• Kto odpowiada za governance AI?&#10;• Jakie zasady etyczne obowiązują?&#10;• Jak zapewniamy zgodność z regulacjami (AI Act, RODO)?&#10;• Human-in-the-loop – w jakich procesach wymagana kontrola człowieka?"></textarea>
+    </div>
+  </div>
+
+  <!-- S8: Roadmapa -->
+  <div class="strategy-section s8">
+    <div class="section-header">
+      <span class="sec-icon">🗺️</span>
+      <div>
+        <div class="sec-title">8. Roadmapa</div>
+        <div class="sec-subtitle">3 horyzonty wdrożenia AI</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="horizon-block h1-block">
+        <div class="horizon-label">Horyzont 1: 0–6 miesięcy – Quick Wins</div>
+        <textarea class="horizon-area" placeholder="np. Piloty AI w obsłudze klienta i raportowaniu, szkolenia kadry, wybór platformy AI..."></textarea>
+      </div>
+      <div class="horizon-block h2-block">
+        <div class="horizon-label">Horyzont 2: 6–18 miesięcy – Budowa kompetencji</div>
+        <textarea class="horizon-area" placeholder="np. Skalowanie pilotów, budowa Center of Excellence, integracja z kluczowymi systemami..."></textarea>
+      </div>
+      <div class="horizon-block h3-block">
+        <div class="horizon-label">Horyzont 3: 18–36 miesięcy – Skalowanie</div>
+        <textarea class="horizon-area" placeholder="np. AI w każdym dziale, zaawansowana analityka predykcyjna, pełna automatyzacja wybranych procesów..."></textarea>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  06_szablon_strategii_AI.html · AI dla Kadry Strategicznej · Szablon do uzupełnienia na warsztacie
+</footer>
+
+</body>
+</html>

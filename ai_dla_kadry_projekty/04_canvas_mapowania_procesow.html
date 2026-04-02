@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Canvas Mapowania Procesów – AI dla Kadry Projektowej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f0f2f5;
+  padding: 16px;
+  color: #1a1a2e;
+}
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.3rem; font-weight: 700; }
+.page-header p { font-size: 0.78rem; opacity: 0.7; margin-top: 3px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.meta-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.meta-field {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.meta-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #aaa;
+}
+.meta-input {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  border-bottom: 1.5px solid #e0e0e0;
+  padding-bottom: 2px;
+}
+.meta-input:focus { border-bottom-color: #1a1a2e; }
+
+.process-flow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.stage-column {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-header {
+  padding: 10px 12px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: white;
+  position: relative;
+}
+.stage-header .stage-num {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px; height: 22px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+.stage-1 .stage-header { background: #2980b9; }
+.stage-2 .stage-header { background: #8e44ad; }
+.stage-3 .stage-header { background: #16a085; }
+.stage-4 .stage-header { background: #e67e22; }
+.stage-5 .stage-header { background: #c0392b; }
+
+.stage-body { flex: 1; display: flex; flex-direction: column; }
+
+.section {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #f0f0f0;
+}
+.section:last-child { border-bottom: none; flex: 1; }
+
+.section-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 6px 10px 3px;
+  border-bottom: 1px solid #f5f5f5;
+}
+.label-aktorzy { color: #2980b9; background: #eaf4fc; }
+.label-dane-we { color: #27ae60; background: #eafaf1; }
+.label-dane-wy { color: #8e44ad; background: #f5eef8; }
+.label-boly { color: #e74c3c; background: #fdf2f2; }
+.label-ai { color: #e67e22; background: #fef9f0; }
+
+.section-textarea {
+  flex: 1;
+  min-height: 62px;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 6px 10px 8px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.76rem;
+  color: #333;
+  line-height: 1.5;
+  background: transparent;
+}
+.section-textarea::placeholder { color: #ccc; font-style: italic; }
+
+.arrow-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 0;
+  margin-bottom: 0;
+}
+.arrow-line {
+  height: 2px;
+  background: linear-gradient(90deg, #2980b9, #c0392b);
+  flex: 1;
+  max-width: 500px;
+  border-radius: 1px;
+  position: relative;
+}
+
+.print-hint {
+  text-align: center;
+  font-size: 0.72rem;
+  color: #bbb;
+  margin-top: 12px;
+  padding: 8px;
+}
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 0.72rem;
+  color: #bbb;
+  padding: 8px;
+}
+
+@media print {
+  @page { size: A3 landscape; margin: 10mm; }
+  body { background: white; padding: 0; }
+  .page-header { border-radius: 4px; padding: 10px 16px; margin-bottom: 8px; }
+  .page-header h1 { font-size: 1.1rem; }
+  .stage-column { box-shadow: none; border: 1px solid #ddd; }
+  .section-textarea { min-height: 55px; }
+  .print-hint { display: none; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Canvas Mapowania Procesów AI</h1>
+    <p>Zmapuj 5 etapów procesu i zidentyfikuj potencjał AI na każdym z nich</p>
+  </div>
+  <div class="module-tag">Moduł 2 · AI dla Kadry Projektowej</div>
+</div>
+
+<div class="meta-row">
+  <div class="meta-field">
+    <span class="meta-label">Nazwa procesu</span>
+    <input type="text" class="meta-input" placeholder="np. Obsługa reklamacji klienta">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Właściciel procesu</span>
+    <input type="text" class="meta-input" placeholder="Imię i nazwisko / rola">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Dział / Obszar</span>
+    <input type="text" class="meta-input" placeholder="np. Obsługa Klienta">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Data mapowania</span>
+    <input type="text" class="meta-input" placeholder="DD.MM.RRRR">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Wolumen (miesięcznie)</span>
+    <input type="text" class="meta-input" placeholder="np. ~500 przypadków">
+  </div>
+</div>
+
+<div class="process-flow">
+
+  <!-- Stage 1 -->
+  <div class="stage-column stage-1">
+    <div class="stage-header">
+      <span class="stage-num">1</span>
+      <textarea style="background:transparent;border:none;outline:none;color:white;font-family:'Segoe UI',Arial;font-size:0.82rem;font-weight:700;width:100%;text-align:center;resize:none;height:22px;line-height:1.2;" placeholder="Etap 1">Inicjacja / Zgłoszenie</textarea>
+    </div>
+    <div class="stage-body">
+      <div class="section">
+        <div class="section-label label-aktorzy">Aktorzy</div>
+        <textarea class="section-textarea" placeholder="Kto uczestniczy w tym etapie?&#10;np. klient, agent obsługi"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-dane-we">Dane wejściowe</div>
+        <textarea class="section-textarea" placeholder="Co wchodzi do etapu?&#10;np. e-mail klienta, numer zamówienia"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-dane-wy">Dane wyjściowe</div>
+        <textarea class="section-textarea" placeholder="Co wychodzi z etapu?&#10;np. ticket w systemie, numer zgłoszenia"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-boly">Punkty bólu</div>
+        <textarea class="section-textarea" placeholder="Co boli? Co jest wolne / błędne?&#10;np. ręczne przepisywanie danych"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-ai">Potencjał AI</div>
+        <textarea class="section-textarea" placeholder="Jak AI może pomóc?&#10;np. automatyczna klasyfikacja zgłoszeń"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 2 -->
+  <div class="stage-column stage-2">
+    <div class="stage-header">
+      <span class="stage-num">2</span>
+      <textarea style="background:transparent;border:none;outline:none;color:white;font-family:'Segoe UI',Arial;font-size:0.82rem;font-weight:700;width:100%;text-align:center;resize:none;height:22px;line-height:1.2;" placeholder="Etap 2">Analiza / Ocena</textarea>
+    </div>
+    <div class="stage-body">
+      <div class="section">
+        <div class="section-label label-aktorzy">Aktorzy</div>
+        <textarea class="section-textarea" placeholder="Kto uczestniczy w tym etapie?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-dane-we">Dane wejściowe</div>
+        <textarea class="section-textarea" placeholder="Co wchodzi do etapu?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-dane-wy">Dane wyjściowe</div>
+        <textarea class="section-textarea" placeholder="Co wychodzi z etapu?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-boly">Punkty bólu</div>
+        <textarea class="section-textarea" placeholder="Co boli? Co jest wolne / błędne?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-ai">Potencjał AI</div>
+        <textarea class="section-textarea" placeholder="Jak AI może pomóc?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 3 -->
+  <div class="stage-column stage-3">
+    <div class="stage-header">
+      <span class="stage-num">3</span>
+      <textarea style="background:transparent;border:none;outline:none;color:white;font-family:'Segoe UI',Arial;font-size:0.82rem;font-weight:700;width:100%;text-align:center;resize:none;height:22px;line-height:1.2;" placeholder="Etap 3">Realizacja / Przetwarzanie</textarea>
+    </div>
+    <div class="stage-body">
+      <div class="section">
+        <div class="section-label label-aktorzy">Aktorzy</div>
+        <textarea class="section-textarea" placeholder="Kto uczestniczy w tym etapie?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-dane-we">Dane wejściowe</div>
+        <textarea class="section-textarea" placeholder="Co wchodzi do etapu?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-dane-wy">Dane wyjściowe</div>
+        <textarea class="section-textarea" placeholder="Co wychodzi z etapu?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-boly">Punkty bólu</div>
+        <textarea class="section-textarea" placeholder="Co boli? Co jest wolne / błędne?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-ai">Potencjał AI</div>
+        <textarea class="section-textarea" placeholder="Jak AI może pomóc?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 4 -->
+  <div class="stage-column stage-4">
+    <div class="stage-header">
+      <span class="stage-num">4</span>
+      <textarea style="background:transparent;border:none;outline:none;color:white;font-family:'Segoe UI',Arial;font-size:0.82rem;font-weight:700;width:100%;text-align:center;resize:none;height:22px;line-height:1.2;" placeholder="Etap 4">Kontrola / Zatwierdzenie</textarea>
+    </div>
+    <div class="stage-body">
+      <div class="section">
+        <div class="section-label label-aktorzy">Aktorzy</div>
+        <textarea class="section-textarea" placeholder="Kto uczestniczy w tym etapie?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-dane-we">Dane wejściowe</div>
+        <textarea class="section-textarea" placeholder="Co wchodzi do etapu?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-dane-wy">Dane wyjściowe</div>
+        <textarea class="section-textarea" placeholder="Co wychodzi z etapu?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-boly">Punkty bólu</div>
+        <textarea class="section-textarea" placeholder="Co boli? Co jest wolne / błędne?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-ai">Potencjał AI</div>
+        <textarea class="section-textarea" placeholder="Jak AI może pomóc?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 5 -->
+  <div class="stage-column stage-5">
+    <div class="stage-header">
+      <span class="stage-num">5</span>
+      <textarea style="background:transparent;border:none;outline:none;color:white;font-family:'Segoe UI',Arial;font-size:0.82rem;font-weight:700;width:100%;text-align:center;resize:none;height:22px;line-height:1.2;" placeholder="Etap 5">Zamknięcie / Raportowanie</textarea>
+    </div>
+    <div class="stage-body">
+      <div class="section">
+        <div class="section-label label-aktorzy">Aktorzy</div>
+        <textarea class="section-textarea" placeholder="Kto uczestniczy w tym etapie?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-dane-we">Dane wejściowe</div>
+        <textarea class="section-textarea" placeholder="Co wchodzi do etapu?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-dane-wy">Dane wyjściowe</div>
+        <textarea class="section-textarea" placeholder="Co wychodzi z etapu?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-boly">Punkty bólu</div>
+        <textarea class="section-textarea" placeholder="Co boli? Co jest wolne / błędne?"></textarea>
+      </div>
+      <div class="section">
+        <div class="section-label label-ai">Potencjał AI</div>
+        <textarea class="section-textarea" placeholder="Jak AI może pomóc?"></textarea>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="print-hint">Drukuj w orientacji poziomej (landscape) na formacie A3 lub A4 · Ctrl+P → Układ strony: Poziomy</p>
+
+<footer class="page-footer">
+  04_canvas_mapowania_procesow.html · AI dla Kadry Projektowej · Format A3 landscape
+</footer>
+
+</body>
+</html>

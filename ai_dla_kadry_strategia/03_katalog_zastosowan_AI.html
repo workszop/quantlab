@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Możliwości AI w Organizacji</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 24px;
+            color: #1a1a2e;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 24px 36px;
+            margin-bottom: 28px;
+        }
+        .module-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .page-header h1 {
+            font-size: 1.65rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .page-header p {
+            font-size: 0.88rem;
+            opacity: 0.85;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 22px;
+            margin-bottom: 28px;
+        }
+        .dept-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-stripe {
+            height: 6px;
+            width: 100%;
+        }
+        .card-body {
+            padding: 20px 22px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .dept-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .dept-icon {
+            font-size: 1.5rem;
+        }
+        .dept-name {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .section-label {
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #aaa;
+            margin-bottom: 8px;
+            margin-top: 4px;
+        }
+        .can-list, .cannot-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 14px;
+        }
+        .can-list li, .cannot-list li {
+            font-size: 0.81rem;
+            line-height: 1.5;
+            padding: 4px 0 4px 22px;
+            position: relative;
+        }
+        .can-list li::before {
+            content: "\2705";
+            position: absolute;
+            left: 0;
+            top: 4px;
+            font-size: 0.75rem;
+        }
+        .cannot-list li::before {
+            content: "\274C";
+            position: absolute;
+            left: 0;
+            top: 4px;
+            font-size: 0.7rem;
+        }
+        .maturity {
+            border-top: 1px solid #eee;
+            margin-top: auto;
+            padding-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .maturity-label {
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #aaa;
+        }
+        .maturity-dots {
+            display: flex;
+            gap: 4px;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e0e0e0;
+        }
+        .dot.filled {
+            background: #3b82f6;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #bbb;
+            padding: 18px 0 8px;
+        }
+        @media print {
+            body { background: white; }
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <div class="module-tag">Moduł 1 · AI dla Kadry Strategicznej</div>
+        <h1>Katalog Możliwości AI w Organizacji</h1>
+        <p>Przegląd zastosowań AI według funkcji biznesowych – co AI potrafi, a czego nie</p>
+    </header>
+
+    <div class="card-grid">
+
+        <!-- 1. Sprzedaż i Marketing -->
+        <div class="dept-card">
+            <div class="card-stripe" style="background: #e91e8c;"></div>
+            <div class="card-body">
+                <div class="dept-header">
+                    <span class="dept-icon">🎯</span>
+                    <span class="dept-name">Sprzedaż i Marketing</span>
+                </div>
+                <div class="section-label">Co AI potrafi</div>
+                <ul class="can-list">
+                    <li>Prognozowanie popytu i trendów rynkowych</li>
+                    <li>Personalizacja ofert i rekomendacji</li>
+                    <li>Scoring leadów i priorytetyzacja szans sprzedażowych</li>
+                    <li>Generowanie treści marketingowych (copy, grafiki, kampanie)</li>
+                </ul>
+                <div class="section-label">Czego AI nie potrafi</div>
+                <ul class="cannot-list">
+                    <li>Budowanie relacji opartych na zaufaniu</li>
+                    <li>Prowadzenie złożonych negocjacji handlowych</li>
+                </ul>
+                <div class="maturity">
+                    <span class="maturity-label">Dojrzałość</span>
+                    <div class="maturity-dots">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Obsługa Klienta -->
+        <div class="dept-card">
+            <div class="card-stripe" style="background: #2980b9;"></div>
+            <div class="card-body">
+                <div class="dept-header">
+                    <span class="dept-icon">💬</span>
+                    <span class="dept-name">Obsługa Klienta</span>
+                </div>
+                <div class="section-label">Co AI potrafi</div>
+                <ul class="can-list">
+                    <li>Chatboty FAQ obsługujące powtarzalne pytania</li>
+                    <li>Klasyfikacja i routing zgłoszeń klientów</li>
+                    <li>Analiza sentymentu w komunikacji z klientami</li>
+                    <li>Automatyczne odpowiedzi na proste pytania</li>
+                </ul>
+                <div class="section-label">Czego AI nie potrafi</div>
+                <ul class="cannot-list">
+                    <li>Empatia w sytuacjach kryzysowych</li>
+                    <li>Rozwiązywanie bezprecedensowych problemów</li>
+                </ul>
+                <div class="maturity">
+                    <span class="maturity-label">Dojrzałość</span>
+                    <div class="maturity-dots">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Finanse i Księgowość -->
+        <div class="dept-card">
+            <div class="card-stripe" style="background: #27ae60;"></div>
+            <div class="card-body">
+                <div class="dept-header">
+                    <span class="dept-icon">📊</span>
+                    <span class="dept-name">Finanse i Księgowość</span>
+                </div>
+                <div class="section-label">Co AI potrafi</div>
+                <ul class="can-list">
+                    <li>Automatyzacja przetwarzania faktur i rachunków</li>
+                    <li>Wykrywanie fraudów i anomalii finansowych</li>
+                    <li>Prognozowanie cashflow i budżetowanie</li>
+                    <li>Automatyczne generowanie raportów finansowych</li>
+                </ul>
+                <div class="section-label">Czego AI nie potrafi</div>
+                <ul class="cannot-list">
+                    <li>Interpretacja nowych regulacji prawnych</li>
+                    <li>Strategiczne decyzje inwestycyjne</li>
+                </ul>
+                <div class="maturity">
+                    <span class="maturity-label">Dojrzałość</span>
+                    <div class="maturity-dots">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. HR i Rekrutacja -->
+        <div class="dept-card">
+            <div class="card-stripe" style="background: #8e44ad;"></div>
+            <div class="card-body">
+                <div class="dept-header">
+                    <span class="dept-icon">👥</span>
+                    <span class="dept-name">HR i Rekrutacja</span>
+                </div>
+                <div class="section-label">Co AI potrafi</div>
+                <ul class="can-list">
+                    <li>Screening CV i wstępna selekcja kandydatów</li>
+                    <li>Analiza nastrojów pracowników (pulse surveys)</li>
+                    <li>Planowanie ścieżek szkoleń i rozwoju</li>
+                    <li>Automatyzacja procesu onboardingu</li>
+                </ul>
+                <div class="section-label">Czego AI nie potrafi</div>
+                <ul class="cannot-list">
+                    <li>Ocena kultury fit i dopasowania do zespołu</li>
+                    <li>Zarządzanie konfliktami i mentoring</li>
+                </ul>
+                <div class="maturity">
+                    <span class="maturity-label">Dojrzałość</span>
+                    <div class="maturity-dots">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Produkcja i Logistyka -->
+        <div class="dept-card">
+            <div class="card-stripe" style="background: #e67e22;"></div>
+            <div class="card-body">
+                <div class="dept-header">
+                    <span class="dept-icon">🏭</span>
+                    <span class="dept-name">Produkcja i Logistyka</span>
+                </div>
+                <div class="section-label">Co AI potrafi</div>
+                <ul class="can-list">
+                    <li>Predictive maintenance (predykcja awarii)</li>
+                    <li>Optymalizacja tras dostaw i łańcucha logistycznego</li>
+                    <li>Kontrola jakości wizualna (computer vision)</li>
+                    <li>Planowanie i harmonogramowanie produkcji</li>
+                </ul>
+                <div class="section-label">Czego AI nie potrafi</div>
+                <ul class="cannot-list">
+                    <li>Naprawy fizyczne maszyn i urządzeń</li>
+                    <li>Zarządzanie kryzysowe w terenie</li>
+                </ul>
+                <div class="maturity">
+                    <span class="maturity-label">Dojrzałość</span>
+                    <div class="maturity-dots">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. IT i Cyberbezpieczeństwo -->
+        <div class="dept-card">
+            <div class="card-stripe" style="background: #c0392b;"></div>
+            <div class="card-body">
+                <div class="dept-header">
+                    <span class="dept-icon">🔒</span>
+                    <span class="dept-name">IT i Cyberbezpieczeństwo</span>
+                </div>
+                <div class="section-label">Co AI potrafi</div>
+                <ul class="can-list">
+                    <li>Wykrywanie anomalii sieciowych i zagrożeń</li>
+                    <li>Automatyzacja testów oprogramowania</li>
+                    <li>Generowanie i review kodu źródłowego</li>
+                    <li>Analiza logów systemowych i diagnostyka</li>
+                </ul>
+                <div class="section-label">Czego AI nie potrafi</div>
+                <ul class="cannot-list">
+                    <li>Projektowanie architektury systemowej</li>
+                    <li>Decyzje etyczne dotyczące danych i prywatności</li>
+                </ul>
+                <div class="maturity">
+                    <span class="maturity-label">Dojrzałość</span>
+                    <div class="maturity-dots">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Prawo i Compliance -->
+        <div class="dept-card">
+            <div class="card-stripe" style="background: #7f8c8d;"></div>
+            <div class="card-body">
+                <div class="dept-header">
+                    <span class="dept-icon">⚖️</span>
+                    <span class="dept-name">Prawo i Compliance</span>
+                </div>
+                <div class="section-label">Co AI potrafi</div>
+                <ul class="can-list">
+                    <li>Analiza i porównywanie kontraktów</li>
+                    <li>Przeszukiwanie regulacji i orzecznictwa</li>
+                    <li>Due diligence i analiza ryzyka prawnego</li>
+                    <li>Klasyfikacja i tagowanie dokumentów prawnych</li>
+                </ul>
+                <div class="section-label">Czego AI nie potrafi</div>
+                <ul class="cannot-list">
+                    <li>Interpretacja prawa w nowych, niezbadanych kontekstach</li>
+                    <li>Reprezentacja prawna i doradztwo strategiczne</li>
+                </ul>
+                <div class="maturity">
+                    <span class="maturity-label">Dojrzałość</span>
+                    <div class="maturity-dots">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Zarząd i Strategia -->
+        <div class="dept-card">
+            <div class="card-stripe" style="background: #1a1a2e;"></div>
+            <div class="card-body">
+                <div class="dept-header">
+                    <span class="dept-icon">🏛️</span>
+                    <span class="dept-name">Zarząd i Strategia</span>
+                </div>
+                <div class="section-label">Co AI potrafi</div>
+                <ul class="can-list">
+                    <li>Analiza danych rynkowych i konkurencji</li>
+                    <li>Modelowanie scenariuszy strategicznych</li>
+                    <li>Dashboardy AI-powered z real-time insights</li>
+                    <li>Synteza i podsumowywanie raportów zarządczych</li>
+                </ul>
+                <div class="section-label">Czego AI nie potrafi</div>
+                <ul class="cannot-list">
+                    <li>Wizja strategiczna i budowanie kultury organizacyjnej</li>
+                    <li>Podejmowanie decyzji o wartościach firmy</li>
+                </ul>
+                <div class="maturity">
+                    <span class="maturity-label">Dojrzałość</span>
+                    <div class="maturity-dots">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>03_katalog_zastosowan_AI.html · AI dla Kadry Strategicznej · Dojrzałość zastosowań: stan na Q1 2026</footer>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Matryca Automatyzacji AI – AI dla Kadry Projektowej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 24px 36px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.5rem; font-weight: 700; }
+.page-header p { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.main-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+  overflow: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.table-container { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+thead th {
+  background: #1a1a2e;
+  color: white;
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+thead th:first-child { text-align: left; padding-left: 16px; min-width: 180px; }
+thead th.criterion { min-width: 110px; }
+
+.criterion-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.criterion-name { font-size: 0.73rem; }
+.criterion-hint { font-size: 0.62rem; opacity: 0.7; font-weight: 400; }
+
+tbody tr { border-bottom: 1px solid #f0f0f0; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:nth-child(even) { background: #fafafa; }
+tbody tr:hover { background: #f5f7ff; }
+
+td {
+  padding: 10px 8px;
+  vertical-align: middle;
+  text-align: center;
+}
+td:first-child {
+  text-align: left;
+  padding-left: 16px;
+  font-weight: 600;
+}
+.process-name {
+  font-size: 0.85rem;
+  color: #1a1a2e;
+  margin-bottom: 2px;
+}
+.process-dept {
+  font-size: 0.72rem;
+  color: #999;
+}
+
+.rating-group {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+.rating-btn {
+  width: 28px; height: 28px;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #bbb;
+  transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.rating-btn:hover { border-color: #1a1a2e; color: #1a1a2e; }
+.rating-btn.active-1 { background: #fee2e2; border-color: #e74c3c; color: #c0392b; }
+.rating-btn.active-2 { background: #fef3c7; border-color: #e67e22; color: #d35400; }
+.rating-btn.active-3 { background: #fefce8; border-color: #f59e0b; color: #b45309; }
+.rating-btn.active-4 { background: #dcfce7; border-color: #27ae60; color: #1e8449; }
+.rating-btn.active-5 { background: #d1fae5; border-color: #059669; color: #065f46; }
+
+.score-cell {
+  font-size: 1.0rem;
+  font-weight: 800;
+  min-width: 60px;
+}
+.score-low { color: #e74c3c; }
+.score-med { color: #e67e22; }
+.score-high { color: #27ae60; }
+.score-very-high { color: #059669; }
+
+.rec-cell {
+  font-size: 0.73rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.rec-postpone { background: #fee2e2; color: #c0392b; }
+.rec-consider { background: #fef3c7; color: #d35400; }
+.rec-pilot { background: #e8f5e9; color: #27ae60; }
+.rec-priority { background: #d1fae5; color: #065f46; }
+
+.add-row-btn {
+  background: none;
+  border: 2px dashed #ddd;
+  color: #aaa;
+  width: 100%;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.add-row-btn:hover { border-color: #1a1a2e; color: #1a1a2e; background: #f5f7ff; }
+
+.scoring-guide {
+  padding: 20px 24px;
+  border-top: 2px solid #f0f0f0;
+  background: #fafafa;
+}
+.scoring-guide h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.guide-item {
+  background: white;
+  border-radius: 8px;
+  padding: 10px 12px;
+  border: 1px solid #eee;
+}
+.guide-criterion {
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.guide-scale { display: flex; flex-direction: column; gap: 3px; }
+.guide-scale-item { font-size: 0.68rem; color: #555; }
+.guide-scale-item strong { color: #1a1a2e; }
+
+.threshold-guide {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.threshold-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+}
+.threshold-badge {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.72rem;
+}
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.75rem;
+  color: #bbb;
+  padding: 12px;
+}
+
+@media print {
+  body { background: white; padding: 8px; }
+  .page-header { border-radius: 6px; padding: 14px 20px; margin-bottom: 14px; }
+  .main-card { box-shadow: none; border: 1px solid #ddd; }
+  .rating-btn { border: 1px solid #ccc; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Matryca Potencjału Automatyzacji AI</h1>
+    <p>Oceń każdy proces w 5 kryteriach i sprawdź rekomendację wdrożenia AI</p>
+  </div>
+  <div class="module-tag">Moduł 2 · AI dla Kadry Projektowej</div>
+</div>
+
+<div class="main-card">
+  <div class="table-container">
+    <table id="matrixTable">
+      <thead>
+        <tr>
+          <th>Proces / Obszar</th>
+          <th class="criterion">
+            <div class="criterion-header">
+              <span class="criterion-name">Powtarzalność</span>
+              <span class="criterion-hint">1=unikalne, 5=identyczne</span>
+            </div>
+          </th>
+          <th class="criterion">
+            <div class="criterion-header">
+              <span class="criterion-name">Dostępność danych</span>
+              <span class="criterion-hint">1=brak, 5=pełne</span>
+            </div>
+          </th>
+          <th class="criterion">
+            <div class="criterion-header">
+              <span class="criterion-name">Złożoność decyz.</span>
+              <span class="criterion-hint">1=bardzo złożona, 5=prosta</span>
+            </div>
+          </th>
+          <th class="criterion">
+            <div class="criterion-header">
+              <span class="criterion-name">Wolumen</span>
+              <span class="criterion-hint">1=mały, 5=masowy</span>
+            </div>
+          </th>
+          <th class="criterion">
+            <div class="criterion-header">
+              <span class="criterion-name">Koszt błędu</span>
+              <span class="criterion-hint">1=niski, 5=krytyczny</span>
+            </div>
+          </th>
+          <th>Wynik</th>
+          <th>Rekomendacja</th>
+        </tr>
+      </thead>
+      <tbody id="processRows">
+        <!-- Rows inserted by JS -->
+      </tbody>
+    </table>
+  </div>
+  <button class="add-row-btn" onclick="addRow()">+ Dodaj proces</button>
+
+  <div class="scoring-guide">
+    <h3>Przewodnik oceniania</h3>
+    <div class="guide-grid">
+      <div class="guide-item">
+        <div class="guide-criterion">Powtarzalność</div>
+        <div class="guide-scale">
+          <div class="guide-scale-item"><strong>1</strong> – każde wykonanie inne</div>
+          <div class="guide-scale-item"><strong>2</strong> – dużo wyjątków</div>
+          <div class="guide-scale-item"><strong>3</strong> – umiarkowane różnice</div>
+          <div class="guide-scale-item"><strong>4</strong> – głównie powtarzalne</div>
+          <div class="guide-scale-item"><strong>5</strong> – w pełni ustandaryzowane</div>
+        </div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-criterion">Dostępność danych</div>
+        <div class="guide-scale">
+          <div class="guide-scale-item"><strong>1</strong> – brak danych cyfrowych</div>
+          <div class="guide-scale-item"><strong>2</strong> – dane fragmentaryczne</div>
+          <div class="guide-scale-item"><strong>3</strong> – częściowo dostępne</div>
+          <div class="guide-scale-item"><strong>4</strong> – większość dostępna</div>
+          <div class="guide-scale-item"><strong>5</strong> – pełne, czyste dane</div>
+        </div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-criterion">Złożoność decyz. (odwrócona)</div>
+        <div class="guide-scale">
+          <div class="guide-scale-item"><strong>1</strong> – wymaga eksperta</div>
+          <div class="guide-scale-item"><strong>2</strong> – złożone reguły</div>
+          <div class="guide-scale-item"><strong>3</strong> – umiarkowane</div>
+          <div class="guide-scale-item"><strong>4</strong> – proste reguły</div>
+          <div class="guide-scale-item"><strong>5</strong> – jednoznaczne</div>
+        </div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-criterion">Wolumen</div>
+        <div class="guide-scale">
+          <div class="guide-scale-item"><strong>1</strong> – kilka razy/rok</div>
+          <div class="guide-scale-item"><strong>2</strong> – kilka razy/miesiąc</div>
+          <div class="guide-scale-item"><strong>3</strong> – kilka razy/tydzień</div>
+          <div class="guide-scale-item"><strong>4</strong> – codziennie wiele</div>
+          <div class="guide-scale-item"><strong>5</strong> – setki/tysiące dziennie</div>
+        </div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-criterion">Koszt błędu (odwrócony)</div>
+        <div class="guide-scale">
+          <div class="guide-scale-item"><strong>1</strong> – błąd = katastrofa</div>
+          <div class="guide-scale-item"><strong>2</strong> – duże konsekwencje</div>
+          <div class="guide-scale-item"><strong>3</strong> – umiarkowane</div>
+          <div class="guide-scale-item"><strong>4</strong> – łatwa korekta</div>
+          <div class="guide-scale-item"><strong>5</strong> – błąd bez konsekwencji</div>
+        </div>
+      </div>
+    </div>
+    <div class="threshold-guide">
+      <strong style="font-size:0.78rem;color:#1a1a2e;margin-right:4px;">Progi rekomendacji:</strong>
+      <div class="threshold-item"><span class="threshold-badge rec-postpone">Odłóż</span> 5–9 pkt</div>
+      <div class="threshold-item"><span class="threshold-badge rec-consider">Rozważ</span> 10–14 pkt</div>
+      <div class="threshold-item"><span class="threshold-badge rec-pilot">Pilot AI</span> 15–19 pkt</div>
+      <div class="threshold-item"><span class="threshold-badge rec-priority">Priorytet!</span> 20–25 pkt</div>
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  03_matryca_automatyzacji.html · AI dla Kadry Projektowej · Narzędzie warsztatowe
+</footer>
+
+<script>
+const defaultProcesses = [
+  { name: 'Przetwarzanie faktur kosztowych', dept: 'Finanse / Księgowość' },
+  { name: 'Screening CV kandydatów', dept: 'HR / Rekrutacja' },
+  { name: 'Obsługa zapytań klientów (e-mail)', dept: 'Obsługa Klienta' },
+  { name: 'Generowanie raportów sprzedażowych', dept: 'Sprzedaż / BI' },
+  { name: 'Planowanie harmonogramu dostaw', dept: 'Logistyka / Supply Chain' },
+  { name: 'Przegląd i klasyfikacja zgłoszeń IT', dept: 'IT / Helpdesk' },
+  { name: 'Tworzenie ofert handlowych', dept: 'Sprzedaż / Pre-Sales' },
+  { name: 'Kontrola jakości dokumentacji', dept: 'Compliance / Jakość' },
+];
+
+let rowData = defaultProcesses.map(p => ({
+  name: p.name, dept: p.dept,
+  scores: [0, 0, 0, 0, 0]
+}));
+
+function renderTable() {
+  const tbody = document.getElementById('processRows');
+  tbody.innerHTML = '';
+  rowData.forEach((row, rowIdx) => {
+    const tr = document.createElement('tr');
+    // Process name cell
+    const nameTd = document.createElement('td');
+    nameTd.innerHTML = `<div class="process-name" contenteditable="true" onblur="updateName(${rowIdx},this)">${row.name}</div><div class="process-dept" contenteditable="true" onblur="updateDept(${rowIdx},this)">${row.dept}</div>`;
+    tr.appendChild(nameTd);
+
+    // 5 criterion cells
+    for (let c = 0; c < 5; c++) {
+      const td = document.createElement('td');
+      const group = document.createElement('div');
+      group.className = 'rating-group';
+      for (let v = 1; v <= 5; v++) {
+        const btn = document.createElement('button');
+        btn.className = 'rating-btn' + (row.scores[c] === v ? ` active-${v}` : '');
+        btn.textContent = v;
+        btn.onclick = () => { rowData[rowIdx].scores[c] = v; renderTable(); };
+        group.appendChild(btn);
+      }
+      td.appendChild(group);
+      tr.appendChild(td);
+    }
+
+    // Score cell
+    const total = row.scores.reduce((a, b) => a + b, 0);
+    const scoreTd = document.createElement('td');
+    let scoreClass = 'score-low';
+    if (total >= 20) scoreClass = 'score-very-high';
+    else if (total >= 15) scoreClass = 'score-high';
+    else if (total >= 10) scoreClass = 'score-med';
+    scoreTd.innerHTML = `<span class="score-cell ${scoreClass}">${total > 0 ? total : '–'}</span>`;
+    tr.appendChild(scoreTd);
+
+    // Recommendation cell
+    const recTd = document.createElement('td');
+    let recClass = '', recText = '–';
+    if (total >= 20) { recClass = 'rec-priority'; recText = 'Priorytet!'; }
+    else if (total >= 15) { recClass = 'rec-pilot'; recText = 'Pilot AI'; }
+    else if (total >= 10) { recClass = 'rec-consider'; recText = 'Rozważ'; }
+    else if (total > 0) { recClass = 'rec-postpone'; recText = 'Odłóż'; }
+    recTd.innerHTML = total > 0 ? `<span class="rec-cell ${recClass}">${recText}</span>` : '–';
+    tr.appendChild(recTd);
+
+    tbody.appendChild(tr);
+  });
+}
+
+function updateName(idx, el) { rowData[idx].name = el.textContent.trim(); }
+function updateDept(idx, el) { rowData[idx].dept = el.textContent.trim(); }
+
+function addRow() {
+  rowData.push({ name: 'Nowy proces', dept: 'Dział', scores: [0,0,0,0,0] });
+  renderTable();
+}
+
+renderTable();
+</script>
+</body>
+</html>

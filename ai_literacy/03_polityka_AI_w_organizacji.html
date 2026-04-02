@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Polityka AI w organizacji – 5 zasad</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 16px; }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  .page {
+    max-width: 900px;
+    margin: 0 auto 24px;
+    background: white;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  /* ===== WARIANT A: 5 ZASAD ===== */
+  .variant-a header {
+    background: linear-gradient(135deg, #0f3460, #16213e);
+    color: white;
+    padding: 22px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .variant-a header h1 { font-size: 1.3rem; font-weight: 800; }
+  .variant-a header .sub { font-size: 0.75rem; opacity: 0.6; margin-top: 3px; }
+  .variant-badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0;
+  }
+  .rule {
+    padding: 22px 24px;
+    border-right: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .rule:nth-child(2n) { border-right: none; }
+  .rule.rule-wide {
+    grid-column: 1 / -1;
+    border-right: none;
+    border-bottom: none;
+    background: #f9f9fb;
+  }
+  .rule-num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 900;
+    flex-shrink: 0;
+    color: white;
+  }
+  .n1 { background: #0f3460; }
+  .n2 { background: #1a7a44; }
+  .n3 { background: #b07a00; }
+  .n4 { background: #a02020; }
+  .n5 { background: #6a1a9a; }
+
+  .rule-body {}
+  .rule-title { font-size: 1rem; font-weight: 800; color: #1a1a2e; margin-bottom: 5px; }
+  .rule-desc { font-size: 0.83rem; color: #444; line-height: 1.6; }
+  .rule-examples {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .rule-ex {
+    font-size: 0.75rem;
+    color: #777;
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .rule-ex::before { content: "→"; flex-shrink: 0; color: #bbb; }
+
+  .pledge-box {
+    margin: 0;
+    padding: 18px 32px;
+    background: #0f3460;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .pledge-icon { font-size: 2rem; flex-shrink: 0; }
+  .pledge-text { font-size: 0.88rem; line-height: 1.6; }
+  .pledge-text strong { display: block; font-size: 1rem; margin-bottom: 4px; }
+
+  /* ===== WARIANT B: SZKIELET POLITYKI ===== */
+  .variant-b header {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    padding: 22px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .variant-b header h1 { font-size: 1.25rem; font-weight: 800; }
+  .variant-b header .sub { font-size: 0.75rem; opacity: 0.6; margin-top: 3px; }
+
+  .skeleton-body { padding: 20px 32px; }
+  .section-block { margin-bottom: 20px; }
+  .section-num {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #aaa;
+    margin-bottom: 4px;
+  }
+  .section-title-b {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #2c3e50;
+    border-left: 4px solid #2c3e50;
+    padding-left: 10px;
+    margin-bottom: 10px;
+  }
+  .field-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    align-items: flex-start;
+  }
+  .field-label-b {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #666;
+    width: 160px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .field-input {
+    flex: 1;
+    border: none;
+    border-bottom: 1.5px dashed #ccc;
+    font-size: 0.83rem;
+    color: #333;
+    padding: 2px 4px;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+  }
+  .field-input:focus { border-color: #2c3e50; }
+  .hint-row {
+    background: #f8f9fa;
+    border-left: 3px solid #e0e0e0;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    color: #888;
+    font-style: italic;
+    margin: 6px 0 10px 170px;
+    border-radius: 0 4px 4px 0;
+  }
+  .b-divider { border: none; border-top: 1px solid #eee; margin: 16px 0; }
+
+  .meta-row-b {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 14px 32px;
+    background: #f5f5f5;
+    border-top: 1px solid #e8e8e8;
+  }
+  .meta-b { }
+  .meta-b label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #999; display: block; margin-bottom: 3px; }
+  .meta-b input { width: 100%; border: none; border-bottom: 1.5px solid #ccc; font-size: 0.85rem; padding: 2px 0; outline: none; background: transparent; }
+</style>
+</head>
+<body>
+
+<!-- ===== WARIANT A: 5 ZASAD ===== -->
+<div class="page variant-a">
+  <header>
+    <div>
+      <h1>5 zasad korzystania z AI w naszej organizacji</h1>
+      <div class="sub">AI Literacy · Polityka AI — wersja przystępna · Do wywieszenia na ścianie lub ekranie</div>
+    </div>
+    <div class="variant-badge">Wariant A · Zasady</div>
+  </header>
+
+  <div class="rules-grid">
+
+    <div class="rule">
+      <div class="rule-num n1">1</div>
+      <div class="rule-body">
+        <div class="rule-title">AI wspiera — ty decydujesz</div>
+        <div class="rule-desc">Narzędzia AI są asystentem, nie decydentem. Każda decyzja biznesowa, prawna lub dotycząca człowieka musi mieć właściciela po stronie ludzkiej. AI dostarcza propozycji — ty zatwierdzasz.</div>
+        <div class="rule-examples">
+          <div class="rule-ex">Raport napisany przez AI → przeczytaj, zatwierdź, podpisz się własnym nazwiskiem</div>
+          <div class="rule-ex">AI rekomenduje kandydata → finalna decyzja należy do rekrutera i menedżera</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num n2">2</div>
+      <div class="rule-body">
+        <div class="rule-title">Chroń dane — używaj karty TAK/NIE/ZAPYTAJ</div>
+        <div class="rule-desc">Dane osobowe, poufne i objęte NDA nie trafiają do zewnętrznych narzędzi AI bez weryfikacji i podstawy prawnej. Jeśli masz wątpliwości — skonsultuj z działem compliance lub przełożonym.</div>
+        <div class="rule-examples">
+          <div class="rule-ex">Zewnętrzne ChatGPT / Copilot — nie wklejaj danych klientów ani wyników finansowych</div>
+          <div class="rule-ex">Firmowe narzędzia AI (z umową DPA) — sprawdź dopuszczalny zakres u działu IT</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num n3">3</div>
+      <div class="rule-body">
+        <div class="rule-title">Weryfikuj wyniki — AI się myli</div>
+        <div class="rule-desc">Modele językowe mogą generować fałszywe informacje, nieaktualne dane lub błędne obliczenia — z pełną pewnością siebie. Traktuj każdy wynik AI jak projekt do weryfikacji, nie gotową odpowiedź.</div>
+        <div class="rule-examples">
+          <div class="rule-ex">Sprawdzaj cytaty, daty i liczby zanim wyślesz je dalej</div>
+          <div class="rule-ex">Przy istotnych sprawach sięgaj do pierwotnych źródeł</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num n4">4</div>
+      <div class="rule-body">
+        <div class="rule-title">Bądź transparentny wobec odbiorców</div>
+        <div class="rule-desc">Jeśli wysyłasz treść istotnie napisaną lub przetworzoną przez AI — poinformuj odbiorcę tam, gdzie ma to znaczenie (klient, partner, przełożony). Nie ukrywaj udziału AI w pracy.</div>
+        <div class="rule-examples">
+          <div class="rule-ex">Raport dla klienta wygenerowany przez AI → oznacz lub poinformuj zgodnie z zasadami firmy</div>
+          <div class="rule-ex">AI pomogła w redakcji e-maila → nie ma obowiązku informowania w codziennej korespondencji</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule rule-wide">
+      <div class="rule-num n5">5</div>
+      <div class="rule-body">
+        <div class="rule-title">Zgłaszaj problemy — budujemy kulturę odpowiedzialnego AI razem</div>
+        <div class="rule-desc">Jeśli natkniesz się na wynik AI, który jest dyskryminujący, błędny lub naruszający prywatność — zgłoś to. Twoja obserwacja pomaga organizacji uczyć się i poprawiać procesy. Nie ma złych pytań — jest tylko brak pytania.</div>
+        <div class="rule-examples">
+          <div class="rule-ex">Model wygenerował treść z uprzedzeniem lub stereotypem → zgłoś do [punkt kontaktowy]</div>
+          <div class="rule-ex">AI podała dane, które wyglądają nieprawdziwie, a mogą trafić do klienta → zatrzymaj i sprawdź</div>
+          <div class="rule-ex">Nie wiesz, czy dane możesz wpisać do narzędzia AI → zapytaj, nie zgaduj</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pledge-box">
+    <div class="pledge-icon">🤝</div>
+    <div class="pledge-text">
+      <strong>Nasza organizacja korzysta z AI odpowiedzialnie.</strong>
+      Narzędzia AI pomagają nam pracować sprawniej — ale to ludzie stoją za każdą decyzją, każdą komunikacją i każdym efektem naszej pracy. Używamy AI jako narzędzia, nie jako zastępstwa dla myślenia.
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== WARIANT B: SZKIELET POLITYKI ===== -->
+<div class="page variant-b">
+  <header>
+    <div>
+      <h1>Szkielet polityki AI — do wypełnienia przez organizację</h1>
+      <div class="sub">AI Literacy · Wariant dla firm bez formalnej polityki AI · Uzupełnij z działem prawnym / HR / IT</div>
+    </div>
+    <div class="variant-badge" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);padding:4px 12px;border-radius:16px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:white;">Wariant B · Szkielet</div>
+  </header>
+
+  <div class="skeleton-body">
+
+    <div class="section-block">
+      <div class="section-num">Sekcja 1</div>
+      <div class="section-title-b">Cel i zakres polityki</div>
+      <div class="field-row">
+        <div class="field-label-b">Cel dokumentu</div>
+        <input class="field-input" type="text" placeholder="np. Regulacja korzystania z narzędzi AI przez pracowników w codziennej pracy...">
+      </div>
+      <div class="field-row">
+        <div class="field-label-b">Kogo obowiązuje</div>
+        <input class="field-input" type="text" placeholder="np. Wszyscy pracownicy / wybrane działy / osoby z dostępem do danych klientów">
+      </div>
+      <div class="hint-row">Wskazówka: Im szerszy zakres, tym łatwiej zapewnić spójność. Zacznij od całej organizacji.</div>
+    </div>
+
+    <hr class="b-divider">
+
+    <div class="section-block">
+      <div class="section-num">Sekcja 2</div>
+      <div class="section-title-b">Dozwolone narzędzia AI</div>
+      <div class="field-row">
+        <div class="field-label-b">Narzędzia zatwierdzone</div>
+        <input class="field-input" type="text" placeholder="np. Microsoft Copilot (licencja enterprise), ChatGPT Teams, [inne]">
+      </div>
+      <div class="field-row">
+        <div class="field-label-b">Narzędzia zabronione</div>
+        <input class="field-input" type="text" placeholder="np. Darmowe wersje narzędzi AI bez umowy DPA">
+      </div>
+      <div class="field-row">
+        <div class="field-label-b">Narzędzia wymagające zgody</div>
+        <input class="field-input" type="text" placeholder="np. Nowe narzędzia AI — wymagają akceptacji działu IT przed użyciem">
+      </div>
+      <div class="hint-row">Wskazówka: Białą listę łatwiej egzekwować niż czarną. Zadbaj o umowy DPA z dostawcami.</div>
+    </div>
+
+    <hr class="b-divider">
+
+    <div class="section-block">
+      <div class="section-num">Sekcja 3</div>
+      <div class="section-title-b">Zasady ochrony danych</div>
+      <div class="field-row">
+        <div class="field-label-b">Dane zakazane w AI</div>
+        <input class="field-input" type="text" placeholder="np. Dane osobowe, tajemnica handlowa, dane finansowe niepubliczne, dane objęte NDA">
+      </div>
+      <div class="field-row">
+        <div class="field-label-b">Dane dopuszczalne</div>
+        <input class="field-input" type="text" placeholder="np. Treści publiczne, anonimowe scenariusze, dane zagregowane bez identyfikatorów">
+      </div>
+      <div class="hint-row">Wskazówka: Odwołaj się do istniejącej klasyfikacji danych w organizacji. Nie duplikuj — odsyłaj.</div>
+    </div>
+
+    <hr class="b-divider">
+
+    <div class="section-block">
+      <div class="section-num">Sekcja 4</div>
+      <div class="section-title-b">Odpowiedzialność i weryfikacja</div>
+      <div class="field-row">
+        <div class="field-label-b">Kto odpowiada za wynik AI</div>
+        <input class="field-input" type="text" placeholder="np. Pracownik, który użył AI i zatwierdził wynik — on podpisuje się pod treścią">
+      </div>
+      <div class="field-row">
+        <div class="field-label-b">Obowiązek weryfikacji</div>
+        <input class="field-input" type="text" placeholder="np. Treści zewnętrzne i decyzje dotyczące klientów wymagają weryfikacji przez człowieka">
+      </div>
+      <div class="hint-row">Wskazówka: Zasada „human in the loop" musi być zrozumiała i konkretna dla każdej roli.</div>
+    </div>
+
+    <hr class="b-divider">
+
+    <div class="section-block">
+      <div class="section-num">Sekcja 5</div>
+      <div class="section-title-b">Punkt kontaktowy i aktualizacje</div>
+      <div class="field-row">
+        <div class="field-label-b">Pytania i zgłoszenia</div>
+        <input class="field-input" type="text" placeholder="np. ai-policy@firma.pl / Dział IT / Compliance Officer">
+      </div>
+      <div class="field-row">
+        <div class="field-label-b">Data ostatniej aktualizacji</div>
+        <input class="field-input" type="text" placeholder="np. [data] — zalecany przegląd co 6 miesięcy">
+      </div>
+      <div class="hint-row">Wskazówka: Polityka AI dezaktualizuje się szybko. Zaplanuj cykliczne przeglądy.</div>
+    </div>
+
+  </div>
+
+  <div class="meta-row-b">
+    <div class="meta-b"><label>Autor dokumentu</label><input type="text" placeholder="Imię i nazwisko / dział"></div>
+    <div class="meta-b"><label>Zatwierdził</label><input type="text" placeholder="Zarząd / Dyrektor / Compliance"></div>
+    <div class="meta-b"><label>Wersja</label><input type="text" placeholder="v1.0 — [data]"></div>
+  </div>
+</div>
+
+</body>
+</html>

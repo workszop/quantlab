@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Mapa Trendów AI – AI dla Kadry Projektowej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 24px 36px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.5rem; font-weight: 700; }
+.page-header p { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.legend {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.legend-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+}
+
+.zones-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.zone {
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.zone-mature { background: #e8f5e9; border-right: 4px solid #c8e6c9; }
+.zone-experimental { background: #fff8e1; border-right: 4px solid #ffe082; }
+.zone-hype { background: #fce4ec; }
+
+.zone-header {
+  text-align: center;
+  padding: 12px 10px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+}
+.zone-mature .zone-header { background: #27ae60; color: white; }
+.zone-experimental .zone-header { background: #e67e22; color: white; }
+.zone-hype .zone-header { background: #c0392b; color: white; }
+
+.zone-title { font-size: 1.05rem; font-weight: 700; }
+.zone-subtitle { font-size: 0.75rem; opacity: 0.85; margin-top: 3px; }
+
+.tech-item {
+  background: white;
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tech-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.tech-name { font-size: 0.88rem; font-weight: 700; color: #1a1a2e; flex: 1; }
+.maturity-dots { display: flex; gap: 3px; flex-shrink: 0; margin-top: 2px; }
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background: #eee;
+}
+.dot.filled-green { background: #27ae60; border-color: #27ae60; }
+.dot.filled-orange { background: #e67e22; border-color: #e67e22; }
+.dot.filled-red { background: #c0392b; border-color: #c0392b; }
+
+.tech-desc { font-size: 0.76rem; color: #555; line-height: 1.45; }
+.tech-usecase {
+  font-size: 0.72rem;
+  color: #888;
+  font-style: italic;
+  padding-top: 4px;
+  border-top: 1px solid #f0f0f0;
+}
+.usecase-label { font-weight: 700; font-style: normal; color: #aaa; }
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.75rem;
+  color: #bbb;
+  padding: 12px;
+}
+
+@media print {
+  body { background: white; padding: 8px; }
+  .page-header { border-radius: 6px; padding: 14px 20px; margin-bottom: 12px; }
+  .zones-container { box-shadow: none; border: 1px solid #ddd; }
+  .tech-item { box-shadow: none; border: 1px solid #eee; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Mapa Trendów AI</h1>
+    <p>Przegląd dojrzałości technologii AI – co wdrażać teraz, co testować, na co poczekać</p>
+  </div>
+  <div class="module-tag">Moduł 1 · AI dla Kadry Projektowej</div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div> Dojrzałe – gotowe do wdrożenia</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#e67e22"></div> Eksperymentalne – testuj ostrożnie</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#c0392b"></div> Hype – poczekaj na dojrzałość</div>
+  <div class="legend-item" style="margin-left:16px;color:#888;">●●●●● = dojrzałość technologiczna</div>
+</div>
+
+<div class="zones-container">
+
+  <!-- ZONE 1: Dojrzałe -->
+  <div class="zone zone-mature">
+    <div class="zone-header">
+      <div class="zone-title">Dojrzałe</div>
+      <div class="zone-subtitle">Gotowe do wdrożenia produkcyjnego</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">Duże Modele Językowe (LLM)</div>
+        <div class="maturity-dots">
+          <div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div>
+        </div>
+      </div>
+      <div class="tech-desc">GPT-4, Claude, Gemini – modele generowania i rozumienia języka naturalnego dostępne przez API. Sprawdzone w produkcji w tysiącach firm.</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Generowanie treści, podsumowania dokumentów, asystent pracownika</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">Computer Vision</div>
+        <div class="maturity-dots">
+          <div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Rozpoznawanie obrazów, detekcja obiektów, OCR. Dojrzałe narzędzia chmurowe (AWS Rekognition, Azure Vision, Google Vision AI).</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Kontrola jakości na linii produkcyjnej, automatyzacja przetwarzania dokumentów</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">RPA + AI (Intelligent Automation)</div>
+        <div class="maturity-dots">
+          <div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Robotic Process Automation wzbogacone o AI (NLP, OCR, ML). UiPath, Automation Anywhere, Power Automate z AI Builder. Sprawdzone w środowiskach korporacyjnych.</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Automatyczne przetwarzanie faktur, obsługa formularzy, migracje danych</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">ML Predykcyjny (klasyczny)</div>
+        <div class="maturity-dots">
+          <div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Modele regresji, klasyfikacji, prognozowania szeregów czasowych. Dojrzałe ekosystemy (scikit-learn, XGBoost, Prophet). Wymaga danych historycznych.</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Prognoza sprzedaży, wykrywanie fraudów, churn prediction</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">RAG (Retrieval-Augmented Generation)</div>
+        <div class="maturity-dots">
+          <div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">LLM z dostępem do własnej bazy wiedzy firmy. Odpowiedzi oparte na aktualnych dokumentach, nie tylko na danych treningowych. Wdrożenia w produkcji od 2023.</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Chatbot oparty na dokumentacji firmy, asystent prawny, wewnętrzna baza Q&A</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">NLP / Analiza tekstu</div>
+        <div class="maturity-dots">
+          <div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div><div class="dot filled-green"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Analiza sentymentu, klasyfikacja tekstu, ekstrakcja encji (NER), tłumaczenia maszynowe. Dojrzałe API i biblioteki open-source (spaCy, HuggingFace).</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Analiza opinii klientów, klasyfikacja zgłoszeń support, ekstrakcja danych z dokumentów</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 2: Eksperymentalne -->
+  <div class="zone zone-experimental">
+    <div class="zone-header">
+      <div class="zone-title">Eksperymentalne</div>
+      <div class="zone-subtitle">Testuj pilotażowo, monitoruj ryzyko</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">AI Agenty (Autonomous Agents)</div>
+        <div class="maturity-dots">
+          <div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">LLM działające samodzielnie – planowanie, używanie narzędzi, wykonywanie wieloetapowych zadań. Rosnące możliwości, ale wciąż nieprzewidywalne w złożonych scenariuszach.</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Automatyczny research konkurencji, wieloetapowa analiza danych, generowanie raportów</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">Multimodalne AI</div>
+        <div class="maturity-dots">
+          <div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Modele łączące tekst, obraz, audio, wideo (GPT-4o, Gemini Ultra). Rosnące możliwości w analizie dokumentów z grafiką i wideo. Kosztowne w skali.</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Analiza raportów PDF z wykresami, inspekcja wideo, automatyczne podpisywanie zdjęć</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">Generatywne AI do treści (GenAI)</div>
+        <div class="maturity-dots">
+          <div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Generowanie obrazów (DALL-E, Midjourney, Stable Diffusion), audio, wideo (Sora). Technicznie dojrzałe, ale ryzyka prawne (IP, deepfake) wciąż nieuregulowane.</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Materiały marketingowe, prototypy wizualne, wideo szkoleniowe</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">Fine-tuning modeli językowych</div>
+        <div class="maturity-dots">
+          <div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Dostrajanie LLM na własnych danych firmy. Wysoki potencjał dla specjalistycznych domen (prawo, medycyna, technika). Wymaga infrastruktury i danych wysokiej jakości.</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Dedykowany model prawniczy, asystent techniczny branży specjalistycznej</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">AI w optymalizacji procesów (RL)</div>
+        <div class="maturity-dots">
+          <div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Reinforcement Learning do optymalizacji decyzji w czasie rzeczywistym (pricing, routing, scheduling). Duże wymagania obliczeniowe i długi czas treningu.</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Dynamiczne zarządzanie cenami, optymalizacja łańcucha dostaw</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">Voice AI / Synteza mowy</div>
+        <div class="maturity-dots">
+          <div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot filled-orange"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Konwersacyjne interfejsy głosowe z AI. Technicznie zaawansowane (ElevenLabs, Azure Speech), ale integracja z systemami firmowymi wciąż złożona.</div>
+      <div class="tech-usecase"><span class="usecase-label">Przykład:</span> Voice bot infolinii, transkrypcja i analiza rozmów, asystent w terenie</div>
+    </div>
+
+  </div>
+
+  <!-- ZONE 3: Hype -->
+  <div class="zone zone-hype">
+    <div class="zone-header">
+      <div class="zone-title">Hype – Poczekaj</div>
+      <div class="zone-subtitle">Monitoruj, nie inwestuj produkcyjnie</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">AGI (Sztuczna Ogólna Inteligencja)</div>
+        <div class="maturity-dots">
+          <div class="dot filled-red"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">AI dorównująca lub przewyższająca ludzką inteligencję we wszystkich dziedzinach. Intensywne debaty akademickie, brak konsensusu kiedy/czy możliwe. Nie inwestuj w "plany na AGI".</div>
+      <div class="tech-usecase"><span class="usecase-label">Status:</span> Spekulatywna, horyzont 5–20+ lat (jeśli w ogóle)</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">Quantum AI</div>
+        <div class="maturity-dots">
+          <div class="dot filled-red"></div><div class="dot filled-red"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Komputery kwantowe przyspieszające algorytmy ML. Fizycznie możliwe, ale obecne maszyny kwantowe (NISQ) nie oferują praktycznej przewagi nad klasycznym AI dla biznesu.</div>
+      <div class="tech-usecase"><span class="usecase-label">Status:</span> Badania laboratoryjne, horyzont zastosowań biznesowych 5–10 lat</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">AI w metaverse / Web3</div>
+        <div class="maturity-dots">
+          <div class="dot filled-red"></div><div class="dot filled-red"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Autonomiczne agenty AI w wirtualnych światach, AI generujące NFT, smart kontrakty z AI. Bańka spekulacyjna znacznie przewyższa realne zastosowania biznesowe.</div>
+      <div class="tech-usecase"><span class="usecase-label">Status:</span> Niszowe eksperymenty, niski priorytet dla większości organizacji</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">Neuromorficzne układy AI</div>
+        <div class="maturity-dots">
+          <div class="dot filled-red"></div><div class="dot filled-red"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Chipy AI naśladujące biologiczne neurony (Intel Loihi). Obiecujące pod kątem efektywności energetycznej, ale ekosystem narzędzi programistycznych jest wciąż bardzo niedojrzały.</div>
+      <div class="tech-usecase"><span class="usecase-label">Status:</span> Prototypy badawcze, brak oferty komercyjnej</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">AI "pełna autonomia" w procesach krytycznych</div>
+        <div class="maturity-dots">
+          <div class="dot filled-red"></div><div class="dot filled-red"></div><div class="dot filled-red"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Pełna automatyzacja decyzji medycznych, sądowych czy finansowych bez nadzoru człowieka. Regulacje (EU AI Act) i ryzyko halucynacji uniemożliwiają wdrożenia w krótkim horyzoncie.</div>
+      <div class="tech-usecase"><span class="usecase-label">Status:</span> Zablokowane regulacyjnie i etycznie w horyzoncie 3–5 lat</div>
+    </div>
+
+    <div class="tech-item">
+      <div class="tech-top">
+        <div class="tech-name">Fizyczne roboty AI (humanoidalne)</div>
+        <div class="maturity-dots">
+          <div class="dot filled-red"></div><div class="dot filled-red"></div><div class="dot filled-red"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div><div class="dot" style="background:#ddd;border-color:#ddd"></div>
+        </div>
+      </div>
+      <div class="tech-desc">Optimus (Tesla), Atlas (Boston Dynamics) – humanoidalne roboty z AI. Spektakularne demo, ale niezawodność w nieustrukturyzowanych środowiskach wciąż daleka od zastosowań przemysłowych.</div>
+      <div class="tech-usecase"><span class="usecase-label">Status:</span> Piloty w kontrolowanych środowiskach, masowe wdrożenia 5–10+ lat</div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  02_mapa_trendow_AI.html · AI dla Kadry Projektowej · Ocena dojrzałości: stan na Q1 2026
+</footer>
+
+</body>
+</html>

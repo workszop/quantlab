@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Szablon inicjatywy AI – Moduł 3</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; page-break-after: always; }
+    .print-note { display: none; }
+  }
+  .print-note {
+    text-align: center;
+    font-size: 0.82rem;
+    color: #888;
+    margin-bottom: 16px;
+  }
+  .page {
+    max-width: 820px;
+    margin: 0 auto 32px;
+    background: white;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.11);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  header {
+    background: #16213e;
+    color: white;
+    padding: 20px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  header h1 { font-size: 1.3rem; font-weight: 700; }
+  header .sub { font-size: 0.8rem; opacity: 0.65; margin-top: 3px; }
+  .initiative-num {
+    background: #e94560;
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .name-row {
+    padding: 16px 28px;
+    background: #f9f9f9;
+    border-bottom: 2px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .name-row label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: #999; white-space: nowrap; }
+  .name-row input {
+    flex: 1;
+    border: none;
+    border-bottom: 2px solid #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 4px 0;
+    outline: none;
+    background: transparent;
+    color: #16213e;
+  }
+  .body { padding: 20px 28px; display: flex; flex-direction: column; gap: 16px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field.full { grid-column: 1 / -1; }
+  .field label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .field label .icon { font-size: 0.9rem; }
+  textarea, input[type=text] {
+    border: 1.5px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    font-family: inherit;
+    color: #333;
+    outline: none;
+    resize: vertical;
+    background: #fafafa;
+    transition: border-color 0.15s;
+  }
+  textarea:focus, input[type=text]:focus {
+    border-color: #16213e;
+    background: white;
+  }
+  textarea { min-height: 72px; }
+  .data-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .data-sub-label {
+    font-size: 0.68rem;
+    color: #aaa;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .risk-row { display: flex; flex-direction: column; gap: 6px; }
+  .risk-item { display: flex; align-items: center; gap: 8px; }
+  .risk-item input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: #16213e; }
+  .risk-item label { font-size: 0.82rem; color: #444; cursor: pointer; }
+  .effort-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .effort-btn {
+    padding: 6px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: white;
+    color: #666;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .effort-btn:hover { border-color: #16213e; color: #16213e; }
+  .footer {
+    padding: 14px 28px;
+    background: #f0f0f0;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #aaa;
+  }
+  .owner-row { display: flex; align-items: center; gap: 12px; }
+  .owner-row label { font-size: 0.72rem; color: #999; text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+  .owner-row input { flex: 1; border: none; border-bottom: 1.5px solid #ccc; font-size: 0.9rem; padding: 2px 0; outline: none; background: transparent; }
+
+  /* JavaScript for effort buttons */
+</style>
+</head>
+<body>
+
+<p class="print-note">Wydrukuj po 1 stronie na każdą inicjatywę (zalecane 2–3 egzemplarze na warsztat) · Moduł 3 · Start z AI</p>
+
+<!-- SZABLON — powiel dla każdej inicjatywy -->
+<div class="page">
+  <header>
+    <div>
+      <h1>Szablon inicjatywy AI</h1>
+      <div class="sub">Moduł 3 · Start z AI · Dokument decyzyjny po warsztacie</div>
+    </div>
+    <div class="initiative-num">1</div>
+  </header>
+
+  <div class="name-row">
+    <label>Nazwa inicjatywy</label>
+    <input type="text" placeholder="np. Automatyczna klasyfikacja zgłoszeń serwisowych">
+  </div>
+
+  <div class="body">
+    <div class="row">
+      <div class="field">
+        <label><span class="icon">🎯</span> Cel biznesowy</label>
+        <textarea placeholder="Jaki problem rozwiązujemy? Jaki efekt chcemy osiągnąć? Połącz z celem z Modułu 1."></textarea>
+      </div>
+      <div class="field">
+        <label><span class="icon">📐</span> Zakres inicjatywy</label>
+        <textarea placeholder="Co jest w zakresie, a co nie? Jakie procesy / działy / systemy są objęte?"></textarea>
+      </div>
+    </div>
+
+    <div class="field full">
+      <label><span class="icon">🗄️</span> Wymagane dane</label>
+      <div class="data-fields">
+        <div>
+          <div class="data-sub-label">Jakie dane są potrzebne?</div>
+          <textarea placeholder="np. Historia zgłoszeń z ostatnich 2 lat z etykietami kategorii"></textarea>
+        </div>
+        <div>
+          <div class="data-sub-label">Czy są dostępne? Format?</div>
+          <textarea placeholder="np. Tak — eksport CSV z systemu Jira. Częściowo — brak etykiet przed 2022."></textarea>
+        </div>
+        <div>
+          <div class="data-sub-label">Kwestie prawne / RODO</div>
+          <textarea placeholder="np. Dane nie zawierają PII. Wymaga zgody prawnika w zakresie retencji."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label><span class="icon">⚠️</span> Potencjalne ryzyka</label>
+        <div class="risk-row">
+          <div class="risk-item">
+            <input type="checkbox" id="r1a">
+            <label for="r1a">Brak lub niska jakość danych</label>
+          </div>
+          <div class="risk-item">
+            <input type="checkbox" id="r1b">
+            <label for="r1b">Opór pracowników / zmiana procesów</label>
+          </div>
+          <div class="risk-item">
+            <input type="checkbox" id="r1c">
+            <label for="r1c">Kwestie compliance / RODO / prawne</label>
+          </div>
+          <div class="risk-item">
+            <input type="checkbox" id="r1d">
+            <label for="r1d">Zależność od systemów zewnętrznych</label>
+          </div>
+          <div class="risk-item">
+            <input type="checkbox" id="r1e">
+            <label for="r1e">Niewystarczające zasoby IT / budżet</label>
+          </div>
+          <textarea placeholder="Inne ryzyka..." style="min-height:48px;margin-top:4px;"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <label><span class="icon">⚡</span> Szacowany wysiłek wdrożenia</label>
+        <div style="margin-bottom: 10px;">
+          <div class="data-sub-label">Czas</div>
+          <div class="effort-row">
+            <div class="effort-btn">1–4 tyg.</div>
+            <div class="effort-btn">1–2 mies.</div>
+            <div class="effort-btn">2–4 mies.</div>
+            <div class="effort-btn">4–6 mies.</div>
+            <div class="effort-btn">> 6 mies.</div>
+          </div>
+        </div>
+        <div>
+          <div class="data-sub-label">Zasoby / Koszt orientacyjny</div>
+          <textarea placeholder="np. 1 data scientist + 1 programista backend przez 2 mies. Budżet: ~40k PLN."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="owner-row">
+      <label>Właściciel inicjatywy</label>
+      <input type="text" placeholder="Imię i nazwisko / stanowisko">
+    </div>
+    <span>Data: ___ / ___ / _______</span>
+  </div>
+</div>
+
+<!-- Egzemplarz 2 -->
+<div class="page">
+  <header>
+    <div>
+      <h1>Szablon inicjatywy AI</h1>
+      <div class="sub">Moduł 3 · Start z AI · Dokument decyzyjny po warsztacie</div>
+    </div>
+    <div class="initiative-num">2</div>
+  </header>
+  <div class="name-row">
+    <label>Nazwa inicjatywy</label>
+    <input type="text" placeholder="np. Generowanie podsumowań spotkań">
+  </div>
+  <div class="body">
+    <div class="row">
+      <div class="field">
+        <label><span class="icon">🎯</span> Cel biznesowy</label>
+        <textarea placeholder="Jaki problem rozwiązujemy? Jaki efekt chcemy osiągnąć?"></textarea>
+      </div>
+      <div class="field">
+        <label><span class="icon">📐</span> Zakres inicjatywy</label>
+        <textarea placeholder="Co jest w zakresie, a co nie?"></textarea>
+      </div>
+    </div>
+    <div class="field full">
+      <label><span class="icon">🗄️</span> Wymagane dane</label>
+      <div class="data-fields">
+        <div>
+          <div class="data-sub-label">Jakie dane są potrzebne?</div>
+          <textarea placeholder=""></textarea>
+        </div>
+        <div>
+          <div class="data-sub-label">Czy są dostępne? Format?</div>
+          <textarea placeholder=""></textarea>
+        </div>
+        <div>
+          <div class="data-sub-label">Kwestie prawne / RODO</div>
+          <textarea placeholder=""></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label><span class="icon">⚠️</span> Potencjalne ryzyka</label>
+        <div class="risk-row">
+          <div class="risk-item"><input type="checkbox" id="r2a"><label for="r2a">Brak lub niska jakość danych</label></div>
+          <div class="risk-item"><input type="checkbox" id="r2b"><label for="r2b">Opór pracowników / zmiana procesów</label></div>
+          <div class="risk-item"><input type="checkbox" id="r2c"><label for="r2c">Kwestie compliance / RODO / prawne</label></div>
+          <div class="risk-item"><input type="checkbox" id="r2d"><label for="r2d">Zależność od systemów zewnętrznych</label></div>
+          <div class="risk-item"><input type="checkbox" id="r2e"><label for="r2e">Niewystarczające zasoby IT / budżet</label></div>
+          <textarea placeholder="Inne ryzyka..." style="min-height:48px;margin-top:4px;"></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <label><span class="icon">⚡</span> Szacowany wysiłek wdrożenia</label>
+        <div style="margin-bottom: 10px;">
+          <div class="data-sub-label">Czas</div>
+          <div class="effort-row">
+            <div class="effort-btn">1–4 tyg.</div>
+            <div class="effort-btn">1–2 mies.</div>
+            <div class="effort-btn">2–4 mies.</div>
+            <div class="effort-btn">4–6 mies.</div>
+            <div class="effort-btn">> 6 mies.</div>
+          </div>
+        </div>
+        <div>
+          <div class="data-sub-label">Zasoby / Koszt orientacyjny</div>
+          <textarea placeholder="np. 1 data scientist + 1 programista backend przez 2 mies."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="owner-row">
+      <label>Właściciel inicjatywy</label>
+      <input type="text" placeholder="Imię i nazwisko / stanowisko">
+    </div>
+    <span>Data: ___ / ___ / _______</span>
+  </div>
+</div>
+
+<script>
+  // Toggle effort buttons
+  document.querySelectorAll('.effort-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('.effort-row');
+      group.querySelectorAll('.effort-btn').forEach(b => {
+        b.style.background = 'white';
+        b.style.color = '#666';
+        b.style.borderColor = '#e0e0e0';
+      });
+      btn.style.background = '#16213e';
+      btn.style.color = 'white';
+      btn.style.borderColor = '#16213e';
+    });
+  });
+</script>
+</body>
+</html>
