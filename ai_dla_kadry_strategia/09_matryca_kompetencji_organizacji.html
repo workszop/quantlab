@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Matryca Kompetencji AI Organizacji – AI dla Kadry Strategicznej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 24px 36px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.5rem; font-weight: 700; }
+.page-header p { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.main-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+  overflow: hidden;
+  max-width: 1300px;
+  margin: 0 auto 20px;
+}
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  background: #1a1a2e;
+  color: white;
+  padding: 12px 10px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: bottom;
+  white-space: nowrap;
+}
+thead th:first-child { text-align: left; padding-left: 16px; min-width: 200px; }
+thead th.comp-col { min-width: 110px; }
+
+.col-header { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.col-icon { font-size: 1.1rem; }
+.col-name { font-size: 0.72rem; }
+
+tbody tr { border-bottom: 1px solid #f0f0f0; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #f8f9ff; }
+
+td {
+  padding: 9px 8px;
+  vertical-align: middle;
+  text-align: center;
+}
+td:first-child { text-align: left; padding-left: 16px; }
+
+.dept-name {
+  font-size: 0.83rem; font-weight: 600; color: #1a1a2e;
+  border-bottom: 1.5px solid #e0e0e0; outline: none; background: none;
+  width: 100%; padding-bottom: 2px;
+}
+.dept-name:focus { border-bottom-color: #1a1a2e; }
+
+.rating-cell {
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+.rating-cell:hover { transform: scale(1.05); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px; height: 28px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 6px;
+}
+.badge-0 { background: #f3f4f6; color: #9ca3af; border: 2px solid #e5e7eb; }
+.badge-1 { background: #fef3c7; color: #92400e; border: 2px solid #fde68a; }
+.badge-2 { background: #dbeafe; color: #1e40af; border: 2px solid #93c5fd; }
+.badge-3 { background: #d1fae5; color: #065f46; border: 2px solid #6ee7b7; }
+.badge-4 { background: #d1fae5; color: #065f46; border: 2px solid #047857; }
+
+.gap-row { background: #f8fafc; }
+.gap-row td { padding: 8px; border-top: 2px solid #e2e8f0; }
+.gap-label { font-size: 0.72rem; font-weight: 700; color: #64748b; }
+
+.gap-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.gap-bar {
+  height: 8px;
+  border-radius: 4px;
+  transition: width 0.3s;
+  flex: 1;
+  max-width: 60px;
+}
+
+.legend-bar {
+  padding: 14px 20px;
+  background: #fafafa;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.legend-title { font-size: 0.72rem; font-weight: 700; color: #666; }
+.legend-items { display: flex; gap: 12px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.73rem; color: #555; }
+
+.summary-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  padding: 16px 20px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.summary-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; margin-bottom: 12px; }
+.summary-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.summary-item { display: flex; flex-direction: column; gap: 4px; }
+.summary-comp { font-size: 0.72rem; font-weight: 700; color: #1a1a2e; }
+.summary-avg { font-size: 1.1rem; font-weight: 800; }
+.summary-bar-track { height: 6px; background: #f0f0f0; border-radius: 3px; overflow: hidden; }
+.summary-bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.72rem;
+  color: #bbb;
+  padding: 10px;
+}
+
+@media print {
+  body { background: white; padding: 8px; }
+  .page-header { border-radius: 6px; padding: 14px 20px; margin-bottom: 12px; }
+  .main-card, .summary-card { box-shadow: none; border: 1px solid #ddd; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Matryca Kompetencji AI Organizacji</h1>
+    <p>Oceń poziom kompetencji AI w kluczowych obszarach i zidentyfikuj luki do uzupełnienia</p>
+  </div>
+  <div class="module-tag">Moduł 3 · AI dla Kadry Strategicznej</div>
+</div>
+
+<div class="main-card">
+  <div class="table-wrap">
+    <table id="compTable">
+      <thead>
+        <tr>
+          <th>Jednostka / Dział</th>
+          <th class="comp-col"><div class="col-header"><span class="col-icon">📊</span><span class="col-name">Analityka i dane</span></div></th>
+          <th class="comp-col"><div class="col-header"><span class="col-icon">🤖</span><span class="col-name">AI / ML</span></div></th>
+          <th class="comp-col"><div class="col-header"><span class="col-icon">💬</span><span class="col-name">Prompt & GenAI</span></div></th>
+          <th class="comp-col"><div class="col-header"><span class="col-icon">⚙️</span><span class="col-name">Inżynieria / MLOps</span></div></th>
+          <th class="comp-col"><div class="col-header"><span class="col-icon">🔒</span><span class="col-name">AI Governance</span></div></th>
+          <th class="comp-col"><div class="col-header"><span class="col-icon">📈</span><span class="col-name">Zarządzanie zmianą</span></div></th>
+        </tr>
+      </thead>
+      <tbody id="matrixBody">
+      </tbody>
+    </table>
+  </div>
+  <div class="legend-bar">
+    <span class="legend-title">Poziomy:</span>
+    <div class="legend-items">
+      <div class="legend-item"><span class="badge badge-0">0</span> Brak</div>
+      <div class="legend-item"><span class="badge badge-1">1</span> Świadomość</div>
+      <div class="legend-item"><span class="badge badge-2">2</span> Podstawowa wiedza</div>
+      <div class="legend-item"><span class="badge badge-3">3</span> Praktyczne umiejętności</div>
+      <div class="legend-item"><span class="badge badge-4">4</span> Zaawansowane</div>
+    </div>
+    <span style="margin-left:auto;font-size:0.72rem;color:#aaa;">Kliknij komórkę aby zmienić poziom</span>
+  </div>
+</div>
+
+<div class="summary-card">
+  <div class="summary-title">Analiza luk kompetencyjnych organizacji</div>
+  <div class="summary-grid" id="summaryGrid"></div>
+</div>
+
+<footer class="page-footer">
+  09_matryca_kompetencji_organizacji.html · AI dla Kadry Strategicznej · Matryca kompetencji AI organizacji
+</footer>
+
+<script>
+const comps = ['Analityka i dane','AI / ML','Prompt & GenAI','Inżynieria / MLOps','AI Governance','Zarządzanie zmianą'];
+const compColors = ['#3b82f6','#8b5cf6','#0ea5e9','#f59e0b','#e74c3c','#10b981'];
+const badgeLabels = ['Brak','Świad.','Podst.','Prakt.','Zaawan.'];
+const maxLevel = 4;
+
+const defaultDepts = [
+  { name: 'Zarząd / C-level' },
+  { name: 'Kadra średniego szczebla' },
+  { name: 'IT / Technologia' },
+  { name: 'Analityka / BI' },
+  { name: 'Operacje / Front-line' },
+  { name: 'HR / L&D' },
+  { name: 'Prawny / Compliance' },
+  { name: '' },
+  { name: '' },
+];
+
+let data = defaultDepts.map(d => ({ name: d.name, scores: [0,0,0,0,0,0] }));
+
+function getBadgeClass(v) { return `badge badge-${v}`; }
+
+function renderTable() {
+  const tbody = document.getElementById('matrixBody');
+  tbody.innerHTML = '';
+
+  data.forEach((row, ri) => {
+    const tr = document.createElement('tr');
+
+    const td0 = document.createElement('td');
+    td0.innerHTML = `<input class="dept-name" value="${row.name}" placeholder="Nazwa działu / jednostki" onchange="data[${ri}].name=this.value">`;
+    tr.appendChild(td0);
+
+    comps.forEach((comp, ci) => {
+      const td = document.createElement('td');
+      const v = row.scores[ci];
+      td.className = 'rating-cell';
+      td.innerHTML = `<span class="${getBadgeClass(v)}" title="Kliknij aby zmienić">${badgeLabels[v]}</span>`;
+      td.onclick = () => { data[ri].scores[ci] = (data[ri].scores[ci] + 1) % (maxLevel + 1); renderTable(); };
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+
+  // Gap analysis row
+  const gapTr = document.createElement('tr');
+  gapTr.className = 'gap-row';
+  const gapTd0 = document.createElement('td');
+  gapTd0.innerHTML = `<span class="gap-label">Średnia organizacji</span>`;
+  gapTr.appendChild(gapTd0);
+
+  comps.forEach((comp, ci) => {
+    const vals = data.map(r => r.scores[ci]);
+    const nonZero = vals.filter(v => v > 0);
+    const avg = nonZero.length ? (nonZero.reduce((a,b) => a+b, 0) / nonZero.length) : 0;
+    const color = compColors[ci];
+    const td = document.createElement('td');
+    const pct = Math.round(avg / maxLevel * 100);
+    td.innerHTML = `
+      <div class="gap-indicator">
+        <span style="color:${color};font-weight:800;">${avg.toFixed(1)}</span>
+        <div class="gap-bar" style="background:${color};opacity:0.3;width:${pct}%;min-width:4px;"></div>
+      </div>`;
+    gapTr.appendChild(td);
+  });
+  tbody.appendChild(gapTr);
+
+  renderSummary();
+}
+
+function renderSummary() {
+  const grid = document.getElementById('summaryGrid');
+  grid.innerHTML = '';
+  comps.forEach((comp, ci) => {
+    const vals = data.map(r => r.scores[ci]);
+    const advanced = vals.filter(v => v === 4).length;
+    const practical = vals.filter(v => v >= 3).length;
+    const total = data.length;
+    const avg = vals.reduce((a,b) => a+b, 0) / total;
+    const color = compColors[ci];
+    const pct = Math.round(avg / maxLevel * 100);
+
+    const div = document.createElement('div');
+    div.className = 'summary-item';
+    div.innerHTML = `
+      <div class="summary-comp">${comp}</div>
+      <div class="summary-avg" style="color:${color}">${avg.toFixed(1)}</div>
+      <div class="summary-bar-track"><div class="summary-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+      <div style="font-size:0.68rem;color:#aaa;margin-top:2px;">${practical} praktycznych · ${advanced} zaawansowanych</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+renderTable();
+</script>
+</body>
+</html>

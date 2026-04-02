@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Checklist Infrastruktury i Technologii dla AI – AI dla Kadry Strategicznej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 24px 36px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.5rem; font-weight: 700; }
+.page-header p { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.meta-bar {
+  background: white;
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.meta-field { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 160px; }
+.meta-label { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; }
+.meta-input {
+  font-size: 0.88rem; font-weight: 600; color: #1a1a2e;
+  border: none; outline: none; background: transparent;
+  border-bottom: 1.5px solid #e0e0e0; padding-bottom: 2px;
+}
+.meta-input:focus { border-bottom-color: #1a1a2e; }
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.section-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+.section-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.section-icon { font-size: 1.2rem; }
+.section-title { font-size: 0.9rem; font-weight: 700; color: #1a1a2e; }
+.section-count {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #aaa;
+}
+
+.section-s1 .section-header { border-left: 4px solid #3b82f6; }
+.section-s2 .section-header { border-left: 4px solid #8b5cf6; }
+.section-s3 .section-header { border-left: 4px solid #10b981; }
+.section-s4 .section-header { border-left: 4px solid #e74c3c; }
+
+.checklist-items { padding: 4px 0; }
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 9px 16px;
+  border-bottom: 1px solid #f8f8f8;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.checklist-item:last-child { border-bottom: none; }
+.checklist-item:hover { background: #fafafa; }
+
+.check-box {
+  width: 22px; height: 22px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem;
+  transition: all 0.15s;
+  margin-top: 1px;
+  cursor: pointer;
+  user-select: none;
+}
+.state-yes .check-box { background: #22c55e; border-color: #22c55e; color: white; }
+.state-partial .check-box { background: #f59e0b; border-color: #f59e0b; color: white; }
+.state-no .check-box { background: #fee2e2; border-color: #e74c3c; color: #e74c3c; }
+
+.item-content { flex: 1; }
+.item-title { font-size: 0.82rem; font-weight: 600; color: #1a1a2e; margin-bottom: 2px; }
+.item-state-label {
+  font-size: 0.67rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  white-space: nowrap;
+}
+.state-yes .item-state-label { background: #dcfce7; color: #166534; }
+.state-partial .item-state-label { background: #fef3c7; color: #92400e; }
+.state-no .item-state-label { background: #fee2e2; color: #991b1b; }
+.state-none .item-state-label { background: #f3f4f6; color: #6b7280; }
+
+.verdict-section {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  padding: 20px 24px;
+}
+.verdict-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; margin-bottom: 14px; }
+
+.score-bar-wrap { margin-bottom: 16px; }
+.score-bar-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: #aaa; margin-bottom: 6px; }
+.score-bar-track {
+  height: 18px;
+  background: #f3f4f6;
+  border-radius: 9px;
+  overflow: hidden;
+  position: relative;
+}
+.score-bar-fill {
+  height: 100%;
+  border-radius: 9px;
+  transition: width 0.4s ease;
+  display: flex; align-items: center; justify-content: flex-end; padding-right: 8px;
+}
+.score-bar-pct { font-size: 0.7rem; font-weight: 700; color: white; }
+
+.verdict-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+.verdict-badge {
+  flex: 1;
+  min-width: 120px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+.verdict-badge .verdict-name { font-size: 0.95rem; font-weight: 800; }
+.verdict-badge .verdict-desc { font-size: 0.72rem; margin-top: 4px; }
+.verdict-gotowe { background: #d1fae5; color: #065f46; opacity: 0.4; }
+.verdict-wymaga { background: #fef3c7; color: #92400e; opacity: 0.4; }
+.verdict-bloker { background: #fee2e2; color: #991b1b; opacity: 0.4; }
+.verdict-gotowe.active { opacity: 1; box-shadow: 0 0 0 3px #22c55e; }
+.verdict-wymaga.active { opacity: 1; box-shadow: 0 0 0 3px #f59e0b; }
+.verdict-bloker.active { opacity: 1; box-shadow: 0 0 0 3px #e74c3c; }
+
+.legend-row { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.73rem; color: #555; }
+.legend-box { width: 16px; height: 16px; border-radius: 3px; font-size: 0.65rem; display:flex;align-items:center;justify-content:center; }
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.72rem;
+  color: #bbb;
+  padding: 10px;
+}
+
+@media print {
+  body { background: white; padding: 8px; }
+  .page-header { border-radius: 6px; padding: 14px 20px; margin-bottom: 12px; }
+  .section-card, .verdict-section, .meta-bar { box-shadow: none; border: 1px solid #ddd; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Checklist Infrastruktury i Technologii dla AI</h1>
+    <p>Oceń gotowość technologiczną organizacji do wdrożeń AI</p>
+  </div>
+  <div class="module-tag">Moduł 3 · AI dla Kadry Strategicznej</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-field">
+    <span class="meta-label">Organizacja</span>
+    <input type="text" class="meta-input" placeholder="Nazwa organizacji">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Osoba oceniająca</span>
+    <input type="text" class="meta-input" placeholder="Imię i nazwisko">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Dział IT / Technologia</span>
+    <input type="text" class="meta-input" placeholder="np. CTO, Architekt, DevOps Lead">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Data oceny</span>
+    <input type="text" class="meta-input" placeholder="DD.MM.RRRR">
+  </div>
+</div>
+
+<div class="main-grid" id="checklistGrid">
+
+  <!-- S1: Infrastruktura obliczeniowa -->
+  <div class="section-card section-s1">
+    <div class="section-header">
+      <span class="section-icon">☁️</span>
+      <span class="section-title">1. Infrastruktura obliczeniowa</span>
+      <span class="section-count" id="count-s1">0/4</span>
+    </div>
+    <div class="checklist-items">
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s1">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Dostęp do chmury publicznej (AWS/Azure/GCP) lub prywatnej z wystarczającą mocą</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s1">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Środowisko GPU dostępne do trenowania/inferencji modeli AI (lub plan zakupu)</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s1">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Automatyzacja provisioningu infrastruktury (IaC, CI/CD pipelines)</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s1">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Monitoring wydajności i kosztów infrastruktury</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2: Platforma danych -->
+  <div class="section-card section-s2">
+    <div class="section-header">
+      <span class="section-icon">🗄️</span>
+      <span class="section-title">2. Platforma danych</span>
+      <span class="section-count" id="count-s2">0/4</span>
+    </div>
+    <div class="checklist-items">
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s2">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Data warehouse lub data lake wdrożone i aktywnie używane</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s2">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">ETL/ELT pipeline'y do integracji danych z różnych źródeł</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s2">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Katalog danych (data catalog) z metadanymi i dokumentacją</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s2">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Wersjonowanie danych i śledzenie lineage</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3: Integracja i API -->
+  <div class="section-card section-s3">
+    <div class="section-header">
+      <span class="section-icon">🔌</span>
+      <span class="section-title">3. Integracja i API</span>
+      <span class="section-count" id="count-s3">0/4</span>
+    </div>
+    <div class="checklist-items">
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s3">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Kluczowe systemy (ERP, CRM, HR) mają dostępne API</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s3">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">API management platform lub gateway w użyciu</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s3">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Middleware / event bus do komunikacji między systemami</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s3">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Standardy integracji (REST, GraphQL, message queues) zdefiniowane</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4: Bezpieczeństwo i Compliance -->
+  <div class="section-card section-s4">
+    <div class="section-header">
+      <span class="section-icon">🔐</span>
+      <span class="section-title">4. Bezpieczeństwo i Compliance</span>
+      <span class="section-count" id="count-s4">0/4</span>
+    </div>
+    <div class="checklist-items">
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s4">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Kontrola dostępu do danych (RBAC, zasada least privilege)</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s4">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Szyfrowanie danych at rest i in transit</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s4">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Logi audytowe i monitoring dostępu do danych</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+      <div class="checklist-item state-none" onclick="cycleState(this)" data-section="s4">
+        <div class="check-box">?</div>
+        <div class="item-content">
+          <div class="item-title">Procedury reagowania na incydenty bezpieczeństwa (incident response)</div>
+        </div>
+        <span class="item-state-label">Nie oceniono</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Verdict -->
+<div class="verdict-section">
+  <div class="verdict-title">Podsumowanie oceny</div>
+  <div class="score-bar-wrap">
+    <div class="score-bar-labels">
+      <span id="scoreLabel">Uzupełnij checklist aby zobaczyć wynik</span>
+      <span id="scoreCount">0 / 32 pkt</span>
+    </div>
+    <div class="score-bar-track">
+      <div class="score-bar-fill" id="scoreBar" style="width:0%;background:#ddd;">
+        <span class="score-bar-pct" id="scorePct"></span>
+      </div>
+    </div>
+  </div>
+  <div class="verdict-badges">
+    <div class="verdict-badge verdict-gotowe" id="v-gotowe">
+      <div class="verdict-name">Gotowi na AI</div>
+      <div class="verdict-desc">70–100% punktów · Infrastruktura gotowa do wdrożeń AI</div>
+    </div>
+    <div class="verdict-badge verdict-wymaga" id="v-wymaga">
+      <div class="verdict-name">Potrzebne przygotowania</div>
+      <div class="verdict-desc">40–69% punktów · Zaplanuj modernizację infrastruktury</div>
+    </div>
+    <div class="verdict-badge verdict-bloker" id="v-bloker">
+      <div class="verdict-name">Fundamentalne braki</div>
+      <div class="verdict-desc">Poniżej 40% · Infrastruktura wymaga pilnych inwestycji</div>
+    </div>
+  </div>
+  <div class="legend-row">
+    <div class="legend-item">
+      <div class="legend-box" style="background:#22c55e;color:white;">✓</div> Tak (2 pkt)
+    </div>
+    <div class="legend-item">
+      <div class="legend-box" style="background:#f59e0b;color:white;">~</div> Częściowo (1 pkt)
+    </div>
+    <div class="legend-item">
+      <div class="legend-box" style="background:#fee2e2;border:1px solid #e74c3c;color:#e74c3c;">✗</div> Nie (0 pkt)
+    </div>
+    <div class="legend-item">
+      <div class="legend-box" style="background:#f3f4f6;border:1px solid #ddd;color:#999;">?</div> Nie oceniono
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  08_checklist_infrastruktury.html · AI dla Kadry Strategicznej · Checklist infrastruktury i technologii
+</footer>
+
+<script>
+const states = ['none', 'yes', 'partial', 'no'];
+const stateLabels = { none: 'Nie oceniono', yes: 'Tak', partial: 'Częściowo', no: 'Nie' };
+const stateIcons = { none: '?', yes: '✓', partial: '~', no: '✗' };
+const maxPoints = { s1: 4, s2: 4, s3: 4, s4: 4 };
+const totalItems = 16;
+
+function cycleState(item) {
+  const curState = item.className.replace('checklist-item state-', '');
+  const idx = states.indexOf(curState);
+  const next = states[(idx + 1) % states.length];
+  item.className = `checklist-item state-${next}`;
+  item.querySelector('.check-box').textContent = stateIcons[next];
+  item.querySelector('.item-state-label').textContent = stateLabels[next];
+  updateScores();
+}
+
+function updateScores() {
+  const sections = ['s1','s2','s3','s4'];
+
+  sections.forEach(sec => {
+    const items = document.querySelectorAll(`[data-section="${sec}"]`);
+    let yes = 0;
+    items.forEach(item => {
+      const st = item.className.replace('checklist-item state-','');
+      if (st === 'yes') yes++;
+      if (st === 'partial') yes += 0.5;
+    });
+    const max = maxPoints[sec];
+    document.getElementById(`count-${sec}`).textContent = `${Math.round(yes*2)/2}/${max}`;
+  });
+
+  let pts = 0;
+  document.querySelectorAll('.checklist-item').forEach(item => {
+    const st = item.className.replace('checklist-item state-','');
+    if (st === 'yes') pts += 2;
+    if (st === 'partial') pts += 1;
+  });
+  const maxPts = totalItems * 2;
+  const pct = Math.round(pts / maxPts * 100);
+
+  document.getElementById('scoreCount').textContent = `${pts} / ${maxPts} pkt`;
+  document.getElementById('scoreLabel').textContent = `Wynik: ${pct}%`;
+
+  const bar = document.getElementById('scoreBar');
+  bar.style.width = pct + '%';
+  bar.style.background = pct >= 70 ? '#22c55e' : pct >= 40 ? '#f59e0b' : '#e74c3c';
+  document.getElementById('scorePct').textContent = pct > 10 ? pct + '%' : '';
+
+  document.getElementById('v-gotowe').classList.toggle('active', pct >= 70);
+  document.getElementById('v-wymaga').classList.toggle('active', pct >= 40 && pct < 70);
+  document.getElementById('v-bloker').classList.toggle('active', pct < 40 && pts > 0);
+}
+</script>
+</body>
+</html>

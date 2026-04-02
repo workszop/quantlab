@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Karteczki Quick Win – AI dla Kadry Projektowej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.4rem; font-weight: 700; }
+.page-header p { font-size: 0.8rem; opacity: 0.7; margin-top: 3px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.print-instructions {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  font-size: 0.8rem;
+  color: #6d4c00;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.print-instructions strong { font-weight: 700; }
+
+.section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin-bottom: 12px;
+  margin-top: 24px;
+  padding-left: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title:first-of-type { margin-top: 0; }
+.section-title::after { content: ''; flex: 1; height: 1px; background: #ddd; }
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.note {
+  border-radius: 8px;
+  border: 2px dashed #ccc;
+  padding: 16px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+/* Green Quick Win */
+.note-green {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+.note-green .note-header { background: #22c55e; }
+
+/* Blue Strategic */
+.note-blue {
+  background: #eff6ff;
+  border-color: #93c5fd;
+}
+.note-blue .note-header { background: #3b82f6; }
+
+/* Gray Postpone */
+.note-gray {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+.note-gray .note-header { background: #6b7280; }
+
+.note-header {
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -16px -16px 0 -16px;
+  border-radius: 6px 6px 0 0;
+}
+.note-icon { font-size: 1.3rem; }
+.note-label { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.04em; }
+.note-sublabel { font-size: 0.7rem; opacity: 0.85; margin-left: auto; }
+
+.note-fields { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.note-field { display: flex; flex-direction: column; gap: 3px; }
+.field-name {
+  font-size: 0.63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #999;
+}
+.write-line {
+  border-bottom: 1.5px solid #d0d0d0;
+  min-height: 20px;
+  width: 100%;
+}
+
+.cut-mark {
+  position: absolute;
+  bottom: -8px;
+  right: 8px;
+  font-size: 0.6rem;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.cut-mark::before { content: '✂'; }
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 28px;
+  font-size: 0.72rem;
+  color: #bbb;
+  padding: 10px;
+}
+
+@media print {
+  body { background: white; padding: 8mm; }
+  .page-header { display: none; }
+  .print-instructions { display: none; }
+  .section-title { break-before: avoid; }
+  .notes-grid { gap: 10px; }
+  .note { break-inside: avoid; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Karteczki Priorytetyzacji Inicjatyw AI</h1>
+    <p>Drukuj, wytnij i przyklejaj podczas sesji priorytetyzacji inicjatyw AI</p>
+  </div>
+  <div class="module-tag">Moduł 3 · AI dla Kadry Projektowej</div>
+</div>
+
+<div class="print-instructions">
+  <span style="font-size:1.2rem">🖨️</span>
+  <div>
+    <strong>Instrukcja drukowania:</strong> Wydrukuj w kolorze na papierze A4 · Wytnij karteczki wzdłuż przerywanych linii · Przyklej w odpowiedniej strefie na tablicy priorytetów.
+    Zalecane: laminowanie lub wydruk na papierze samoprzylepnym.
+  </div>
+</div>
+
+<!-- GREEN NOTES -->
+<div class="section-title">⚡ Quick Win – zrób teraz (zielone)</div>
+<div class="notes-grid">
+  <div class="note note-green">
+    <div class="note-header">
+      <span class="note-icon">⚡</span>
+      <span class="note-label">QUICK WIN</span>
+      <span class="note-sublabel">Zrób teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-green">
+    <div class="note-header">
+      <span class="note-icon">⚡</span>
+      <span class="note-label">QUICK WIN</span>
+      <span class="note-sublabel">Zrób teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-green">
+    <div class="note-header">
+      <span class="note-icon">⚡</span>
+      <span class="note-label">QUICK WIN</span>
+      <span class="note-sublabel">Zrób teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-green">
+    <div class="note-header">
+      <span class="note-icon">⚡</span>
+      <span class="note-label">QUICK WIN</span>
+      <span class="note-sublabel">Zrób teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-green">
+    <div class="note-header">
+      <span class="note-icon">⚡</span>
+      <span class="note-label">QUICK WIN</span>
+      <span class="note-sublabel">Zrób teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-green">
+    <div class="note-header">
+      <span class="note-icon">⚡</span>
+      <span class="note-label">QUICK WIN</span>
+      <span class="note-sublabel">Zrób teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+</div>
+
+<!-- BLUE NOTES -->
+<div class="section-title">🎯 Strategiczny – zaplanuj (niebieskie)</div>
+<div class="notes-grid">
+  <div class="note note-blue">
+    <div class="note-header">
+      <span class="note-icon">🎯</span>
+      <span class="note-label">STRATEGICZNY</span>
+      <span class="note-sublabel">Zaplanuj</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-blue">
+    <div class="note-header">
+      <span class="note-icon">🎯</span>
+      <span class="note-label">STRATEGICZNY</span>
+      <span class="note-sublabel">Zaplanuj</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-blue">
+    <div class="note-header">
+      <span class="note-icon">🎯</span>
+      <span class="note-label">STRATEGICZNY</span>
+      <span class="note-sublabel">Zaplanuj</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-blue">
+    <div class="note-header">
+      <span class="note-icon">🎯</span>
+      <span class="note-label">STRATEGICZNY</span>
+      <span class="note-sublabel">Zaplanuj</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-blue">
+    <div class="note-header">
+      <span class="note-icon">🎯</span>
+      <span class="note-label">STRATEGICZNY</span>
+      <span class="note-sublabel">Zaplanuj</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-blue">
+    <div class="note-header">
+      <span class="note-icon">🎯</span>
+      <span class="note-label">STRATEGICZNY</span>
+      <span class="note-sublabel">Zaplanuj</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Wpływ biznesowy</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Złożoność wdrożenia</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+</div>
+
+<!-- GRAY NOTES -->
+<div class="section-title">⏸️ Odłóż – nie teraz (szare)</div>
+<div class="notes-grid">
+  <div class="note note-gray">
+    <div class="note-header">
+      <span class="note-icon">⏸️</span>
+      <span class="note-label">ODŁÓŻ</span>
+      <span class="note-sublabel">Nie teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Powód odkładania</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Kiedy wrócić</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-gray">
+    <div class="note-header">
+      <span class="note-icon">⏸️</span>
+      <span class="note-label">ODŁÓŻ</span>
+      <span class="note-sublabel">Nie teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Powód odkładania</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Kiedy wrócić</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-gray">
+    <div class="note-header">
+      <span class="note-icon">⏸️</span>
+      <span class="note-label">ODŁÓŻ</span>
+      <span class="note-sublabel">Nie teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Powód odkładania</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Kiedy wrócić</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-gray">
+    <div class="note-header">
+      <span class="note-icon">⏸️</span>
+      <span class="note-label">ODŁÓŻ</span>
+      <span class="note-sublabel">Nie teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Powód odkładania</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Kiedy wrócić</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-gray">
+    <div class="note-header">
+      <span class="note-icon">⏸️</span>
+      <span class="note-label">ODŁÓŻ</span>
+      <span class="note-sublabel">Nie teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Powód odkładania</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Kiedy wrócić</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+  <div class="note note-gray">
+    <div class="note-header">
+      <span class="note-icon">⏸️</span>
+      <span class="note-label">ODŁÓŻ</span>
+      <span class="note-sublabel">Nie teraz</span>
+    </div>
+    <div class="note-fields">
+      <div class="note-field">
+        <span class="field-name">Inicjatywa / nazwa</span>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2px"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Powód odkładania</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="note-field">
+        <span class="field-name">Kiedy wrócić</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    <div class="cut-mark">wytnij</div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  05_karteczki_quick_win.html · AI dla Kadry Projektowej · Narzędzie do sesji priorytetyzacji
+</footer>
+
+</body>
+</html>

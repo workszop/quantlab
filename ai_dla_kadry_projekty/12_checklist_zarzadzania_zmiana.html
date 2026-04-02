@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Checklist Zarządzania Zmianą – AI dla Kadry Projektowej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 24px 36px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.5rem; font-weight: 700; }
+.page-header p { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.meta-row {
+  background: white;
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.meta-field { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 3px; }
+.meta-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; }
+.meta-input {
+  font-size: 0.85rem; font-weight: 600; color: #1a1a2e;
+  border: none; outline: none; background: transparent;
+  border-bottom: 1.5px solid #e0e0e0; padding-bottom: 2px; width: 100%;
+}
+.meta-input:focus { border-bottom-color: #1a1a2e; }
+
+.progress-bar-wrap { flex: 2; min-width: 200px; }
+.progress-bar-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; margin-bottom: 6px; display: flex; justify-content: space-between; }
+.progress-bar-track { height: 14px; background: #f0f0f0; border-radius: 7px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71); border-radius: 7px; transition: width 0.4s; }
+
+.phases-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.phase-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+
+.phase-header {
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+.ph1 { background: linear-gradient(90deg, #2980b9, #1565c0); }
+.ph2 { background: linear-gradient(90deg, #8e44ad, #6a1b9a); }
+.ph3 { background: linear-gradient(90deg, #16a085, #00695c); }
+.ph4 { background: linear-gradient(90deg, #e67e22, #bf360c); }
+.ph5 { background: linear-gradient(90deg, #27ae60, #1b5e20); }
+
+.phase-num {
+  width: 28px; height: 28px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.phase-title { font-size: 1rem; font-weight: 700; }
+.phase-subtitle { font-size: 0.75rem; opacity: 0.8; margin-top: 1px; }
+.phase-progress { margin-left: auto; font-size: 0.78rem; font-weight: 700; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; }
+
+.phase-items { padding: 4px 0; }
+.phase-item {
+  display: grid;
+  grid-template-columns: 36px 1fr 140px 120px;
+  align-items: start;
+  padding: 9px 14px;
+  border-bottom: 1px solid #f5f5f5;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.phase-item:last-child { border-bottom: none; }
+.phase-item:hover { background: #fafafa; }
+
+.item-check {
+  width: 22px; height: 22px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  cursor: pointer;
+  margin-top: 2px;
+  user-select: none;
+}
+.item-check.checked { background: #27ae60; border-color: #27ae60; color: white; }
+
+.item-content {}
+.item-title { font-size: 0.82rem; font-weight: 600; color: #1a1a2e; }
+.item-desc { font-size: 0.72rem; color: #777; margin-top: 2px; line-height: 1.4; }
+
+.item-role-input, .item-date-input {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.73rem; color: #555;
+  border: none; outline: none; background: transparent;
+  border-bottom: 1px dashed #e0e0e0; padding: 2px 3px;
+  width: 100%;
+}
+.item-role-input:focus, .item-date-input:focus { background: #f8f9ff; border-bottom-color: #1a1a2e; }
+
+/* Ambassador section */
+.ambassador-card {
+  background: linear-gradient(135deg, #fff8e1, #fffde7);
+  border: 2px solid #fde68a;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+.ambassador-title {
+  font-size: 0.9rem; font-weight: 700; color: #1a1a2e;
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px;
+}
+.ambassador-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.ambassador-item {
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid #fde68a;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.amb-field { display: flex; flex-direction: column; gap: 2px; }
+.amb-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; }
+.amb-input {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.78rem; color: #1a1a2e;
+  border: none; outline: none; background: transparent;
+  border-bottom: 1px dashed #e0e0e0; padding-bottom: 1px; width: 100%;
+}
+
+/* Communication calendar */
+.comm-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.comm-header {
+  background: #1a1a2e;
+  color: white;
+  padding: 12px 18px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.comm-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.comm-table th {
+  background: #f8fafc;
+  padding: 8px 12px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+.comm-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+.comm-table tr:last-child td { border-bottom: none; }
+.comm-input {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.75rem; border: none; outline: none; background: transparent;
+  border-bottom: 1px dashed #ddd; width: 100%; padding: 1px 2px;
+}
+.comm-input:focus { background: #f8f9ff; }
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.72rem;
+  color: #bbb;
+  padding: 10px;
+}
+
+@media print {
+  body { background: white; padding: 8px; }
+  .page-header { border-radius: 6px; padding: 14px 20px; margin-bottom: 12px; }
+  .phase-card, .ambassador-card, .comm-card, .meta-row { box-shadow: none; border: 1px solid #ddd; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Checklist Zarządzania Zmianą AI</h1>
+    <p>5 faz zarządzania zmianą – zadania, odpowiedzialność i terminy dla wdrożeń AI</p>
+  </div>
+  <div class="module-tag">Moduł 5 · AI dla Kadry Projektowej</div>
+</div>
+
+<div class="meta-row">
+  <div class="meta-field" style="flex:2">
+    <span class="meta-label">Inicjatywa AI</span>
+    <input type="text" class="meta-input" placeholder="Nazwa projektu / wdrożenia">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Menedżer zmiany</span>
+    <input type="text" class="meta-input" placeholder="Imię i nazwisko">
+  </div>
+  <div class="meta-field">
+    <span class="meta-label">Data startu</span>
+    <input type="text" class="meta-input" placeholder="DD.MM.RRRR">
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-label">
+      <span>Postęp ogółem</span>
+      <span id="progressLabel">0 / 0 zadań</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+</div>
+
+<div class="phases-grid" id="phasesGrid">
+
+  <!-- Phase 1 -->
+  <div class="phase-card" id="phase-1">
+    <div class="phase-header ph1">
+      <div class="phase-num">1</div>
+      <div>
+        <div class="phase-title">Analiza interesariuszy</div>
+        <div class="phase-subtitle">Zidentyfikuj, kto jest dotknięty zmianą i jakie ma obawy</div>
+      </div>
+      <span class="phase-progress" id="pp1">0/5</span>
+    </div>
+    <div class="phase-items">
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Mapa interesariuszy</div>
+          <div class="item-desc">Sporządź listę wszystkich grup dotkniętych wdrożeniem AI (pracownicy, menedżerowie, klienci, IT, zarząd)</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Analiza wpływu na role / stanowiska</div>
+          <div class="item-desc">Oceń, które stanowiska zmienią zakres obowiązków i w jakim stopniu (niska/średnia/wysoka zmiana)</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Indywidualne rozmowy z kluczowymi interesariuszami</div>
+          <div class="item-desc">Przeprowadź wywiady 1:1 z liderami grup, zbierz obawy i oczekiwania przed ogłoszeniem projektu</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Macierz wpływu i zainteresowania</div>
+          <div class="item-desc">Sklasyfikuj interesariuszy wg wpływu na projekt i zainteresowania zmianą (macierz 2x2)</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Identyfikacja potencjalnych "blokujących"</div>
+          <div class="item-desc">Wskaż osoby lub grupy, które mogą aktywnie oponować – przygotuj strategię zaangażowania dla każdej</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase-card" id="phase-2">
+    <div class="phase-header ph2">
+      <div class="phase-num">2</div>
+      <div>
+        <div class="phase-title">Komunikacja</div>
+        <div class="phase-subtitle">Poinformuj, wyjaśnij cel i korzyści – zanim pojawią się plotki</div>
+      </div>
+      <span class="phase-progress" id="pp2">0/5</span>
+    </div>
+    <div class="phase-items">
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Komunikat od Sponsora (top-down)</div>
+          <div class="item-desc">Sponsor wysyła oficjalny komunikat wyjaśniający "dlaczego AI", korzyści i zapewnienie o wsparciu pracowników</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">FAQ dla pracowników</div>
+          <div class="item-desc">Przygotuj dokument z odpowiedziami na najczęstsze pytania: "Czy AI zastąpi moje stanowisko?", "Jak będę szkolony?"</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Town Hall / spotkanie informacyjne</div>
+          <div class="item-desc">Otwarte spotkanie z możliwością zadawania pytań na żywo – przed uruchomieniem pilota</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Regularne aktualizacje o postępach</div>
+          <div class="item-desc">Comiesięczne (lub częstsze) komunikaty o etapach wdrożenia, wynikach pilota i decyzjach</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Kanał do zgłaszania pytań i obaw</div>
+          <div class="item-desc">Skrzynka mailowa, formularz lub dedykowany kanał Teams do zbierania feedbacku przez cały czas trwania projektu</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase-card" id="phase-3">
+    <div class="phase-header ph3">
+      <div class="phase-num">3</div>
+      <div>
+        <div class="phase-title">Szkolenia</div>
+        <div class="phase-subtitle">Wyposaż pracowników w kompetencje do pracy z AI</div>
+      </div>
+      <span class="phase-progress" id="pp3">0/5</span>
+    </div>
+    <div class="phase-items">
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Analiza luk kompetencyjnych</div>
+          <div class="item-desc">Oceń obecne kompetencje zespołu vs. wymagane do pracy z nowym narzędziem AI (użyj matrycy kompetencji)</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Program szkoleń dla użytkowników końcowych</div>
+          <div class="item-desc">Opracuj i przeprowadź szkolenia z obsługi narzędzia AI, interpretacji wyników, eskalacji błędów</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Szkolenia dla menedżerów liniowych</div>
+          <div class="item-desc">Oddzielne szkolenie jak zarządzać zespołem pracującym z AI, monitorować KPI i reagować na problemy</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Materiały pomocnicze / instrukcje</div>
+          <div class="item-desc">Skrócone instrukcje (one-pager, video, FAQ) dostępne w miejscu pracy lub w intranecie</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Weryfikacja efektów szkolenia</div>
+          <div class="item-desc">Test wiedzy, obserwacja pracy lub certyfikat ukończenia szkolenia przed pełnym wdrożeniem</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase-card" id="phase-4">
+    <div class="phase-header ph4">
+      <div class="phase-num">4</div>
+      <div>
+        <div class="phase-title">Wdrożenie</div>
+        <div class="phase-subtitle">Wprowadź zmianę – monitoruj i wspieraj na bieżąco</div>
+      </div>
+      <span class="phase-progress" id="pp4">0/4</span>
+    </div>
+    <div class="phase-items">
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Oficjalny start wdrożenia – uruchomienie "nowego sposobu pracy"</div>
+          <div class="item-desc">Komunikat startowy, wyłączenie starego procesu (lub równoległe uruchomienie), wsparcie na miejscu przez pierwsze dni</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Hypercare – intensywne wsparcie po starcie</div>
+          <div class="item-desc">Dedykowany support przez pierwsze 2–4 tygodnie: szybka ścieżka zgłaszania problemów, codzienne standupy z ambasadorami</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Monitorowanie wskaźników adopcji</div>
+          <div class="item-desc">Śledź aktywnych użytkowników, liczbę przypadków obsłużonych przez AI, odsetek ręcznych override'ów</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Szybkie korekty na podstawie feedbacku</div>
+          <div class="item-desc">Proces zbierania i wdrażania poprawek w trybie tygodniowych sprintów podczas pierwszego miesiąca</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 5 -->
+  <div class="phase-card" id="phase-5">
+    <div class="phase-header ph5">
+      <div class="phase-num">5</div>
+      <div>
+        <div class="phase-title">Utrwalenie</div>
+        <div class="phase-subtitle">Zakotwicz zmianę – zapewnij trwałość nowego sposobu pracy</div>
+      </div>
+      <span class="phase-progress" id="pp5">0/5</span>
+    </div>
+    <div class="phase-items">
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Aktualizacja procedur i opisów stanowisk</div>
+          <div class="item-desc">Zaktualizuj formalne procedury, SOP, opisy ról i KPI pracowników tak, aby uwzględniały pracę z AI</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Świętowanie sukcesu i komunikacja wyników</div>
+          <div class="item-desc">Opublikuj wyniki pilota/wdrożenia, podziękuj zespołowi, podziel się sukcesami (case study wewnętrzny)</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Przegląd 90-dniowy</div>
+          <div class="item-desc">Ocena adopcji, jakości wyników AI i zadowolenia pracowników 3 miesiące po wdrożeniu. Plan korekt.</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Wbudowanie w onboarding nowych pracowników</div>
+          <div class="item-desc">Praca z AI staje się częścią standardowego wdrożenia nowego pracownika w dziale</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="item-check"></div>
+        <div class="item-content">
+          <div class="item-title">Harmonogram przeglądów i aktualizacji modelu AI</div>
+          <div class="item-desc">Zdefiniuj częstotliwość retrenowania/aktualizacji modelu i odpowiedzialność za monitorowanie jego jakości</div>
+        </div>
+        <input type="text" class="item-role-input" placeholder="Kto realizuje?" onclick="event.stopPropagation()">
+        <input type="text" class="item-date-input" placeholder="Termin" onclick="event.stopPropagation()">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Ambassador section -->
+<div class="ambassador-card">
+  <div class="ambassador-title">⭐ Ambasadorzy Zmiany AI</div>
+  <div class="ambassador-grid">
+    <div class="ambassador-item">
+      <div class="amb-field">
+        <span class="amb-label">Imię i nazwisko</span>
+        <input type="text" class="amb-input" placeholder="Ambasador 1">
+      </div>
+      <div class="amb-field">
+        <span class="amb-label">Dział / Rola</span>
+        <input type="text" class="amb-input" placeholder="np. Lider zespołu obsługi klienta">
+      </div>
+      <div class="amb-field">
+        <span class="amb-label">Zakres odpowiedzialności</span>
+        <input type="text" class="amb-input" placeholder="np. wspieranie adopcji w zespole X">
+      </div>
+    </div>
+    <div class="ambassador-item">
+      <div class="amb-field">
+        <span class="amb-label">Imię i nazwisko</span>
+        <input type="text" class="amb-input" placeholder="Ambasador 2">
+      </div>
+      <div class="amb-field">
+        <span class="amb-label">Dział / Rola</span>
+        <input type="text" class="amb-input" placeholder="np. Specjalista ds. procesów">
+      </div>
+      <div class="amb-field">
+        <span class="amb-label">Zakres odpowiedzialności</span>
+        <input type="text" class="amb-input" placeholder="np. zbieranie feedbacku, eskalacje">
+      </div>
+    </div>
+    <div class="ambassador-item">
+      <div class="amb-field">
+        <span class="amb-label">Imię i nazwisko</span>
+        <input type="text" class="amb-input" placeholder="Ambasador 3">
+      </div>
+      <div class="amb-field">
+        <span class="amb-label">Dział / Rola</span>
+        <input type="text" class="amb-input" placeholder="np. Menedżer liniowy">
+      </div>
+      <div class="amb-field">
+        <span class="amb-label">Zakres odpowiedzialności</span>
+        <input type="text" class="amb-input" placeholder="np. motywowanie, raportowanie adopcji">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Communication calendar -->
+<div class="comm-card">
+  <div class="comm-header">
+    📅 Kalendarz Komunikacji
+  </div>
+  <table class="comm-table">
+    <thead>
+      <tr>
+        <th>Kiedy</th>
+        <th>Do kogo</th>
+        <th>Co (temat komunikacji)</th>
+        <th>Przez kogo</th>
+        <th>Kanał</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="commTable">
+    </tbody>
+  </table>
+</div>
+
+<footer class="page-footer">
+  12_checklist_zarzadzania_zmiana.html · AI dla Kadry Projektowej · Zarządzanie zmianą organizacyjną
+</footer>
+
+<script>
+const phaseItems = { 1:5, 2:5, 3:5, 4:4, 5:5 };
+const totalItems = Object.values(phaseItems).reduce((a,b)=>a+b,0);
+
+function toggleCheck(item) {
+  const box = item.querySelector('.item-check');
+  box.classList.toggle('checked');
+  box.textContent = box.classList.contains('checked') ? '✓' : '';
+  updateProgress();
+}
+
+function updateProgress() {
+  let total = 0, done = 0;
+  document.querySelectorAll('.phase-item').forEach(item => {
+    total++;
+    if (item.querySelector('.item-check.checked')) done++;
+  });
+
+  // Phase progress
+  for (let i = 1; i <= 5; i++) {
+    const phItems = document.querySelectorAll(`#phase-${i} .phase-item`);
+    let phDone = 0;
+    phItems.forEach(it => { if (it.querySelector('.item-check.checked')) phDone++; });
+    document.getElementById(`pp${i}`).textContent = `${phDone}/${phItems.length}`;
+  }
+
+  // Overall
+  const pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('progressLabel').textContent = `${done} / ${total} zadań`;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+// Communication calendar
+function renderCommTable() {
+  const tbody = document.getElementById('commTable');
+  const defaultRows = [
+    { when: 'Przed startem (T-2 tyg.)', to: 'Wszyscy pracownicy', what: 'Informacja o projekcie AI – dlaczego, co, kiedy', by: 'Sponsor', channel: 'E-mail + Teams' },
+    { when: 'T-1 tydzień', to: 'Menedżerowie liniowi', what: 'Briefing menedżerski – role, KPI, eskalacje', by: 'Kierownik zmiany', channel: 'Spotkanie' },
+    { when: 'Dzień startu', to: 'Użytkownicy pilota', what: 'Ogłoszenie startu, link do instrukcji, dane kontaktowe', by: 'PM projektu', channel: 'Teams / e-mail' },
+    { when: 'Co tydzień (tyg. 1–4)', to: 'Ambasadorzy', what: 'Status pilota, problemy, wyniki tygodniowe', by: 'PM projektu', channel: 'Standup 15 min' },
+    { when: 'Po decyzji Go/No-Go', to: 'Wszyscy interesariusze', what: 'Wyniki pilota, decyzja, plan dalszych działań', by: 'Sponsor', channel: 'E-mail + prezentacja' },
+    { when: '', to: '', what: '', by: '', channel: '' },
+  ];
+  tbody.innerHTML = '';
+  defaultRows.forEach((row, i) => {
+    const tr = document.createElement('tr');
+    ['when','to','what','by','channel'].forEach(field => {
+      const td = document.createElement('td');
+      td.innerHTML = `<input class="comm-input" value="${row[field]}" placeholder="...">`;
+      tr.appendChild(td);
+    });
+    const statusTd = document.createElement('td');
+    statusTd.innerHTML = `<select style="font-size:0.72rem;border:none;background:transparent;color:#888;cursor:pointer;">
+      <option>Planowane</option><option>Wysłane</option><option>Pominięte</option>
+    </select>`;
+    tr.appendChild(statusTd);
+    tbody.appendChild(tr);
+  });
+}
+
+renderCommTable();
+updateProgress();
+</script>
+</body>
+</html>

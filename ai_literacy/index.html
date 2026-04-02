@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Literacy - Szkolenia AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #050505; font-family: 'Space Grotesk', sans-serif; }
+        h1, h2, h3, h4, .font-black { font-family: 'Archivo Black', sans-serif; }
+        .accordion-body { display: none; }
+        .accordion-item.open .accordion-body { display: block; }
+        .accordion-item.open .accordion-icon { transform: rotate(45deg); }
+        .accordion-icon { display: inline-block; transition: transform 0.2s; }
+        ul.styled-list { list-style: none; padding: 0; margin: 0; }
+        ul.styled-list li {
+            padding-left: 1.2em;
+            position: relative;
+            margin-bottom: 0.4em;
+            color: #d4d4d4;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        ul.styled-list li::before {
+            content: '–';
+            position: absolute;
+            left: 0;
+            color: #BB2649;
+        }
+        h6.sub-heading {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #BB2649;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-[#050505] text-neutral-100 font-grotesk overflow-x-hidden" data-theme="dark">
+
+    <!-- Nav -->
+    <nav class="nav-bar fixed top-0 left-0 w-full px-6 md:px-16 py-5 flex justify-between items-center z-50 bg-[#050505] border-b border-neutral-800">
+        <a href="../index.html" class="nav-logo flex items-center gap-4">
+            <img src="../Quantica_logo_color.png" alt="Quantica" class="h-10">
+        </a>
+        
+        <div class="flex items-center gap-6">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode" title="Zmień motyw">
+                <svg class="icon-sun text-white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg class="icon-moon text-white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="pt-32 pb-16 px-6 md:px-20 bg-[#050505]">
+        <h1 class="font-black tracking-tighter leading-none uppercase mb-6" style="font-family:'Archivo Black',sans-serif; font-size:clamp(3rem,8vw,6rem);">
+            AI Literacy<span style="color:#BB2649">.</span>
+        </h1>
+        <p class="text-lg md:text-xl text-neutral-400 max-w-3xl leading-relaxed">
+            Szkolenie wprowadzające, które buduje wspólny język i zrozumienie AI w ramach organizacji. Dowiedz się czym jest AI, jakie ma zastosowania i w jak bezpiecznie z niej korzystać. Czas trwania: 2h zegarowe.
+        </p>
+    </section>
+
+    <!-- Program -->
+    <section class="py-16 px-6 md:px-20 bg-[#050505] border-t border-neutral-800">
+        <h2 class="font-black tracking-tighter uppercase mb-10 leading-none" style="font-family:'Archivo Black',sans-serif; font-size:clamp(2rem,4vw,4rem);">Program szkolenia<span style="color:#BB2649">.</span></h2>
+        
+        <div class="accordion-item border border-neutral-800 mb-2">
+            <h5 class="accordion-trigger flex justify-between items-center p-6 cursor-pointer hover:bg-neutral-900 transition-colors text-sm font-bold uppercase tracking-widest">
+                Moduły <span class="accordion-icon text-2xl font-light">+</span>
+            </h5>
+            <div class="accordion-body px-6 pb-6">
+                <h6 class="sub-heading">Moduł 1: Podstawy AI – demistyfikacja technologii</h6>
+                <ul class="styled-list">
+                    <li>Czym jest AI, ML, generatywna AI – wyjaśnienie bez żargonu</li>
+                    <li>Jak działają modele językowe (intuicyjnie, bez matematyki)</li>
+                    <li>Możliwości i ograniczenia – co AI potrafi, a czego nie</li>
+                    <li>Praktyczne zastosowania w codziennej pracy</li>
+                </ul>
+                <h6 class="sub-heading">Moduł 2: Bezpieczne korzystanie z AI</h6>
+                <ul class="styled-list">
+                    <li>Zasady bezpieczeństwa danych przy pracy z AI</li>
+                    <li>Co można, a czego nie można wprowadzać do narzędzi AI</li>
+                    <li>Rozpoznawanie halucynacji i weryfikacja wyników</li>
+                    <li>Polityka firmy dotycząca AI</li>
+                </ul>
+                <h6 class="sub-heading">Moduł 3: Regulacje i etyka AI</h6>
+                <ul class="styled-list">
+                    <li>AI Act – kluczowe wymagania</li>
+                    <li>Klasyfikacja ryzyka systemów AI</li>
+                    <li>Etyka AI: stronniczość, transparentność, odpowiedzialność</li>
+                    <li>Human-in-the-loop</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Materials -->
+    <section class="py-16 px-6 md:px-20 bg-[#050505] border-t border-neutral-800">
+        <h2 class="font-black tracking-tighter uppercase mb-10 leading-none" style="font-family:'Archivo Black',sans-serif; font-size:clamp(2rem,4vw,4rem);">Materiały<span style="color:#BB2649">.</span></h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="01_katalog_zastosowan_AI.html" class="block border border-neutral-800 p-5 hover:bg-neutral-900 transition-colors text-neutral-300 hover:text-white uppercase tracking-widest text-xs font-bold">01. Katalog zastosowań AI &rarr;</a>
+            <a href="02_karta_tak_nie_zapytaj.html" class="block border border-neutral-800 p-5 hover:bg-neutral-900 transition-colors text-neutral-300 hover:text-white uppercase tracking-widest text-xs font-bold">02. Karta Tak / Nie / Zapytaj &rarr;</a>
+            <a href="03_polityka_AI_w_organizacji.html" class="block border border-neutral-800 p-5 hover:bg-neutral-900 transition-colors text-neutral-300 hover:text-white uppercase tracking-widest text-xs font-bold">03. Polityka AI w organizacji &rarr;</a>
+            <a href="04_AI_Act_w_10_minut.html" class="block border border-neutral-800 p-5 hover:bg-neutral-900 transition-colors text-neutral-300 hover:text-white uppercase tracking-widest text-xs font-bold">04. AI Act w 10 minut &rarr;</a>
+            <a href="05_scenariusze_dylematu_etycznego.html" class="block border border-neutral-800 p-5 hover:bg-neutral-900 transition-colors text-neutral-300 hover:text-white uppercase tracking-widest text-xs font-bold">05. Scenariusze dylematu etycznego &rarr;</a>
+            <a href="06_karta_human_in_the_loop.html" class="block border border-neutral-800 p-5 hover:bg-neutral-900 transition-colors text-neutral-300 hover:text-white uppercase tracking-widest text-xs font-bold">06. Karta Human-in-the-loop &rarr;</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-white text-black py-20 px-6 md:px-20 flex flex-col md:flex-row justify-between items-end relative overflow-hidden">
+        <div class="text-[40vw] font-black leading-none absolute -bottom-20 -right-10 opacity-5 pointer-events-none select-none" style="font-family:'Archivo Black',sans-serif">Q</div>
+        <div class="z-10 mb-10 md:mb-0">
+            <img src="../Quantica_logo_color.png" alt="Quantica" class="h-10 md:h-12 mb-4">
+            <p class="text-sm font-bold uppercase tracking-widest opacity-80">kontakt@quanticalab.ai</p>
+        </div>
+        <div class="z-10 flex flex-col items-start md:items-end gap-4">
+            <div class="flex flex-wrap gap-6 text-sm font-bold uppercase tracking-widest">
+                <span>Doradztwo</span>
+                <span>Wdrożenia</span>
+                <span>Szkolenia</span>
+                <span>AI</span>
+            </div>
+            <p class="text-xs opacity-50">© 2025 Quantica Lab sp. z o.o. · <a href="https://workszop.github.io/q223/llms.txt" class="underline">llms.txt</a></p>
+        </div>
+    </footer>
+
+    <script src="../app.js" defer></script>
+
+</body>
+</html>

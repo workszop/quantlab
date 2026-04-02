@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Karta: Tak / Nie / Zapytaj</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 16px; }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  .page {
+    max-width: 980px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  header {
+    background: #1a1a2e;
+    color: white;
+    padding: 18px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 { font-size: 1.25rem; font-weight: 800; }
+  header .sub { font-size: 0.75rem; opacity: 0.65; margin-top: 2px; }
+
+  .question-row {
+    background: #f5f5f5;
+    text-align: center;
+    padding: 10px 28px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #333;
+    border-bottom: 2px solid #e0e0e0;
+    letter-spacing: 0.01em;
+  }
+  .question-row em { color: #1a1a2e; font-style: normal; }
+
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    min-height: 460px;
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid #e0e0e0;
+  }
+  .col:last-child { border-right: none; }
+
+  .col-header {
+    padding: 14px 18px 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .col-icon { font-size: 2rem; }
+  .col-title { font-size: 1.2rem; font-weight: 900; letter-spacing: -0.01em; }
+  .col-desc { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.75; }
+
+  .tak .col-header  { background: #e8faf0; color: #0d5c30; border-bottom: 3px solid #27ae60; }
+  .nie .col-header  { background: #fef0f0; color: #7a0d0d; border-bottom: 3px solid #e74c3c; }
+  .zap .col-header  { background: #fff8e8; color: #7a4d00; border-bottom: 3px solid #f39c12; }
+
+  .col-items { padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+
+  .item {
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .item-bullet { font-size: 0.95rem; flex-shrink: 0; margin-top: 1px; }
+  .item-content {}
+  .item-main { font-size: 0.83rem; font-weight: 700; color: #1a1a2e; line-height: 1.3; }
+  .item-example { font-size: 0.72rem; color: #777; margin-top: 2px; font-style: italic; line-height: 1.4; }
+
+  .tak .item { background: #f2fcf6; }
+  .nie .item { background: #fff5f5; }
+  .zap .item { background: #fffbf0; }
+
+  .divider {
+    margin: 4px 14px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #bbb;
+    padding: 2px 0;
+    border-top: 1px dashed #e8e8e8;
+    padding-top: 6px;
+  }
+
+  .bottom-rule {
+    padding: 10px 18px;
+    border-top: 2px solid currentColor;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 0 0 0 0;
+  }
+  .tak .bottom-rule { background: #e8faf0; color: #0d5c30; border-color: #27ae60; }
+  .nie .bottom-rule { background: #fef0f0; color: #7a0d0d; border-color: #e74c3c; }
+  .zap .bottom-rule { background: #fff8e8; color: #7a4d00; border-color: #f39c12; }
+
+  .footer-note {
+    background: #f5f5f5;
+    padding: 10px 28px;
+    font-size: 0.72rem;
+    color: #888;
+    text-align: center;
+    border-top: 1px solid #e8e8e8;
+  }
+  .footer-note strong { color: #333; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>Karta: Co mogę wpisać do AI?</h1>
+      <div class="sub">AI Literacy · Schemat decyzyjny TAK / NIE / ZAPYTAJ · Zabrać ze sobą</div>
+    </div>
+    <div style="font-size:2.2rem;">🔐</div>
+  </header>
+
+  <div class="question-row">
+    Przed użyciem narzędzia AI zadaj sobie pytanie: <em>„Czy te dane mogę bezpiecznie wpisać do zewnętrznego systemu AI?"</em>
+  </div>
+
+  <div class="cols">
+
+    <!-- TAK -->
+    <div class="col tak">
+      <div class="col-header">
+        <div class="col-icon">✅</div>
+        <div class="col-title">TAK</div>
+        <div class="col-desc">Możesz bezpiecznie używać</div>
+      </div>
+      <div class="col-items">
+
+        <div class="item">
+          <div class="item-bullet">📝</div>
+          <div class="item-content">
+            <div class="item-main">Treści ogólnodostępne</div>
+            <div class="item-example">np. publiczne opisy produktów, treści ze strony firmowej, ogłoszenia rekrutacyjne</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">💡</div>
+          <div class="item-content">
+            <div class="item-main">Anonimowe scenariusze i pytania</div>
+            <div class="item-example">np. „jak napisać e-mail z przeprosinami za opóźnienie?" — bez danych konkretnych osób</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">📚</div>
+          <div class="item-content">
+            <div class="item-main">Dane zagregowane bez identyfikatorów</div>
+            <div class="item-example">np. „sprzedaż regionu X wyniosła 120 tys. w Q3" — bez imion i nazwisk klientów</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">🔤</div>
+          <div class="item-content">
+            <div class="item-main">Prośby o pomoc w redakcji / stylu</div>
+            <div class="item-example">np. „popraw gramatykę tego zdania", „przepisz formalniej" — fikcyjna treść</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">🧪</div>
+          <div class="item-content">
+            <div class="item-main">Dane testowe i przykłady</div>
+            <div class="item-example">np. dane fikcyjne użyte do testowania promptów lub szablonów dokumentów</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">🌐</div>
+          <div class="item-content">
+            <div class="item-main">Tłumaczenia treści publicznych</div>
+            <div class="item-example">np. przetłumacz regulamin, który jest już opublikowany na stronie internetowej</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="bottom-rule">Niskie ryzyko · Używaj swobodnie</div>
+    </div>
+
+    <!-- NIE -->
+    <div class="col nie">
+      <div class="col-header">
+        <div class="col-icon">🚫</div>
+        <div class="col-title">NIE</div>
+        <div class="col-desc">Nie wprowadzaj do AI</div>
+      </div>
+      <div class="col-items">
+
+        <div class="item">
+          <div class="item-bullet">👤</div>
+          <div class="item-content">
+            <div class="item-main">Dane osobowe klientów / pracowników</div>
+            <div class="item-example">np. imię, nazwisko, PESEL, adres, e-mail, numer telefonu, zdjęcia — naruszenie RODO</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">💼</div>
+          <div class="item-content">
+            <div class="item-main">Tajemnice handlowe i know-how</div>
+            <div class="item-example">np. strategia cenowa, marże, plany produktowe, nazwiska klientów strategicznych</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">🏦</div>
+          <div class="item-content">
+            <div class="item-main">Dane finansowe i księgowe szczegółowe</div>
+            <div class="item-example">np. wyniki finansowe przed publikacją, budżety wewnętrzne, koszty jednostkowe</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">⚖️</div>
+          <div class="item-content">
+            <div class="item-main">Dane objęte NDA lub klauzulą poufności</div>
+            <div class="item-example">np. treść umowy z klauzulą poufności, informacje od kontrahentów pod NDA</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">🔑</div>
+          <div class="item-content">
+            <div class="item-main">Hasła, tokeny, klucze dostępowe</div>
+            <div class="item-example">np. hasła do systemów, klucze API, dane dostępowe do baz danych</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">🩺</div>
+          <div class="item-content">
+            <div class="item-main">Dane wrażliwe szczególnej kategorii</div>
+            <div class="item-example">np. dane o zdrowiu, przynależności politycznej lub religijnej — absolutny zakaz</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="bottom-rule">Wysokie ryzyko · Bezwzględny zakaz</div>
+    </div>
+
+    <!-- ZAPYTAJ -->
+    <div class="col zap">
+      <div class="col-header">
+        <div class="col-icon">🤔</div>
+        <div class="col-title">ZAPYTAJ</div>
+        <div class="col-desc">Szara strefa — skonsultuj</div>
+      </div>
+      <div class="col-items">
+
+        <div class="item">
+          <div class="item-bullet">📄</div>
+          <div class="item-content">
+            <div class="item-main">Wewnętrzne dokumenty firmowe</div>
+            <div class="item-example">np. procedury, instrukcje operacyjne — czy są oznaczone jako poufne? Zapytaj przełożonego.</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">📧</div>
+          <div class="item-content">
+            <div class="item-main">E-maile z danymi kontrahentów</div>
+            <div class="item-example">np. korespondencja z nazwą firmy partnera i opisem sprawy — sprawdź klasyfikację danych</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">📊</div>
+          <div class="item-content">
+            <div class="item-main">Raporty z wynikami działów</div>
+            <div class="item-example">np. wyniki sprzedaży działu bez danych osobowych — czy polityka firmy pozwala?</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">🗣️</div>
+          <div class="item-content">
+            <div class="item-main">Nagrania i transkrypty spotkań</div>
+            <div class="item-example">np. transkrypt spotkania — czy wszyscy uczestnicy wyrazili zgodę? Sprawdź zgodę i RODO.</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">🏢</div>
+          <div class="item-content">
+            <div class="item-main">Dane dotyczące niezakończonych spraw</div>
+            <div class="item-example">np. opis sprawy reklamacyjnej z numerem klienta — zależy od polityki compliance</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-bullet">🤝</div>
+          <div class="item-content">
+            <div class="item-main">Treści do komunikacji kryzysowej</div>
+            <div class="item-example">np. projekt oświadczenia na temat incydentu — wymaga akceptacji PR i zarządu</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="bottom-rule">Niejasne ryzyko · Skonsultuj z przełożonym lub compliance</div>
+    </div>
+
+  </div>
+
+  <div class="footer-note">
+    <strong>Pamiętaj:</strong> Zewnętrzne narzędzia AI (ChatGPT, Copilot, Gemini itp.) mogą przechowywać wpisane dane i używać ich do trenowania modeli, chyba że korzystasz z wersji enterprise z odpowiednimi umowami (DPA/NDA).
+    W razie wątpliwości — zawsze lepiej zapytać niż żałować. · AI Literacy
+  </div>
+</div>
+</body>
+</html>

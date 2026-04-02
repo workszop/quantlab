@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Scenariusze dylematu etycznego AI</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 16px; }
+  @media print {
+    body { background: white; padding: 0; }
+    .card-page { box-shadow: none; page-break-after: always; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  .intro-page {
+    max-width: 900px;
+    margin: 0 auto 20px;
+    background: #1a1a2e;
+    color: white;
+    border-radius: 10px;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.15);
+  }
+  @media print { .intro-page { border-radius: 0; margin: 0; } }
+  .intro-title { font-size: 1.4rem; font-weight: 900; margin-bottom: 6px; }
+  .intro-sub { font-size: 0.82rem; opacity: 0.65; line-height: 1.6; max-width: 580px; }
+  .intro-icon { font-size: 3.5rem; flex-shrink: 0; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  @media (max-width: 700px) { .cards-grid { grid-template-columns: 1fr; } }
+  @media print { .cards-grid { display: block; } }
+
+  .card-page {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+    display: flex;
+    flex-direction: column;
+  }
+  @media print { .card-page { margin-bottom: 0; } }
+
+  .card-header {
+    padding: 16px 20px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .card-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 900;
+    color: white;
+    flex-shrink: 0;
+  }
+  .card-scenario-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 3px;
+  }
+  .card-title { font-size: 0.95rem; font-weight: 800; color: #1a1a2e; line-height: 1.3; }
+
+  .s1 .card-header { background: #fff8e8; border-bottom: 3px solid #f39c12; }
+  .s1 .card-num { background: #f39c12; }
+  .s1 .card-scenario-label { color: #b07a00; }
+
+  .s2 .card-header { background: #fff0f5; border-bottom: 3px solid #e74c3c; }
+  .s2 .card-num { background: #e74c3c; }
+  .s2 .card-scenario-label { color: #a02020; }
+
+  .s3 .card-header { background: #f0f4ff; border-bottom: 3px solid #3498db; }
+  .s3 .card-num { background: #3498db; }
+  .s3 .card-scenario-label { color: #1560ad; }
+
+  .s4 .card-header { background: #f5f0ff; border-bottom: 3px solid #9b59b6; }
+  .s4 .card-num { background: #9b59b6; }
+  .s4 .card-scenario-label { color: #6a1a9a; }
+
+  .card-body { padding: 14px 18px; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+
+  .scenario-box {
+    background: #f9f9f9;
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    color: #222;
+    line-height: 1.7;
+    border-left: 3px solid #ddd;
+    font-style: italic;
+  }
+  .s1 .scenario-box { border-color: #f39c12; }
+  .s2 .scenario-box { border-color: #e74c3c; }
+  .s3 .scenario-box { border-color: #3498db; }
+  .s4 .scenario-box { border-color: #9b59b6; }
+
+  .questions-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #aaa;
+    margin-bottom: 6px;
+  }
+  .questions { display: flex; flex-direction: column; gap: 6px; }
+  .question {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 0.8rem;
+    color: #333;
+    line-height: 1.5;
+  }
+  .q-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e8e8e8;
+    color: #555;
+    font-size: 0.65rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .notes-area {
+    background: #fafafa;
+    border: 1.5px dashed #ddd;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.75rem;
+    color: #ccc;
+    min-height: 52px;
+    flex: 0;
+  }
+
+  .card-footer-strip {
+    padding: 8px 18px;
+    font-size: 0.68rem;
+    color: #bbb;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .reminder-box {
+    max-width: 900px;
+    margin: 16px auto 0;
+    background: #1a1a2e;
+    color: white;
+    border-radius: 8px;
+    padding: 14px 24px;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  @media print { .reminder-box { display: none; } }
+  .reminder-box strong { display: block; font-size: 0.9rem; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<div class="intro-page">
+  <div>
+    <div class="intro-title">Scenariusze dylematu etycznego AI</div>
+    <div class="intro-sub">
+      Poniższe scenariusze nie mają jednej poprawnej odpowiedzi. Celem jest wyrobienie nawyku zadawania właściwych pytań zanim się działanie podejmie. Pracujcie w grupach 3–4 osoby. Każda grupa omawia jeden scenariusz przez 10 minut, potem prezentuje wnioski.
+    </div>
+  </div>
+  <div class="intro-icon">⚖️</div>
+</div>
+
+<div class="cards-grid">
+
+  <!-- SCENARIUSZ 1 -->
+  <div class="card-page s1">
+    <div class="card-header">
+      <div class="card-num">1</div>
+      <div>
+        <div class="card-scenario-label">Scenariusz · Odpowiedzialność za treść</div>
+        <div class="card-title">"AI napisała raport dla klienta — czy podpisujemy się pod nim?"</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="scenario-box">
+        Twój kolega z zespołu użył ChatGPT, żeby napisać raport analityczny dla ważnego klienta. Raport wygląda profesjonalnie, jest dobrze ustrukturyzowany i brzmi przekonująco. Masz go teraz wysłać w imieniu firmy. Nie sprawdzałeś każdego zdania — to zajęłoby godziny. Klient czeka. Szef naciska na termin.
+      </div>
+      <div>
+        <div class="questions-label">Pytania do dyskusji</div>
+        <div class="questions">
+          <div class="question"><div class="q-num">1</div><div>Kto ponosi odpowiedzialność, jeśli raport zawiera błąd lub dezinformację — ty, kolega, firma, czy AI?</div></div>
+          <div class="question"><div class="q-num">2</div><div>Czy klient powinien wiedzieć, że raport napisała AI? Kiedy to ma znaczenie, a kiedy nie?</div></div>
+          <div class="question"><div class="q-num">3</div><div>Jakie minimum weryfikacji chciałbyś przeprowadzić przed wysłaniem? Co byś sprawdził w pierwszej kolejności?</div></div>
+          <div class="question"><div class="q-num">4</div><div>Czy gdybyś podpisał raport swoim nazwiskiem, czułbyś się za niego odpowiedzialny? Dlaczego to pytanie ma znaczenie?</div></div>
+        </div>
+      </div>
+      <div class="notes-area">Notatki grupy...</div>
+    </div>
+    <div class="card-footer-strip">
+      <span>AI Literacy · Scenariusz 1 / 4</span>
+      <span>Temat: Odpowiedzialność · Weryfikacja treści</span>
+    </div>
+  </div>
+
+  <!-- SCENARIUSZ 2 -->
+  <div class="card-page s2">
+    <div class="card-header">
+      <div class="card-num">2</div>
+      <div>
+        <div class="card-scenario-label">Scenariusz · Decyzje dotyczące ludzi</div>
+        <div class="card-title">"Model rekomenduje odrzucenie kandydata — co robimy?"</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="scenario-box">
+        Dział HR wdrożył narzędzie AI do wstępnego screeningu CV. System przeanalizował 200 aplikacji i wybrał top 20 do dalszego etapu. Jeden z kandydatów, którego znasz z poprzedniego projektu i uważasz za świetnego specjalistę, znalazł się poza top 20. Narzędzie nie tłumaczy dlaczego. Rekruter mówi: "Trzymamy się rekomendacji modelu, inaczej po co go mamy".
+      </div>
+      <div>
+        <div class="questions-label">Pytania do dyskusji</div>
+        <div class="questions">
+          <div class="question"><div class="q-num">1</div><div>Czy AI może być ostatecznym decydentem w rekrutacji? Gdzie przebiega granica?</div></div>
+          <div class="question"><div class="q-num">2</div><div>Jak możesz dowiedzieć się, dlaczego model odrzucił kandydata? Czy masz prawo do wyjaśnienia (AI Act, RODO)?</div></div>
+          <div class="question"><div class="q-num">3</div><div>Co zrobisz konkretnie? Przefiltrujesz wynik? Pójdziesz z tym do menedżera? Nic nie zrobisz?</div></div>
+          <div class="question"><div class="q-num">4</div><div>Jeśli model ma bias na niekorzyść określonej grupy — jak to wykryjesz i co wtedy?</div></div>
+        </div>
+      </div>
+      <div class="notes-area">Notatki grupy...</div>
+    </div>
+    <div class="card-footer-strip">
+      <span>AI Literacy · Scenariusz 2 / 4</span>
+      <span>Temat: Human in the loop · Bias · AI w HR</span>
+    </div>
+  </div>
+
+  <!-- SCENARIUSZ 3 -->
+  <div class="card-page s3">
+    <div class="card-header">
+      <div class="card-num">3</div>
+      <div>
+        <div class="card-scenario-label">Scenariusz · Uprzedzenia w AI</div>
+        <div class="card-title">"AI wygenerowała treść, która zawiera uprzedzenie — jak to rozpoznać?"</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="scenario-box">
+        Poproszono cię o przygotowanie serii maili marketingowych do różnych segmentów klientów. Użyłeś AI, żeby wygenerować personalizowane wiadomości. Przeglądając wyniki, zauważasz, że oferta premium pojawia się częściej w mailach do mężczyzn, a oferta "oszczędna" trafia głównie do kobiet — chociaż segmentacja nie była oparta na płci. Termin goni. Nikt inny tego jeszcze nie widział.
+      </div>
+      <div>
+        <div class="questions-label">Pytania do dyskusji</div>
+        <div class="questions">
+          <div class="question"><div class="q-num">1</div><div>Czy to jest uprzedzenie (bias)? Skąd mogło się wziąć w modelu AI?</div></div>
+          <div class="question"><div class="q-num">2</div><div>Jakie są konsekwencje wysłania tych maili — dla klientów, firmy, Ciebie?</div></div>
+          <div class="question"><div class="q-num">3</div><div>Co zrobisz: zatrzymasz kampanię, poprawisz ręcznie, zgłosisz problem, czy coś innego?</div></div>
+          <div class="question"><div class="q-num">4</div><div>Jak w przyszłości możesz sprawdzać, czy AI nie generuje treści ze stronniczością?</div></div>
+        </div>
+      </div>
+      <div class="notes-area">Notatki grupy...</div>
+    </div>
+    <div class="card-footer-strip">
+      <span>AI Literacy · Scenariusz 3 / 4</span>
+      <span>Temat: Bias w AI · Dyskryminacja · Odpowiedzialność</span>
+    </div>
+  </div>
+
+  <!-- SCENARIUSZ 4 -->
+  <div class="card-page s4">
+    <div class="card-header">
+      <div class="card-num">4</div>
+      <div>
+        <div class="card-scenario-label">Scenariusz · Dane i prywatność</div>
+        <div class="card-title">"Kolega używa AI do analizy danych klientów — czy mnie to dotyczy?"</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="scenario-box">
+        Twój kolega z działu sprzedaży wkleił do ChatGPT eksport z CRM — imiona, emaile, historię zakupów i notatki z rozmów z klientami — żeby "szybko przeanalizować trendy i przygotować prezentację dla zarządu". Mówi: "To publiczne narzędzie, ale nie powiem nikomu. Zrobi się szybciej i ładniej wyjdzie". Pyta, czy mu pomożesz to sformatować.
+      </div>
+      <div>
+        <div class="questions-label">Pytania do dyskusji</div>
+        <div class="questions">
+          <div class="question"><div class="q-num">1</div><div>Czy działanie kolegi jest zgodne z prawem (RODO)? Jakie ryzyko ponosi firma, a jakie on osobiście?</div></div>
+          <div class="question"><div class="q-num">2</div><div>Co zrobisz: pomożesz, odmówisz, zgłosisz, porozmawiasz z nim wprost?</div></div>
+          <div class="question"><div class="q-num">3</div><div>Jak można było osiągnąć ten sam cel bez naruszania zasad? Jakie alternatywy istnieją?</div></div>
+          <div class="question"><div class="q-num">4</div><div>Czy jako współpracownik masz obowiązek reagować? Skąd taki obowiązek wynika?</div></div>
+        </div>
+      </div>
+      <div class="notes-area">Notatki grupy...</div>
+    </div>
+    <div class="card-footer-strip">
+      <span>AI Literacy · Scenariusz 4 / 4</span>
+      <span>Temat: RODO · Dane osobowe · Kultura bezpieczeństwa</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="reminder-box">
+  <span style="font-size:1.6rem;flex-shrink:0;">💡</span>
+  <div>
+    <strong>Pamiętaj: nie szukamy jednej poprawnej odpowiedzi.</strong>
+    Celem tych scenariuszy jest wyrobienie nawyku — zanim zadziałam, pytam: Kto za to odpowiada? Czy dane są chronione? Czy człowiek ma kontrolę? Czy treść jest rzetelna? Te cztery pytania wystarczą, żeby unikać większości błędów w pracy z AI.
+  </div>
+</div>
+
+</body>
+</html>

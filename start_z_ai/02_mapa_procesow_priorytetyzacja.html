@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Mapa procesów do priorytetyzacji – Moduł 2</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; }
+  }
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  header {
+    background: #0f3460;
+    color: white;
+    padding: 22px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  header h1 { font-size: 1.5rem; font-weight: 700; }
+  header .sub { font-size: 0.82rem; opacity: 0.7; margin-top: 4px; }
+  .tag {
+    background: #e94560;
+    color: white;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .instructions {
+    background: #eef4ff;
+    padding: 14px 28px;
+    font-size: 0.85rem;
+    color: #444;
+    border-bottom: 1px solid #ccd8f0;
+  }
+  .instructions strong { color: #0f3460; }
+  .matrix-container {
+    padding: 28px 32px;
+    position: relative;
+  }
+  .axis-label-y {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #0f3460;
+    white-space: nowrap;
+  }
+  .axis-label-x {
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #0f3460;
+    margin-top: 8px;
+    padding-bottom: 4px;
+  }
+  .matrix-wrap {
+    margin-left: 30px;
+  }
+  .y-labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    left: 34px;
+    top: 58px;
+    bottom: 70px;
+    font-size: 0.72rem;
+    color: #888;
+    text-align: right;
+    width: 60px;
+  }
+  .matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    background: #ddd;
+    border: 2px solid #0f3460;
+    border-radius: 4px;
+    overflow: hidden;
+    min-height: 420px;
+    margin-left: 68px;
+  }
+  .quadrant {
+    background: white;
+    padding: 16px;
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  .q-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .q-badge {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+  /* Q1: wysoki wpływ, niska złożoność — QUICK WIN */
+  .q1 { background: #f0faf4; }
+  .q1 .q-label { color: #1a7a44; }
+  .q1 .q-badge { background: #1a7a44; color: white; }
+  /* Q2: wysoki wpływ, wysoka złożoność — STRATEGICZNY */
+  .q2 { background: #f0f4ff; }
+  .q2 .q-label { color: #0f3460; }
+  .q2 .q-badge { background: #0f3460; color: white; }
+  /* Q3: niski wpływ, niska złożoność — UZUPEŁNIAJĄCY */
+  .q3 { background: #fffdf0; }
+  .q3 .q-label { color: #b07a00; }
+  .q3 .q-badge { background: #b07a00; color: white; }
+  /* Q4: niski wpływ, wysoka złożoność — ODPUŚĆ */
+  .q4 { background: #fdf0f0; }
+  .q4 .q-label { color: #a02020; }
+  .q4 .q-badge { background: #a02020; color: white; }
+
+  .q-desc { font-size: 0.75rem; color: #777; margin-bottom: 12px; font-style: italic; }
+  .sticky-area {
+    flex: 1;
+    background: rgba(255,255,255,0.6);
+    border: 1.5px dashed #ccc;
+    border-radius: 6px;
+    padding: 8px;
+    min-height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 6px;
+  }
+  .sticky {
+    background: #fffde7;
+    border: 1px solid #e0d060;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    color: #444;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.08);
+    cursor: default;
+  }
+  .x-axis-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 68px;
+    font-size: 0.72rem;
+    color: #888;
+    margin-top: 4px;
+  }
+  .legend {
+    display: flex;
+    gap: 20px;
+    padding: 14px 28px;
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: #555;
+  }
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>Mapa procesów do priorytetyzacji</h1>
+      <div class="sub">Moduł 2 · Start z AI · Matryca wpływ vs. złożoność</div>
+    </div>
+    <div class="tag">MODUŁ 2</div>
+  </header>
+
+  <div class="instructions">
+    <strong>Instrukcja:</strong> Wpisz lub naklejcie karteczki z procesami w odpowiedni kwadrant.
+    Oś X = potencjalny wpływ biznesowy (mały → duży). Oś Y = złożoność wdrożenia (mała → duża).
+    Zacznij od procesów z ćwiczenia z Modułu 1.
+  </div>
+
+  <div class="matrix-container">
+    <div class="matrix-wrap">
+      <div class="matrix">
+        <!-- Q2: wysoki wpływ, wysoka złożoność (góra-prawo) -->
+        <div class="quadrant q2" style="order:1;">
+          <div class="q-label">
+            <span>Wysoka złożoność · Duży wpływ</span>
+            <span class="q-badge">PROJEKT STRATEGICZNY</span>
+          </div>
+          <div class="q-desc">Warto robić, ale wymaga planu, zasobów i czasu. Dobry kandydat na roadmapę AI.</div>
+          <div class="sticky-area">
+            <div class="sticky">np. Predykcja churn klientów</div>
+          </div>
+        </div>
+
+        <!-- Q1: niski wpływ, wysoka złożoność (góra-lewo) — ODPUŚĆ -->
+        <div class="quadrant q4" style="order:2;">
+          <div class="q-label">
+            <span>Wysoka złożoność · Mały wpływ</span>
+            <span class="q-badge">ODPUŚĆ NA RAZIE</span>
+          </div>
+          <div class="q-desc">Duży wysiłek, małe korzyści. Odłóż na później lub wyeliminuj z listy.</div>
+          <div class="sticky-area"></div>
+        </div>
+
+        <!-- Q3: wysoki wpływ, niska złożoność — QUICK WIN -->
+        <div class="quadrant q1" style="order:3;">
+          <div class="q-label">
+            <span>Niska złożoność · Duży wpływ</span>
+            <span class="q-badge">⚡ QUICK WIN</span>
+          </div>
+          <div class="q-desc">Tu zacznij! Szybki efekt, niski próg wejścia. Buduje wiarygodność AI w organizacji.</div>
+          <div class="sticky-area">
+            <div class="sticky">np. Automatyczne podsumowania maili</div>
+            <div class="sticky">np. Klasyfikacja zgłoszeń</div>
+          </div>
+        </div>
+
+        <!-- Q4: niski wpływ, niska złożoność — UZUPEŁNIAJĄCY -->
+        <div class="quadrant q3" style="order:4;">
+          <div class="q-label">
+            <span>Niska złożoność · Mały wpływ</span>
+            <span class="q-badge">UZUPEŁNIAJĄCY</span>
+          </div>
+          <div class="q-desc">Łatwe, ale mało wartościowe. Robić przy okazji — nie jako priorytet.</div>
+          <div class="sticky-area"></div>
+        </div>
+      </div>
+
+      <div class="x-axis-labels">
+        <span>⬅ Mały wpływ biznesowy</span>
+        <span>Duży wpływ biznesowy ➡</span>
+      </div>
+      <div class="axis-label-x">Potencjalny wpływ biznesowy</div>
+    </div>
+    <div class="axis-label-y">Złożoność wdrożenia</div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#1a7a44;"></div> Quick Win — zacznij tutaj</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0f3460;"></div> Strategiczny — planuj z wyprzedzeniem</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b07a00;"></div> Uzupełniający — niska wartość</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a02020;"></div> Odpuść — zbyt drogi koszt względem efektu</div>
+  </div>
+</div>
+</body>
+</html>

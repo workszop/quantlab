@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jak Działa Duży Model Językowy (LLM)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 24px;
+            color: #1a1a2e;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 24px 36px;
+            margin-bottom: 28px;
+        }
+        .module-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .page-header h1 {
+            font-size: 1.65rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .page-header p {
+            font-size: 0.88rem;
+            opacity: 0.85;
+        }
+        .infographic {
+            max-width: 740px;
+            margin: 0 auto 28px;
+        }
+        .stage-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 24px 0;
+        }
+        .stage-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .stage-number {
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #aaa;
+        }
+        .stage-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+        .stage-content {
+            padding: 14px 24px 18px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #444;
+        }
+        .insight-box {
+            margin: 10px 24px 18px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        .insight-box .label {
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            font-style: normal;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .arrow-connector {
+            display: flex;
+            justify-content: center;
+            padding: 8px 0;
+        }
+        .arrow-connector svg {
+            width: 28px;
+            height: 28px;
+        }
+        .conclusions {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+            padding: 24px 28px;
+            max-width: 740px;
+            margin: 0 auto 28px;
+            border-left: 5px solid #3b82f6;
+        }
+        .conclusions h2 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #1a1a2e;
+        }
+        .conclusions ul {
+            list-style: none;
+            padding: 0;
+        }
+        .conclusions li {
+            padding: 8px 0;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            border-bottom: 1px solid #f0f0f0;
+            padding-left: 24px;
+            position: relative;
+        }
+        .conclusions li:last-child { border-bottom: none; }
+        .conclusions li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #bbb;
+            padding: 18px 0 8px;
+        }
+        @media print {
+            body { background: white; }
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <div class="module-tag">Moduł 1 · AI dla Kadry Strategicznej</div>
+        <h1>Jak Działa Duży Model Językowy (LLM)</h1>
+        <p>Intuicyjne wyjaśnienie działania modeli językowych – bez matematyki, dla decydentów</p>
+    </header>
+
+    <div class="infographic">
+
+        <!-- Stage 1 -->
+        <div class="stage-card">
+            <div class="stage-header">
+                <div class="stage-icon" style="background: #eff6ff; color: #3b82f6;">📚</div>
+                <div>
+                    <div class="stage-number">Etap 1 z 6</div>
+                    <div class="stage-title">Trening na danych</div>
+                </div>
+            </div>
+            <div class="stage-content">
+                Model analizuje miliardy tekstów z internetu, książek, artykułów. Nie zapamiętuje tekstów dosłownie – uczy się wzorców językowych, relacji między pojęciami i struktur zdań.
+            </div>
+            <div class="insight-box" style="background: #eff6ff; color: #1e40af;">
+                <span class="label" style="color: #3b82f6;">Kluczowa analogia</span>
+                To jak czytanie 100 000 książek – nie pamiętasz każdego zdania, ale rozumiesz jak działa język
+            </div>
+        </div>
+
+        <div class="arrow-connector">
+            <svg viewBox="0 0 28 28" fill="none"><path d="M14 4 L14 20 M8 15 L14 22 L20 15" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Stage 2 -->
+        <div class="stage-card">
+            <div class="stage-header">
+                <div class="stage-icon" style="background: #f5f3ff; color: #8b5cf6;">🧩</div>
+                <div>
+                    <div class="stage-number">Etap 2 z 6</div>
+                    <div class="stage-title">Rozumienie kontekstu</div>
+                </div>
+            </div>
+            <div class="stage-content">
+                Mechanizm atencji (attention) pozwala modelowi zrozumieć, które słowa w zdaniu odnoszą się do siebie. Dzięki temu rozumie kontekst i intencję pytania.
+            </div>
+            <div class="insight-box" style="background: #f5f3ff; color: #5b21b6;">
+                <span class="label" style="color: #8b5cf6;">Kluczowa analogia</span>
+                Model nie czyta słowo po słowie – widzi całe zdanie jednocześnie i rozumie relacje
+            </div>
+        </div>
+
+        <div class="arrow-connector">
+            <svg viewBox="0 0 28 28" fill="none"><path d="M14 4 L14 20 M8 15 L14 22 L20 15" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Stage 3 -->
+        <div class="stage-card">
+            <div class="stage-header">
+                <div class="stage-icon" style="background: #ecfdf5; color: #10b981;">💬</div>
+                <div>
+                    <div class="stage-number">Etap 3 z 6</div>
+                    <div class="stage-title">Otrzymanie promptu</div>
+                </div>
+            </div>
+            <div class="stage-content">
+                Użytkownik wysyła pytanie lub instrukcję (prompt). Model przetwarza tekst na tokeny – jednostki tekstu, które są dla niego zrozumiałe.
+            </div>
+            <div class="insight-box" style="background: #ecfdf5; color: #065f46;">
+                <span class="label" style="color: #10b981;">Kluczowa analogia</span>
+                Jakość odpowiedzi zależy od jakości pytania – stąd znaczenie prompt engineeringu
+            </div>
+        </div>
+
+        <div class="arrow-connector">
+            <svg viewBox="0 0 28 28" fill="none"><path d="M14 4 L14 20 M8 15 L14 22 L20 15" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Stage 4 -->
+        <div class="stage-card">
+            <div class="stage-header">
+                <div class="stage-icon" style="background: #fffbeb; color: #f59e0b;">🎯</div>
+                <div>
+                    <div class="stage-number">Etap 4 z 6</div>
+                    <div class="stage-title">Przewidywanie odpowiedzi</div>
+                </div>
+            </div>
+            <div class="stage-content">
+                Model nie „wie" odpowiedzi – przewiduje najbardziej prawdopodobne następne słowo, potem następne, i następne. Każde słowo jest wybierane na podstawie kontekstu i wyuczonej wiedzy.
+            </div>
+            <div class="insight-box" style="background: #fffbeb; color: #92400e;">
+                <span class="label" style="color: #f59e0b;">Kluczowa analogia</span>
+                To jak bardzo zaawansowane autocomplete – model zawsze wybiera statystycznie najlepsze następne słowo
+            </div>
+        </div>
+
+        <div class="arrow-connector">
+            <svg viewBox="0 0 28 28" fill="none"><path d="M14 4 L14 20 M8 15 L14 22 L20 15" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Stage 5 -->
+        <div class="stage-card">
+            <div class="stage-header">
+                <div class="stage-icon" style="background: #fef2f2; color: #e74c3c;">✍️</div>
+                <div>
+                    <div class="stage-number">Etap 5 z 6</div>
+                    <div class="stage-title">Generowanie tekstu</div>
+                </div>
+            </div>
+            <div class="stage-content">
+                Parametr „temperatura" kontroluje kreatywność: niska = przewidywalne odpowiedzi, wysoka = bardziej twórcze ale mniej precyzyjne. Odpowiedź jest generowana token po tokenie.
+            </div>
+            <div class="insight-box" style="background: #fef2f2; color: #991b1b;">
+                <span class="label" style="color: #e74c3c;">Kluczowa analogia</span>
+                Dlatego AI może dać różne odpowiedzi na to samo pytanie – element losowości jest wbudowany
+            </div>
+        </div>
+
+        <div class="arrow-connector">
+            <svg viewBox="0 0 28 28" fill="none"><path d="M14 4 L14 20 M8 15 L14 22 L20 15" stroke="#e74c3c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Stage 6 -->
+        <div class="stage-card">
+            <div class="stage-header">
+                <div class="stage-icon" style="background: #f3f4f6; color: #6b7280;">⚠️</div>
+                <div>
+                    <div class="stage-number">Etap 6 z 6</div>
+                    <div class="stage-title">Ograniczenia</div>
+                </div>
+            </div>
+            <div class="stage-content">
+                Model nie ma dostępu do internetu (chyba że podłączony), nie pamięta poprzednich rozmów (bez pamięci sesji), może generować nieprawdziwe treści (halucynacje), ma datę odcięcia wiedzy.
+            </div>
+            <div class="insight-box" style="background: #f3f4f6; color: #374151;">
+                <span class="label" style="color: #6b7280;">Kluczowa analogia</span>
+                LLM jest potężnym narzędziem, ale nie jest wszechwiedzącym wyrocznia – wymaga nadzoru człowieka
+            </div>
+        </div>
+    </div>
+
+    <!-- Conclusions -->
+    <div class="conclusions">
+        <h2>Kluczowe wnioski dla kadry zarządzającej</h2>
+        <ul>
+            <li><strong>LLM nie rozumie – przewiduje.</strong> Odpowiedzi brzmią mądrze, ale model nie ma świadomości ani wiedzy w ludzkim sensie. Każdy output wymaga weryfikacji przez człowieka.</li>
+            <li><strong>Jakość promptu = jakość wyniku.</strong> Inwestycja w szkolenie zespołu z prompt engineeringu przynosi natychmiastowy zwrot. To najtańsza optymalizacja AI.</li>
+            <li><strong>Halucynacje to nie bug – to cecha.</strong> Mechanizm przewidywania słów oznacza, że model zawsze „odpowie", nawet gdy nie zna odpowiedzi. Procesy weryfikacji są koniecznością.</li>
+            <li><strong>Koszty rosną z użyciem.</strong> Tokeny to waluta LLM – każde zapytanie kosztuje. Planowanie budżetu API i optymalizacja promptów to zadanie dla kadry zarządzającej.</li>
+        </ul>
+    </div>
+
+    <footer>02_infografika_jak_dziala_LLM.html · AI dla Kadry Strategicznej · Opracowanie: Q1 2026</footer>
+</body>
+</html>

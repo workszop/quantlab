@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Matryca Wpływ × Wykonalność – AI dla Kadry Strategicznej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 24px 36px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.5rem; font-weight: 700; }
+.page-header p { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.main-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+  overflow: hidden;
+  max-width: 1200px;
+  margin: 0 auto 24px auto;
+}
+
+.table-container { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+thead th {
+  background: #1a1a2e;
+  color: white;
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+thead th:first-child { text-align: left; padding-left: 16px; min-width: 200px; }
+thead th.criterion { min-width: 130px; }
+
+.criterion-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.criterion-name { font-size: 0.73rem; }
+.criterion-hint { font-size: 0.62rem; opacity: 0.7; font-weight: 400; }
+
+tbody tr { border-bottom: 1px solid #f0f0f0; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:nth-child(even) { background: #fafafa; }
+tbody tr:hover { background: #f5f7ff; }
+
+td {
+  padding: 10px 8px;
+  vertical-align: middle;
+  text-align: center;
+}
+td:first-child {
+  text-align: left;
+  padding-left: 16px;
+  font-weight: 600;
+}
+.initiative-name {
+  font-size: 0.85rem;
+  color: #1a1a2e;
+  margin-bottom: 2px;
+}
+
+.rating-group {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+.rating-btn {
+  width: 28px; height: 28px;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #bbb;
+  transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.rating-btn:hover { border-color: #1a1a2e; color: #1a1a2e; }
+.rating-btn.active-1 { background: #fee2e2; border-color: #e74c3c; color: #c0392b; }
+.rating-btn.active-2 { background: #fef3c7; border-color: #e67e22; color: #d35400; }
+.rating-btn.active-3 { background: #fefce8; border-color: #f59e0b; color: #b45309; }
+.rating-btn.active-4 { background: #dcfce7; border-color: #27ae60; color: #1e8449; }
+.rating-btn.active-5 { background: #d1fae5; border-color: #059669; color: #065f46; }
+
+.quadrant-cell {
+  font-size: 0.73rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  display: inline-block;
+}
+.q-quickwin { background: #d1fae5; color: #065f46; }
+.q-strategic { background: #dbeafe; color: #1e40af; }
+.q-later { background: #fef3c7; color: #92400e; }
+.q-avoid { background: #fee2e2; color: #991b1b; }
+
+.add-row-btn {
+  background: none;
+  border: 2px dashed #ddd;
+  color: #aaa;
+  width: 100%;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.add-row-btn:hover { border-color: #1a1a2e; color: #1a1a2e; background: #f5f7ff; }
+
+/* Visual Matrix */
+.matrix-visual {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+.matrix-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  text-align: center;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.matrix-wrapper {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+.y-axis-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  letter-spacing: 0.05em;
+}
+.matrix-grid-container { flex: 1; display: flex; flex-direction: column; }
+.matrix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 6px;
+  flex: 1;
+}
+.matrix-quadrant {
+  border-radius: 10px;
+  padding: 16px;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+}
+.q-label {
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+.q-hint {
+  font-size: 0.68rem;
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+.q-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+.q-item {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 6px;
+}
+
+.quadrant-tl { background: #dbeafe; order: 1; }
+.quadrant-tr { background: #d1fae5; order: 2; }
+.quadrant-bl { background: #fee2e2; order: 3; }
+.quadrant-br { background: #fef3c7; order: 4; }
+
+.x-axis-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  text-align: center;
+  padding: 10px 0 0 0;
+  letter-spacing: 0.05em;
+}
+.axis-ends {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0 0 0;
+  font-size: 0.68rem;
+  color: #aaa;
+  font-weight: 600;
+}
+.y-axis-ends {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 6px 0 0;
+  font-size: 0.68rem;
+  color: #aaa;
+  font-weight: 600;
+  text-align: center;
+}
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.75rem;
+  color: #bbb;
+  padding: 12px;
+}
+
+@media print {
+  body { background: white; padding: 8px; }
+  .page-header { border-radius: 6px; padding: 14px 20px; margin-bottom: 14px; }
+  .main-card, .matrix-visual { box-shadow: none; border: 1px solid #ddd; }
+  .rating-btn { border: 1px solid #ccc; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Matryca Wpływ × Wykonalność</h1>
+    <p>Umieść inicjatywy AI na matrycy 2×2 i zidentyfikuj Quick Wins, projekty strategiczne i pułapki</p>
+  </div>
+  <div class="module-tag">Moduł 2 · AI dla Kadry Strategicznej</div>
+</div>
+
+<div class="main-card">
+  <div class="table-container">
+    <table id="matrixTable">
+      <thead>
+        <tr>
+          <th>Inicjatywa AI</th>
+          <th class="criterion">
+            <div class="criterion-header">
+              <span class="criterion-name">Wpływ biznesowy</span>
+              <span class="criterion-hint">1=minimalny, 5=przełomowy</span>
+            </div>
+          </th>
+          <th class="criterion">
+            <div class="criterion-header">
+              <span class="criterion-name">Wykonalność techniczna</span>
+              <span class="criterion-hint">1=bardzo trudna, 5=łatwa</span>
+            </div>
+          </th>
+          <th>Kwadrant</th>
+        </tr>
+      </thead>
+      <tbody id="initiativeRows">
+        <!-- Rows inserted by JS -->
+      </tbody>
+    </table>
+  </div>
+  <button class="add-row-btn" onclick="addRow()">+ Dodaj inicjatywę</button>
+</div>
+
+<div class="matrix-visual">
+  <div class="matrix-title">Matryca Wpływ × Wykonalność – wizualizacja</div>
+  <div class="matrix-wrapper">
+    <div class="y-axis-label">Wpływ biznesowy</div>
+    <div class="y-axis-ends">
+      <span>Wysoki</span>
+      <span>Niski</span>
+    </div>
+    <div class="matrix-grid-container">
+      <div class="matrix-grid">
+        <div class="matrix-quadrant quadrant-tl">
+          <div class="q-label" style="color:#1e40af;">Projekty strategiczne</div>
+          <div class="q-hint" style="color:#1e40af;">Planuj i inwestuj</div>
+          <div class="q-items" id="q-strategic"></div>
+        </div>
+        <div class="matrix-quadrant quadrant-tr">
+          <div class="q-label" style="color:#065f46;">Quick Wins</div>
+          <div class="q-hint" style="color:#065f46;">Wdrażaj teraz</div>
+          <div class="q-items" id="q-quickwin"></div>
+        </div>
+        <div class="matrix-quadrant quadrant-bl">
+          <div class="q-label" style="color:#991b1b;">Unikaj</div>
+          <div class="q-hint" style="color:#991b1b;">Nie inwestuj</div>
+          <div class="q-items" id="q-avoid"></div>
+        </div>
+        <div class="matrix-quadrant quadrant-br">
+          <div class="q-label" style="color:#92400e;">Może później</div>
+          <div class="q-hint" style="color:#92400e;">Automatyzuj jeśli tanio</div>
+          <div class="q-items" id="q-later"></div>
+        </div>
+      </div>
+      <div class="x-axis-label">Wykonalność techniczna</div>
+      <div class="axis-ends">
+        <span>Niska</span>
+        <span>Wysoka</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  05_matryca_wplyw_wykonalnosc.html · AI dla Kadry Strategicznej · Narzędzie warsztatowe
+</footer>
+
+<script>
+const defaultInitiatives = [
+  { name: 'Chatbot obsługi klienta', impact: 0, feasibility: 0 },
+  { name: 'Automatyzacja raportowania', impact: 0, feasibility: 0 },
+  { name: 'Prognozowanie popytu', impact: 0, feasibility: 0 },
+  { name: 'Autonomiczne pojazdy dostawcze', impact: 0, feasibility: 0 },
+  { name: 'Screening CV w rekrutacji', impact: 0, feasibility: 0 },
+  { name: 'Analiza umów prawnych', impact: 0, feasibility: 0 },
+  { name: 'Predictive maintenance', impact: 0, feasibility: 0 },
+  { name: '', impact: 0, feasibility: 0 },
+  { name: '', impact: 0, feasibility: 0 },
+];
+
+let rowData = defaultInitiatives.map(i => ({ ...i }));
+
+function getQuadrant(impact, feasibility) {
+  if (impact === 0 || feasibility === 0) return null;
+  const highImpact = impact >= 3;
+  const highFeasibility = feasibility >= 3;
+  if (highImpact && highFeasibility) return 'quickwin';
+  if (highImpact && !highFeasibility) return 'strategic';
+  if (!highImpact && highFeasibility) return 'later';
+  return 'avoid';
+}
+
+function getQuadrantLabel(q) {
+  if (q === 'quickwin') return { text: 'Quick Win', cls: 'q-quickwin' };
+  if (q === 'strategic') return { text: 'Strategiczny', cls: 'q-strategic' };
+  if (q === 'later') return { text: 'Może później', cls: 'q-later' };
+  if (q === 'avoid') return { text: 'Unikaj', cls: 'q-avoid' };
+  return { text: '–', cls: '' };
+}
+
+function renderTable() {
+  const tbody = document.getElementById('initiativeRows');
+  tbody.innerHTML = '';
+  rowData.forEach((row, rowIdx) => {
+    const tr = document.createElement('tr');
+
+    // Name cell
+    const nameTd = document.createElement('td');
+    nameTd.innerHTML = `<div class="initiative-name" contenteditable="true" onblur="updateName(${rowIdx},this)">${row.name || '<span style=&quot;color:#ccc;font-style:italic&quot;>Wpisz nazwę inicjatywy...</span>'}</div>`;
+    tr.appendChild(nameTd);
+
+    // Impact rating
+    const impactTd = document.createElement('td');
+    const impactGroup = document.createElement('div');
+    impactGroup.className = 'rating-group';
+    for (let v = 1; v <= 5; v++) {
+      const btn = document.createElement('button');
+      btn.className = 'rating-btn' + (row.impact === v ? ` active-${v}` : '');
+      btn.textContent = v;
+      btn.onclick = () => { rowData[rowIdx].impact = v; renderTable(); renderMatrix(); };
+      impactGroup.appendChild(btn);
+    }
+    impactTd.appendChild(impactGroup);
+    tr.appendChild(impactTd);
+
+    // Feasibility rating
+    const feasTd = document.createElement('td');
+    const feasGroup = document.createElement('div');
+    feasGroup.className = 'rating-group';
+    for (let v = 1; v <= 5; v++) {
+      const btn = document.createElement('button');
+      btn.className = 'rating-btn' + (row.feasibility === v ? ` active-${v}` : '');
+      btn.textContent = v;
+      btn.onclick = () => { rowData[rowIdx].feasibility = v; renderTable(); renderMatrix(); };
+      feasGroup.appendChild(btn);
+    }
+    feasTd.appendChild(feasGroup);
+    tr.appendChild(feasTd);
+
+    // Quadrant cell
+    const qTd = document.createElement('td');
+    const q = getQuadrant(row.impact, row.feasibility);
+    const ql = getQuadrantLabel(q);
+    qTd.innerHTML = q ? `<span class="quadrant-cell ${ql.cls}">${ql.text}</span>` : '–';
+    tr.appendChild(qTd);
+
+    tbody.appendChild(tr);
+  });
+}
+
+function renderMatrix() {
+  ['q-quickwin', 'q-strategic', 'q-later', 'q-avoid'].forEach(id => {
+    document.getElementById(id).innerHTML = '';
+  });
+
+  rowData.forEach(row => {
+    if (!row.name || row.impact === 0 || row.feasibility === 0) return;
+    const q = getQuadrant(row.impact, row.feasibility);
+    if (!q) return;
+    const el = document.createElement('div');
+    el.className = 'q-item';
+    el.textContent = row.name;
+    const targetId = q === 'quickwin' ? 'q-quickwin' : q === 'strategic' ? 'q-strategic' : q === 'later' ? 'q-later' : 'q-avoid';
+    document.getElementById(targetId).appendChild(el);
+  });
+}
+
+function updateName(idx, el) {
+  const text = el.textContent.trim();
+  if (text === 'Wpisz nazwę inicjatywy...') {
+    rowData[idx].name = '';
+  } else {
+    rowData[idx].name = text;
+  }
+  renderMatrix();
+}
+
+function addRow() {
+  rowData.push({ name: '', impact: 0, feasibility: 0 });
+  renderTable();
+}
+
+renderTable();
+renderMatrix();
+</script>
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Checklist gotowości danych – Moduł 3</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; }
+    .score-bar-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.11);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  header {
+    background: #0d3b2e;
+    color: white;
+    padding: 20px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  header h1 { font-size: 1.35rem; font-weight: 700; }
+  header .sub { font-size: 0.8rem; opacity: 0.65; margin-top: 3px; }
+  .tag {
+    background: #27ae60;
+    color: white;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .meta {
+    padding: 12px 28px;
+    background: #f3fdf7;
+    border-bottom: 1px solid #d0ead8;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .meta-item { display: flex; align-items: center; gap: 8px; }
+  .meta-item label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.07em; color: #999; }
+  .meta-item input {
+    border: none;
+    border-bottom: 1.5px solid #ccc;
+    font-size: 0.9rem;
+    padding: 2px 4px;
+    outline: none;
+    background: transparent;
+    width: 180px;
+  }
+  .body { padding: 20px 28px; }
+  .section { margin-bottom: 20px; }
+  .section-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .s1 .section-title { background: #0d3b2e; }
+  .s2 .section-title { background: #1560ad; }
+  .s3 .section-title { background: #7d2b8b; }
+  .s4 .section-title { background: #a06000; }
+  .s5 .section-title { background: #a02020; }
+
+  .items { display: flex; flex-direction: column; gap: 6px; }
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    background: #fafafa;
+    border: 1px solid #ebebeb;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.12s;
+    user-select: none;
+  }
+  .item:hover { background: #f0f7f3; }
+  .item.checked { background: #f0fdf5; border-color: #a8ddc0; }
+  .item.blocked { background: #fff5f5; border-color: #f0b0b0; }
+
+  .item-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.12s;
+    font-size: 0.85rem;
+  }
+  .item.checked .checkbox { background: #27ae60; border-color: #27ae60; color: white; }
+  .item.blocked .checkbox { background: #e74c3c; border-color: #e74c3c; color: white; }
+
+  .status-toggle {
+    display: flex;
+    gap: 4px;
+  }
+  .st-btn {
+    padding: 2px 8px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    cursor: pointer;
+    background: white;
+    color: #888;
+    font-weight: 600;
+    transition: all 0.1s;
+  }
+  .st-btn.ok { background: #27ae60; color: white; border-color: #27ae60; }
+  .st-btn.nok { background: #e74c3c; color: white; border-color: #e74c3c; }
+  .st-btn.na { background: #888; color: white; border-color: #888; }
+
+  .item-content { flex: 1; }
+  .item-question { font-size: 0.88rem; font-weight: 600; color: #222; margin-bottom: 3px; }
+  .item-hint { font-size: 0.75rem; color: #999; font-style: italic; }
+  .item-note {
+    margin-top: 6px;
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 0.78rem;
+    font-family: inherit;
+    resize: none;
+    min-height: 36px;
+    background: white;
+    outline: none;
+    display: none;
+  }
+  .item-note.visible { display: block; }
+
+  .blocker-tag {
+    background: #e74c3c;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .score-section {
+    padding: 20px 28px;
+    background: #f5f5f5;
+    border-top: 2px solid #e0e0e0;
+  }
+  .score-title { font-size: 0.85rem; font-weight: 700; color: #333; margin-bottom: 12px; }
+  .score-bars { display: flex; flex-direction: column; gap: 8px; }
+  .score-row { display: flex; align-items: center; gap: 10px; }
+  .score-label { font-size: 0.75rem; color: #666; width: 180px; flex-shrink: 0; }
+  .score-bar {
+    flex: 1;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .score-bar-fill { height: 100%; border-radius: 5px; transition: width 0.3s; }
+  .score-val { font-size: 0.75rem; font-weight: 700; width: 36px; text-align: right; }
+
+  .verdict {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .verdict-green { background: #e8faf0; color: #1a7a44; border: 1.5px solid #a8ddc0; }
+  .verdict-yellow { background: #fffbea; color: #a06000; border: 1.5px solid #f0d080; }
+  .verdict-red { background: #fef0f0; color: #a02020; border: 1.5px solid #f0a0a0; }
+  .verdict-icon { font-size: 1.4rem; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>Checklist gotowości danych</h1>
+      <div class="sub">Moduł 3 · Start z AI · Wypełnij dla każdej inicjatywy z Szablonu inicjatywy AI</div>
+    </div>
+    <div class="tag">MODUŁ 3</div>
+  </header>
+
+  <div class="meta">
+    <div class="meta-item">
+      <label>Inicjatywa</label>
+      <input type="text" placeholder="Nazwa inicjatywy AI">
+    </div>
+    <div class="meta-item">
+      <label>Właściciel danych</label>
+      <input type="text" placeholder="Imię / dział">
+    </div>
+    <div class="meta-item">
+      <label>Data oceny</label>
+      <input type="text" placeholder="dd.mm.rrrr">
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- SEKCJA 1: Dostępność -->
+    <div class="section s1">
+      <div class="section-title">🗄️ 1. Dostępność danych</div>
+      <div class="items">
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy dane istnieją i są w formie cyfrowej?</div>
+            <div class="item-hint">Pliki papierowe lub procesy bez zapisu cyfrowego to bloker — wymagają digitalizacji przed wdrożeniem AI.</div>
+            <textarea class="item-note" placeholder="Notatka..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy mamy dostęp do tych danych (uprawnienia, API, eksport)?</div>
+            <div class="item-hint">Dane mogą istnieć, ale być zablokowane przez silosy organizacyjne, systemy zewnętrzne lub umowy.</div>
+            <textarea class="item-note" placeholder="Notatka..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy mamy wystarczającą ilość danych historycznych?</div>
+            <div class="item-hint">Modele ML wymagają min. kilkuset–kilku tysięcy przykładów. LLM-y mogą działać z mniejszą ilością.</div>
+            <textarea class="item-note" placeholder="Szacowana liczba rekordów / okres historii..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEKCJA 2: Struktura i format -->
+    <div class="section s2">
+      <div class="section-title">🔧 2. Struktura i format</div>
+      <div class="items">
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy dane są ustrukturyzowane (tabele, CSV, bazy danych)?</div>
+            <div class="item-hint">Dane nieustrukturyzowane (PDF, obrazy, notatki odręczne) wymagają dodatkowego przetwarzania.</div>
+            <textarea class="item-note" placeholder="Format: CSV / JSON / PDF / baza SQL / inne..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy dane są spójnie oznakowane / mają etykiety (labels)?</div>
+            <div class="item-hint">Modele klasyfikacji wymagają danych z przypisanymi kategoriami. Brak etykiet = konieczność ręcznego labelowania.</div>
+            <textarea class="item-note" placeholder="Notatka..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy dane z różnych źródeł można ze sobą połączyć (klucze, ID)?</div>
+            <div class="item-hint">Różne systemy mogą przechowywać "klienta" pod różnymi identyfikatorami — brak klucza łączącego to problem.</div>
+            <textarea class="item-note" placeholder="Notatka..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEKCJA 3: Jakość -->
+    <div class="section s3">
+      <div class="section-title">✅ 3. Jakość danych</div>
+      <div class="items">
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy dane są kompletne (brak istotnych pustych pól)?</div>
+            <div class="item-hint">Wiele pustych wartości w kluczowych kolumnach obniża jakość modelu lub uniemożliwia jego trening.</div>
+            <textarea class="item-note" placeholder="Szacowany % brakujących wartości w kluczowych polach..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy dane są aktualne i regularnie aktualizowane?</div>
+            <div class="item-hint">Stare dane mogą nie odzwierciedlać aktualnego zachowania systemu lub klientów — model będzie przestarzały.</div>
+            <textarea class="item-note" placeholder="Jak stare są najnowsze dane? Jak często są odświeżane?..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy dane są wolne od oczywistych błędów i duplikatów?</div>
+            <div class="item-hint">Śmieciowe dane na wejściu = śmieciowy model na wyjściu ("garbage in, garbage out").</div>
+            <textarea class="item-note" placeholder="Notatka o znanych problemach z jakością..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEKCJA 4: RODO i bezpieczeństwo -->
+    <div class="section s4">
+      <div class="section-title">🔒 4. RODO i bezpieczeństwo</div>
+      <div class="items">
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy dane zawierają dane osobowe (PII)?</div>
+            <div class="item-hint">Imiona, maile, PESEL, numery telefonów, adresy IP — to dane osobowe wymagające podstawy prawnej przetwarzania.</div>
+            <textarea class="item-note" placeholder="Jakie kategorie danych osobowych? Czy można je zanonimizować?..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy mamy podstawę prawną do przetwarzania danych w celu AI?</div>
+            <div class="item-hint">Zgoda, umowa, prawnie uzasadniony interes lub obowiązek prawny — jedna z podstaw musi zachodzić.</div>
+            <textarea class="item-note" placeholder="Podstawa prawna: zgoda / umowa / prawnie uzasadniony interes / inne..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy dane mogą być przesyłane do zewnętrznych dostawców AI (chmura)?</div>
+            <div class="item-hint">Korzystanie z zewnętrznych API AI (OpenAI, Google, itp.) = przekazanie danych poza organizację. Wymaga oceny.</div>
+            <textarea class="item-note" placeholder="Notatka — czy konieczna ocena skutków (DPIA)?..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEKCJA 5: Gotowość operacyjna -->
+    <div class="section s5">
+      <div class="section-title">⚙️ 5. Gotowość operacyjna</div>
+      <div class="items">
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy istnieje zidentyfikowany właściciel danych (data owner)?</div>
+            <div class="item-hint">Ktoś musi być odpowiedzialny za jakość, dostęp i aktualizacje danych w czasie trwania projektu AI.</div>
+            <textarea class="item-note" placeholder="Kto? Dział / stanowisko..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+        <div class="item" onclick="toggleItem(this)">
+          <div class="item-left">
+            <div class="checkbox">✓</div>
+            <div class="status-toggle" onclick="event.stopPropagation()">
+              <div class="st-btn" onclick="setStatus(this,'ok')">TAK</div>
+              <div class="st-btn" onclick="setStatus(this,'nok')">NIE</div>
+              <div class="st-btn" onclick="setStatus(this,'na')">N/D</div>
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-question">Czy dane będą dostępne w trybie ciągłym (dla systemu produkcyjnego)?</div>
+            <div class="item-hint">Jednorazowy eksport to za mało — system AI w produkcji potrzebuje ciągłego zasilania aktualnymi danymi.</div>
+            <textarea class="item-note" placeholder="Sposób integracji: API / hurtownia danych / ręczny upload / inne..." onclick="event.stopPropagation()"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /body -->
+
+  <div class="score-section">
+    <div class="score-title">Podsumowanie gotowości — wypełnij po przejściu przez listę</div>
+    <div class="score-bars">
+      <div class="score-row">
+        <div class="score-label">Dostępność danych</div>
+        <div class="score-bar"><div class="score-bar-fill" id="bar1" style="width:0%;background:#0d3b2e;"></div></div>
+        <div class="score-val" id="val1">–</div>
+      </div>
+      <div class="score-row">
+        <div class="score-label">Struktura i format</div>
+        <div class="score-bar"><div class="score-bar-fill" id="bar2" style="width:0%;background:#1560ad;"></div></div>
+        <div class="score-val" id="val2">–</div>
+      </div>
+      <div class="score-row">
+        <div class="score-label">Jakość danych</div>
+        <div class="score-bar"><div class="score-bar-fill" id="bar3" style="width:0%;background:#7d2b8b;"></div></div>
+        <div class="score-val" id="val3">–</div>
+      </div>
+      <div class="score-row">
+        <div class="score-label">RODO i bezpieczeństwo</div>
+        <div class="score-bar"><div class="score-bar-fill" id="bar4" style="width:0%;background:#a06000;"></div></div>
+        <div class="score-val" id="val4">–</div>
+      </div>
+      <div class="score-row">
+        <div class="score-label">Gotowość operacyjna</div>
+        <div class="score-bar"><div class="score-bar-fill" id="bar5" style="width:0%;background:#a02020;"></div></div>
+        <div class="score-val" id="val5">–</div>
+      </div>
+    </div>
+
+    <div class="verdict verdict-yellow" id="verdict">
+      <div class="verdict-icon">⚖️</div>
+      <div>Wypełnij checklistę powyżej, aby zobaczyć ocenę gotowości inicjatywy.</div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+function toggleItem(el) {
+  // Toggle note visibility on click
+  const note = el.querySelector('.item-note');
+  note.classList.toggle('visible');
+}
+
+function setStatus(btn, status) {
+  const group = btn.closest('.status-toggle');
+  const item = btn.closest('.item');
+  group.querySelectorAll('.st-btn').forEach(b => {
+    b.classList.remove('ok','nok','na');
+  });
+  btn.classList.add(status);
+  item.classList.remove('checked','blocked');
+  if (status === 'ok') item.classList.add('checked');
+  if (status === 'nok') item.classList.add('blocked');
+  updateScore();
+}
+
+function updateScore() {
+  const sections = document.querySelectorAll('.section');
+  const verdictEl = document.getElementById('verdict');
+  let totalOk = 0, totalNok = 0, totalItems = 0;
+  sections.forEach((sec, i) => {
+    const items = sec.querySelectorAll('.item');
+    let ok = 0;
+    items.forEach(item => {
+      const okBtn = item.querySelector('.st-btn.ok');
+      const nokBtn = item.querySelector('.st-btn.nok');
+      if (okBtn) ok++;
+      if (nokBtn) totalNok++;
+      if (okBtn || nokBtn || item.querySelector('.st-btn.na')) totalItems++;
+    });
+    const okBtns = sec.querySelectorAll('.st-btn.ok').length;
+    const total = items.length;
+    const pct = total > 0 ? Math.round((okBtns / total) * 100) : 0;
+    const barEl = document.getElementById('bar' + (i+1));
+    const valEl = document.getElementById('val' + (i+1));
+    if (barEl) barEl.style.width = pct + '%';
+    if (valEl) valEl.textContent = pct + '%';
+    totalOk += okBtns;
+  });
+
+  const allItems = document.querySelectorAll('.item').length;
+  const allOk = document.querySelectorAll('.st-btn.ok').length;
+  const allNok = document.querySelectorAll('.st-btn.nok').length;
+  const overallPct = allItems > 0 ? Math.round((allOk / allItems) * 100) : 0;
+
+  verdictEl.className = 'verdict';
+  if (allOk + allNok === 0) {
+    verdictEl.classList.add('verdict-yellow');
+    verdictEl.innerHTML = '<div class="verdict-icon">⚖️</div><div>Wypełnij checklistę powyżej, aby zobaczyć ocenę gotowości inicjatywy.</div>';
+  } else if (overallPct >= 75 && allNok === 0) {
+    verdictEl.classList.add('verdict-green');
+    verdictEl.innerHTML = '<div class="verdict-icon">✅</div><div><strong>Dane gotowe do wdrożenia.</strong> Wysoka gotowość danych. Inicjatywa może przejść do fazy pilota bez dodatkowych prac przygotowawczych.</div>';
+  } else if (overallPct >= 50) {
+    verdictEl.classList.add('verdict-yellow');
+    verdictEl.innerHTML = '<div class="verdict-icon">⚠️</div><div><strong>Dane częściowo gotowe.</strong> Przed startem wdrożenia wymagane działania naprawcze w oznaczonych obszarach. Pilot możliwy, ale z ograniczeniami.</div>';
+  } else {
+    verdictEl.classList.add('verdict-red');
+    verdictEl.innerHTML = '<div class="verdict-icon">🚫</div><div><strong>Dane niewystarczające.</strong> Inicjatywa wymaga najpierw prac przygotowawczych w zakresie danych. Rekomendacja: zaplanuj projekt data readiness jako poprzednik inicjatywy AI.</div>';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Karty zastosowań AI – Start z AI</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; }
+  @media print {
+    body { background: white; padding: 0; }
+    h1.page-title { display: none; }
+    .cards-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 8px; }
+    .card { break-inside: avoid; box-shadow: none; border: 1.5px solid #ddd; }
+  }
+  h1.page-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+  }
+  .page-sub {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 28px;
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.09);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-header {
+    padding: 14px 18px 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .card-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .card-title { font-size: 1rem; font-weight: 700; color: #1a1a2e; line-height: 1.3; }
+  .card-category {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: 8px;
+    margin-top: 5px;
+    display: inline-block;
+  }
+  .card-body { padding: 0 18px 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .field-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #aaa;
+    margin-bottom: 2px;
+  }
+  .field-value { font-size: 0.82rem; color: #333; line-height: 1.5; }
+  /* Category colours */
+  .cat-ops    { background: #e3f0ff; color: #1560ad; }
+  .cat-obs    { background: #e8f8f0; color: #1a7a44; }
+  .cat-hr     { background: #fff0f8; color: #a0186a; }
+  .cat-fin    { background: #fff8e3; color: #a06000; }
+  .cat-mkt    { background: #f3e8ff; color: #6a1a9a; }
+  .cat-prod   { background: #e8f4ff; color: #0a5080; }
+
+
+</style>
+</head>
+<body>
+
+<h1 class="page-title">Karty zastosowań AI</h1>
+<p class="page-sub">Zestaw 12 kart inspiracyjnych · Start z AI · Użyj podczas mapowania procesów w Module 2</p>
+
+<div class="cards-grid">
+
+  <!-- Karta 1 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">📧</div>
+      <div>
+        <div class="card-title">Automatyczne podsumowania e-maili i wątków</div>
+        <span class="card-category cat-ops">Operacje</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Analizuje skrzynkę mailową i generuje dzienne podsumowania priorytetowych wątków. Wyróżnia akcje do podjęcia.</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Dostęp do skrzynki e-mail (np. MS Outlook, Google Workspace).</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Oszczędność 30–60 min dziennie na pracownika; mniej przeoczonych spraw.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 2 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🎫</div>
+      <div>
+        <div class="card-title">Klasyfikacja i routing zgłoszeń serwisowych</div>
+        <span class="card-category cat-obs">Obsługa klienta</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Automatycznie kategoryzuje przychodzące zgłoszenia i przypisuje je do właściwego zespołu lub agenta.</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Historia zgłoszeń z etykietami (min. 1 000 przykładów), dostęp do systemu ticketowego.</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Skrócenie czasu pierwszej odpowiedzi o 40–60%; redukcja błędnych przypisań.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 3 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">📄</div>
+      <div>
+        <div class="card-title">Ekstrakcja danych z dokumentów (faktury, umowy)</div>
+        <span class="card-category cat-fin">Finanse / Administracja</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Wyciąga kluczowe dane (kwoty, daty, kontrahenci) z faktur i umów w PDF lub skanach.</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Dokumenty w formie cyfrowej (PDF/obraz). Przykładowe szablony dokumentów.</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Redukcja ręcznego wprowadzania danych o 70–90%; mniej błędów w księgowości.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 4 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🤖</div>
+      <div>
+        <div class="card-title">Chatbot FAQ dla klientów lub pracowników</div>
+        <span class="card-category cat-obs">Obsługa klienta / HR</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Odpowiada na najczęstsze pytania na podstawie bazy wiedzy (dokumenty, FAQ, polityki).</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Dokumenty polityk firmowych lub FAQ w formie tekstowej. Baza wiedzy produktowej.</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Odciążenie pierwszej linii wsparcia o 30–50%; dostępność 24/7.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 5 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">📊</div>
+      <div>
+        <div class="card-title">Generowanie raportów i analiz z danych</div>
+        <span class="card-category cat-fin">Finanse / Analityka</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Automatycznie tworzy raporty tygodniowe/miesięczne na podstawie danych z systemów (ERP, CRM, arkusze).</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Dostęp do bazy danych lub eksportu CSV/Excel. Zdefiniowany szablon raportu.</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Oszczędność 4–8 godzin miesięcznie na raport; mniej błędów ludzkich w analizach.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 6 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">😊</div>
+      <div>
+        <div class="card-title">Analiza nastrojów klientów (sentiment analysis)</div>
+        <span class="card-category cat-mkt">Marketing / Obsługa</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Analizuje recenzje, ankiety i wiadomości od klientów pod kątem pozytywnych/negatywnych nastrojów i tematów.</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Teksty recenzji, wyniki ankiet NPS, komentarze z social media lub maile klientów.</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Wczesne wykrywanie problemów jakościowych; lepsze zarządzanie reputacją.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 7 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🔍</div>
+      <div>
+        <div class="card-title">Wyszukiwanie semantyczne w dokumentach wewnętrznych</div>
+        <span class="card-category cat-ops">Operacje / Wiedza</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Umożliwia wyszukiwanie w dokumentach firmowych za pomocą pytań w języku naturalnym, zamiast słów kluczowych.</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Dokumenty firmowe w formie cyfrowej (PDF, Word, Confluence, SharePoint).</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Skrócenie czasu szukania informacji z minut do sekund; lepsza adopcja bazy wiedzy.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 8 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">📦</div>
+      <div>
+        <div class="card-title">Prognozowanie popytu i optymalizacja zapasów</div>
+        <span class="card-category cat-ops">Logistyka / Operacje</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Przewiduje przyszły popyt na produkty/usługi na podstawie danych historycznych i czynników zewnętrznych.</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Min. 2 lata historii sprzedaży. Dane o sezonowości, promocjach, zewnętrzne dane rynkowe.</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Redukcja nadmiarowych zapasów o 15–25%; mniej braków w magazynie.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 9 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">✍️</div>
+      <div>
+        <div class="card-title">Wspomaganie tworzenia treści marketingowych</div>
+        <span class="card-category cat-mkt">Marketing</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Generuje szkice postów, opisów produktów, maili kampanijnych i artykułów zgodnie z głosem marki.</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Brief treści, opis grupy docelowej, przykładowe dotychczasowe treści (tone of voice).</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Przyspieszenie produkcji treści 3–5×; niższe koszty copywritingu przy zachowaniu jakości.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 10 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">👥</div>
+      <div>
+        <div class="card-title">Screening CV i wstępna selekcja kandydatów</div>
+        <span class="card-category cat-hr">HR / Rekrutacja</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Analizuje CV pod kątem zgodności z wymaganiami stanowiska i tworzy ranking kandydatów.</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">CV w formie cyfrowej, opis stanowiska i kryteria oceny. Uwaga: kwestie RODO do uregulowania.</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Skrócenie czasu screeningu o 60–80%; rekruter skupia się na wywiadach, nie przeglądaniu dokumentów.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 11 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🔧</div>
+      <div>
+        <div class="card-title">Predykcyjne utrzymanie maszyn (predictive maintenance)</div>
+        <span class="card-category cat-prod">Produkcja / IoT</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Przewiduje awarie maszyn na podstawie danych z czujników zanim do nich dojdzie.</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Dane z czujników IoT (temperatura, wibracje, prąd) — min. rok historii. Historia awarii.</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Redukcja nieplanowanych przestojów o 20–40%; niższe koszty serwisu awaryjnego.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta 12 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🚨</div>
+      <div>
+        <div class="card-title">Wykrywanie anomalii i oszustw finansowych</div>
+        <span class="card-category cat-fin">Finanse / Bezpieczeństwo</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Co robi</div>
+        <div class="field-value">Monitoruje transakcje w czasie rzeczywistym i flaguje podejrzane wzorce mogące wskazywać na oszustwo.</div>
+      </div>
+      <div>
+        <div class="field-label">Dane potrzebne</div>
+        <div class="field-value">Historia transakcji z oznaczeniami (normalne/anomalne). Min. kilkaset tysięcy rekordów.</div>
+      </div>
+      <div>
+        <div class="field-label">Efekt biznesowy</div>
+        <div class="field-value">Wykrywanie 80–95% oszustw przy niskiej liczbie fałszywych alarmów; ochrona przychodów.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center;font-size:0.75rem;color:#bbb;margin-top:24px;padding-bottom:12px;">
+  Start z AI · Karty zastosowań AI · 12 kart inspiracyjnych · Użyj podczas Modułu 2
+</p>
+
+</body>
+</html>

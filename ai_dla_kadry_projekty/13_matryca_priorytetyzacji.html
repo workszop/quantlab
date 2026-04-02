@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Matryca Priorytetyzacji Inicjatyw AI – AI dla Kadry Projektowej</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 24px; color: #1a1a2e; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  padding: 24px 36px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.5rem; font-weight: 700; }
+.page-header p { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+.module-tag {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.weights-bar {
+  background: white;
+  border-radius: 10px;
+  padding: 12px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.weights-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; white-space: nowrap; }
+.weight-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; }
+.weight-input {
+  width: 38px; padding: 3px 5px; font-size: 0.75rem; font-weight: 700;
+  border: 1.5px solid #e0e0e0; border-radius: 5px; text-align: center;
+  font-family: 'Segoe UI', Arial, sans-serif; outline: none;
+}
+.weight-input:focus { border-color: #1a1a2e; }
+.weight-name { color: #1a1a2e; font-weight: 600; }
+.weight-note { margin-left: auto; font-size: 0.72rem; color: #aaa; white-space: nowrap; }
+
+.main-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+  overflow: hidden;
+  max-width: 1400px;
+  margin: 0 auto 20px;
+}
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+thead tr:first-child th {
+  background: #1a1a2e;
+  color: white;
+  padding: 10px 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+thead tr:first-child th:first-child { text-align: left; padding-left: 14px; min-width: 200px; }
+thead tr:first-child th:last-child { min-width: 130px; }
+
+thead tr:nth-child(2) th {
+  background: #f8fafc;
+  font-size: 0.63rem;
+  color: #999;
+  font-weight: 600;
+  text-align: center;
+  padding: 5px 8px;
+  border-bottom: 2px solid #e2e8f0;
+  letter-spacing: 0.04em;
+}
+thead tr:nth-child(2) th:first-child { text-align: left; padding-left: 14px; }
+
+.col-c1 { background: #1d3d6e !important; }
+.col-c2 { background: #3d1d6e !important; }
+.col-c3 { background: #1d5e1d !important; }
+.col-c4 { background: #4e3d00 !important; }
+.col-c5 { background: #6e1d1d !important; }
+.col-score { background: #0d2d0d !important; }
+.col-rank { background: #2d0d2d !important; }
+
+tbody tr { border-bottom: 1px solid #f0f0f0; transition: background 0.1s; }
+tbody tr:hover { background: #f8f9ff; }
+tbody tr.top-1 { background: #f0fdf4 !important; }
+tbody tr.top-2 { background: #f0f7ff !important; }
+tbody tr.top-3 { background: #fffbeb !important; }
+
+td {
+  padding: 8px 6px;
+  vertical-align: middle;
+  text-align: center;
+  border-right: 1px solid #f5f5f5;
+}
+td:last-child { border-right: none; }
+td:first-child { text-align: left; padding-left: 14px; }
+
+.initiative-input {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.82rem; font-weight: 600; color: #1a1a2e;
+  border: none; outline: none; background: transparent;
+  border-bottom: 1.5px solid #e0e0e0; width: 100%; padding-bottom: 2px;
+}
+.initiative-input:focus { border-bottom-color: #1a1a2e; }
+
+.rating-group {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+}
+.r-btn {
+  width: 24px; height: 24px;
+  border: 1.5px solid #e0e0e0;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #ccc;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.1s;
+}
+.r-btn:hover { border-color: #1a1a2e; color: #1a1a2e; }
+.r-btn.sel-1 { background: #fee2e2; border-color: #e74c3c; color: #c0392b; }
+.r-btn.sel-2 { background: #fef3c7; border-color: #e67e22; color: #d35400; }
+.r-btn.sel-3 { background: #fefce8; border-color: #f59e0b; color: #b45309; }
+.r-btn.sel-4 { background: #dcfce7; border-color: #27ae60; color: #1e8449; }
+.r-btn.sel-5 { background: #d1fae5; border-color: #059669; color: #065f46; }
+
+.score-badge {
+  font-size: 1.0rem; font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+  min-width: 46px;
+  display: inline-block;
+  text-align: center;
+}
+.score-0 { background: #f3f4f6; color: #9ca3af; }
+.score-low { background: #fee2e2; color: #991b1b; }
+.score-med { background: #fef3c7; color: #92400e; }
+.score-high { background: #dcfce7; color: #065f46; }
+.score-top { background: #d1fae5; color: #065f46; border: 2px solid #059669; }
+
+.rec-badge {
+  font-size: 0.72rem; font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  display: inline-block;
+}
+.rec-p1 { background: #d1fae5; color: #065f46; }
+.rec-p2 { background: #dbeafe; color: #1e40af; }
+.rec-p3 { background: #fef3c7; color: #92400e; }
+.rec-odloz { background: #fee2e2; color: #991b1b; }
+.rec-empty { background: #f3f4f6; color: #9ca3af; }
+
+.rank-badge {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 800;
+}
+.rank-1 { background: #ffd700; color: #1a1a2e; }
+.rank-2 { background: #c0c0c0; color: #1a1a2e; }
+.rank-3 { background: #cd7f32; color: white; }
+.rank-other { background: #f3f4f6; color: #9ca3af; }
+
+.add-row-btn-wrap { padding: 10px; text-align: center; }
+.add-row-btn {
+  background: none; border: 2px dashed #ddd;
+  color: #aaa; padding: 7px 24px; border-radius: 6px;
+  cursor: pointer; font-size: 0.78rem;
+  transition: all 0.15s;
+}
+.add-row-btn:hover { border-color: #1a1a2e; color: #1a1a2e; }
+
+.summary-section {
+  padding: 18px 20px;
+  border-top: 2px solid #f0f0f0;
+  background: #fafafa;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.summary-stat {
+  flex: 1;
+  min-width: 100px;
+  background: white;
+  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+.stat-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; }
+.stat-value { font-size: 1.4rem; font-weight: 800; color: #1a1a2e; }
+
+.top-initiatives {
+  flex: 3;
+  background: white;
+  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid #e0e0e0;
+}
+.top-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; margin-bottom: 8px; }
+.top-list { display: flex; flex-direction: column; gap: 5px; }
+.top-item { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; }
+.top-item-name { flex: 1; font-weight: 600; color: #1a1a2e; }
+.top-item-score { font-size: 0.72rem; color: #aaa; }
+
+.export-note {
+  padding: 12px 20px;
+  background: #f0f4ff;
+  border-top: 1px solid #dbeafe;
+  font-size: 0.75rem;
+  color: #1e40af;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+footer.page-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.72rem;
+  color: #bbb;
+  padding: 10px;
+}
+
+@media print {
+  body { background: white; padding: 8px; }
+  .page-header { border-radius: 6px; padding: 14px 20px; margin-bottom: 12px; }
+  .main-card { box-shadow: none; border: 1px solid #ddd; }
+  .weights-bar { box-shadow: none; border: 1px solid #ddd; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Matryca Priorytetyzacji Inicjatyw AI</h1>
+    <p>Oceń i uszereguj inicjatywy AI według 5 ważonych kryteriów – automatyczny ranking i rekomendacje</p>
+  </div>
+  <div class="module-tag">Moduł 3 · AI dla Kadry Projektowej</div>
+</div>
+
+<div class="weights-bar">
+  <span class="weights-label">Wagi kryteriów:</span>
+  <div class="weight-item">
+    <input type="number" class="weight-input" id="w1" value="30" min="0" max="100" onchange="recalcAll()">
+    <span class="weight-name">% Wpływ biznesowy</span>
+  </div>
+  <div class="weight-item">
+    <input type="number" class="weight-input" id="w2" value="20" min="0" max="100" onchange="recalcAll()">
+    <span class="weight-name">% Wykonalność techniczna</span>
+  </div>
+  <div class="weight-item">
+    <input type="number" class="weight-input" id="w3" value="20" min="0" max="100" onchange="recalcAll()">
+    <span class="weight-name">% Gotowość danych</span>
+  </div>
+  <div class="weight-item">
+    <input type="number" class="weight-input" id="w4" value="15" min="0" max="100" onchange="recalcAll()">
+    <span class="weight-name">% Gotowość organizacyjna</span>
+  </div>
+  <div class="weight-item">
+    <input type="number" class="weight-input" id="w5" value="15" min="0" max="100" onchange="recalcAll()">
+    <span class="weight-name">% Szacowany ROI</span>
+  </div>
+  <span class="weight-note" id="weightTotal">Suma: 100%</span>
+</div>
+
+<div class="main-card">
+  <div class="table-wrap">
+    <table id="prioTable">
+      <thead>
+        <tr>
+          <th rowspan="2" style="text-align:left;padding-left:14px;">Inicjatywa AI</th>
+          <th class="col-c1">Wpływ<br>biznesowy</th>
+          <th class="col-c2">Wykonalność<br>techniczna</th>
+          <th class="col-c3">Gotowość<br>danych</th>
+          <th class="col-c4">Gotowość<br>organizacyjna</th>
+          <th class="col-c5">Szacowany<br>ROI</th>
+          <th class="col-score">Wynik<br>ważony</th>
+          <th class="col-rank">Miejsce</th>
+          <th rowspan="2" style="min-width:130px;">Rekomendacja</th>
+        </tr>
+        <tr>
+          <th class="col-c1">waga: <span id="hw1">30</span>%</th>
+          <th class="col-c2">waga: <span id="hw2">20</span>%</th>
+          <th class="col-c3">waga: <span id="hw3">20</span>%</th>
+          <th class="col-c4">waga: <span id="hw4">15</span>%</th>
+          <th class="col-c5">waga: <span id="hw5">15</span>%</th>
+          <th class="col-score">max. 100</th>
+          <th class="col-rank">top 3 wyróżnione</th>
+        </tr>
+      </thead>
+      <tbody id="prioBody">
+      </tbody>
+    </table>
+  </div>
+  <div class="add-row-btn-wrap">
+    <button class="add-row-btn" onclick="addInitiative()">+ Dodaj inicjatywę</button>
+  </div>
+
+  <div class="summary-section">
+    <div class="summary-stat">
+      <span class="stat-label">Inicjatyw łącznie</span>
+      <span class="stat-value" id="statTotal">0</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-label">Ocenionych</span>
+      <span class="stat-value" id="statRated">0</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-label">Priorytet 1</span>
+      <span class="stat-value" style="color:#065f46;" id="statP1">–</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-label">Priorytet 2</span>
+      <span class="stat-value" style="color:#1e40af;" id="statP2">–</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-label">Do odłożenia</span>
+      <span class="stat-value" style="color:#991b1b;" id="statOdloz">0</span>
+    </div>
+    <div class="top-initiatives">
+      <div class="top-label">Top 3 inicjatywy do wdrożenia</div>
+      <div class="top-list" id="topList">
+        <div style="font-size:0.75rem;color:#ccc;font-style:italic;">Wypełnij oceny aby zobaczyć ranking</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="export-note">
+    <span>💡</span>
+    <span><strong>Wskazówka:</strong> Aby wyeksportować wyniki – użyj Ctrl+P → Zapisz jako PDF. Matryca zachowuje kolory przy drukowaniu (włącz drukowanie grafiki tła w opcjach drukarki).</span>
+  </div>
+</div>
+
+<footer class="page-footer">
+  13_matryca_priorytetyzacji.html · AI dla Kadry Projektowej · Narzędzie do priorytetyzacji portfela inicjatyw AI
+</footer>
+
+<script>
+const defaultInitiatives = [
+  'Chatbot obsługi klienta',
+  'Automatyczne przetwarzanie faktur',
+  'Prognozowanie popytu',
+  'CV screening w HR',
+  'Raportowanie finansowe AI',
+  'Predictive maintenance',
+  'Personalizacja oferty',
+  'Analiza umów (NLP)',
+  '',
+  '',
+];
+
+let initiatives = defaultInitiatives.map(name => ({
+  name: name, scores: [0,0,0,0,0]
+}));
+
+function getWeights() {
+  return [1,2,3,4,5].map(i => {
+    const v = parseFloat(document.getElementById('w'+i).value) || 0;
+    return v / 100;
+  });
+}
+
+function calcScore(scores, weights) {
+  return scores.reduce((sum, s, i) => sum + s * weights[i], 0) * 20; // max 5 * 100% = 100
+}
+
+function getScoreClass(score) {
+  if (score === 0) return 'score-0';
+  if (score < 30) return 'score-low';
+  if (score < 60) return 'score-med';
+  if (score < 80) return 'score-high';
+  return 'score-top';
+}
+
+function getRec(score, rank) {
+  if (score === 0) return { cls: 'rec-empty', text: '–' };
+  if (rank === 1) return { cls: 'rec-p1', text: 'Priorytet 1' };
+  if (rank === 2) return { cls: 'rec-p2', text: 'Priorytet 2' };
+  if (rank === 3) return { cls: 'rec-p3', text: 'Priorytet 3' };
+  if (score < 30) return { cls: 'rec-odloz', text: 'Odłóż' };
+  if (score < 55) return { cls: 'rec-odloz', text: 'Odłóż / Rozważ' };
+  return { cls: 'rec-p3', text: 'W kolejce' };
+}
+
+function recalcAll() {
+  // Update header weights
+  [1,2,3,4,5].forEach(i => {
+    document.getElementById('hw'+i).textContent = document.getElementById('w'+i).value;
+  });
+  const weights = getWeights();
+  const total = weights.reduce((a,b) => a+b, 0) * 100;
+  document.getElementById('weightTotal').textContent = `Suma: ${Math.round(total)}%`;
+  document.getElementById('weightTotal').style.color = Math.abs(total - 100) > 1 ? '#e74c3c' : '#aaa';
+
+  renderTable();
+}
+
+function renderTable() {
+  const weights = getWeights();
+  const tbody = document.getElementById('prioBody');
+  tbody.innerHTML = '';
+
+  // Compute scores
+  const scored = initiatives.map((ini, i) => ({
+    ...ini, idx: i,
+    score: calcScore(ini.scores, weights),
+    hasData: ini.scores.some(s => s > 0)
+  }));
+
+  // Rank (only those with data)
+  const ranked = [...scored].filter(s => s.hasData).sort((a,b) => b.score - a.score);
+  const rankMap = {};
+  ranked.forEach((r, i) => { rankMap[r.idx] = i + 1; });
+
+  scored.forEach((ini, ri) => {
+    const rank = rankMap[ri] || null;
+    const tr = document.createElement('tr');
+    if (rank === 1) tr.className = 'top-1';
+    else if (rank === 2) tr.className = 'top-2';
+    else if (rank === 3) tr.className = 'top-3';
+
+    // Name
+    const nameTd = document.createElement('td');
+    nameTd.innerHTML = `<input class="initiative-input" value="${ini.name}" placeholder="Nazwa inicjatywy AI" onchange="initiatives[${ri}].name=this.value;updateSummary()">`;
+    tr.appendChild(nameTd);
+
+    // 5 criteria
+    const colors = ['c1','c2','c3','c4','c5'];
+    for (let ci = 0; ci < 5; ci++) {
+      const td = document.createElement('td');
+      const grp = document.createElement('div');
+      grp.className = 'rating-group';
+      for (let v = 1; v <= 5; v++) {
+        const btn = document.createElement('button');
+        const sel = ini.scores[ci] === v ? ` sel-${v}` : '';
+        btn.className = `r-btn${sel}`;
+        btn.textContent = v;
+        btn.onclick = () => { initiatives[ri].scores[ci] = v; renderTable(); };
+        grp.appendChild(btn);
+      }
+      td.appendChild(grp);
+      tr.appendChild(td);
+    }
+
+    // Score
+    const scoreTd = document.createElement('td');
+    const scoreVal = ini.hasData ? Math.round(ini.score) : 0;
+    const scoreCls = ini.hasData ? getScoreClass(ini.score) : 'score-0';
+    scoreTd.innerHTML = `<span class="score-badge ${scoreCls}">${ini.hasData ? scoreVal : '–'}</span>`;
+    tr.appendChild(scoreTd);
+
+    // Rank
+    const rankTd = document.createElement('td');
+    if (rank && ini.hasData) {
+      const rankCls = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : 'rank-other';
+      rankTd.innerHTML = `<span class="rank-badge ${rankCls}">${rank <= 3 ? ['🥇','🥈','🥉'][rank-1] : rank}</span>`;
+    } else {
+      rankTd.innerHTML = `<span class="rank-badge rank-other">–</span>`;
+    }
+    tr.appendChild(rankTd);
+
+    // Recommendation
+    const recTd = document.createElement('td');
+    const rec = getRec(ini.hasData ? ini.score : 0, rank);
+    recTd.innerHTML = `<span class="rec-badge ${rec.cls}">${rec.text}</span>`;
+    tr.appendChild(recTd);
+
+    tbody.appendChild(tr);
+  });
+
+  updateSummary(scored, ranked);
+}
+
+function updateSummary(scored, ranked) {
+  if (!scored) {
+    const weights = getWeights();
+    scored = initiatives.map((ini, i) => ({
+      ...ini, idx: i,
+      score: calcScore(ini.scores, weights),
+      hasData: ini.scores.some(s => s > 0)
+    }));
+    ranked = [...scored].filter(s => s.hasData).sort((a,b) => b.score - a.score);
+  }
+
+  const total = initiatives.filter(i => i.name.trim() !== '').length;
+  const rated = scored.filter(s => s.hasData).length;
+  const odloz = scored.filter(s => s.hasData && s.score < 55 && !([0,1,2].includes(ranked.indexOf(s)))).length;
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statRated').textContent = rated;
+  document.getElementById('statP1').textContent = ranked[0]?.name.trim() || '–';
+  document.getElementById('statP2').textContent = ranked[1]?.name.trim() || '–';
+  document.getElementById('statOdloz').textContent = odloz;
+
+  const topList = document.getElementById('topList');
+  topList.innerHTML = '';
+  const medals = ['🥇','🥈','🥉'];
+  if (ranked.length === 0) {
+    topList.innerHTML = '<div style="font-size:0.75rem;color:#ccc;font-style:italic;">Wypełnij oceny aby zobaczyć ranking</div>';
+  } else {
+    ranked.slice(0,3).forEach((ini, i) => {
+      const div = document.createElement('div');
+      div.className = 'top-item';
+      div.innerHTML = `<span style="font-size:1.1rem;">${medals[i]}</span><span class="top-item-name">${ini.name || '(bez nazwy)'}</span><span class="top-item-score">${Math.round(ini.score)} pkt</span>`;
+      topList.appendChild(div);
+    });
+  }
+}
+
+function addInitiative() {
+  initiatives.push({ name: '', scores: [0,0,0,0,0] });
+  renderTable();
+}
+
+renderTable();
+</script>
+</body>
+</html>

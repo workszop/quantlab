@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Katalog zastosowań AI w pracy biurowej</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 16px; }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: white;
+    padding: 18px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; }
+  header .sub { font-size: 0.75rem; opacity: 0.65; margin-top: 2px; }
+  .legend {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background: #f9f9f9;
+    padding: 8px 28px;
+    border-bottom: 1px solid #e8e8e8;
+    flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.73rem; color: #555; }
+  .leg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .leg-good { background: #27ae60; }
+  .leg-watch { background: #e67e22; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr 1fr; } }
+
+  .category {
+    border-right: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .category:nth-child(3n) { border-right: none; }
+  .category:nth-last-child(-n+3) { border-bottom: none; }
+
+  .cat-header {
+    padding: 10px 16px 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid currentColor;
+  }
+  .cat-icon { font-size: 1.3rem; }
+  .cat-title { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; }
+
+  .c1 .cat-header { color: #1560ad; border-color: #1560ad; background: #eef4ff; }
+  .c2 .cat-header { color: #0d7a5b; border-color: #0d7a5b; background: #edfaf5; }
+  .c3 .cat-header { color: #7d2b8b; border-color: #7d2b8b; background: #f7eeff; }
+  .c4 .cat-header { color: #b05000; border-color: #b05000; background: #fff5ea; }
+  .c5 .cat-header { color: #a02020; border-color: #a02020; background: #fff0f0; }
+  .c6 .cat-header { color: #1a6b50; border-color: #1a6b50; background: #edfbf5; }
+
+  .items { padding: 8px 0; }
+  .item { padding: 6px 14px 6px 16px; }
+  .item-name { font-size: 0.82rem; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; }
+  .tags { display: flex; flex-direction: column; gap: 2px; }
+  .tag {
+    display: flex;
+    gap: 5px;
+    align-items: flex-start;
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+  .tag-dot { width: 7px; height: 7px; border-radius: 1px; flex-shrink: 0; margin-top: 3px; }
+  .tag-good .tag-dot { background: #27ae60; }
+  .tag-watch .tag-dot { background: #e67e22; }
+  .tag-good .tag-text { color: #1a5c35; }
+  .tag-watch .tag-text { color: #7d4800; }
+  .item + .item { border-top: 1px dashed #f0f0f0; }
+
+  footer {
+    background: #1a1a2e;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    font-size: 0.68rem;
+    padding: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>Katalog zastosowań AI w pracy biurowej</h1>
+      <div class="sub">AI Literacy · Ściągawka dla uczestnika szkolenia · Zabrać ze sobą</div>
+    </div>
+    <div style="text-align:right;font-size:2rem;">🗂️</div>
+  </header>
+
+  <div class="legend">
+    <span style="font-size:0.73rem;font-weight:700;color:#555;margin-right:4px;">LEGENDA:</span>
+    <div class="legend-item"><div class="leg-dot leg-good"></div> AI robi to dobrze — niski nadzór</div>
+    <div class="legend-item"><div class="leg-dot leg-watch"></div> Wymaga weryfikacji człowieka</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1. Tworzenie treści -->
+    <div class="category c1">
+      <div class="cat-header">
+        <div class="cat-icon">✍️</div>
+        <div class="cat-title">Tworzenie treści</div>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="item-name">Szkice e-maili i komunikatów</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Szybko generuje neutralny, poprawny styl</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Ton, niuanse relacji, dane wrażliwe — sprawdź</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Opisy produktów i oferty</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Warianty tekstów na bazie briefu — ekspresowo</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Fakty, ceny, specyfikacje — zawsze zweryfikuj</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Prezentacje i slajdy (szkielet)</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Struktura i nagłówki slajdów — duże oszczędności czasu</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Treść merytoryczna i dane liczbowe — zweryfikuj</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Posty i treści social media</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Wiele wariantów i formatów jednocześnie</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Głos marki, aktualność, zgodność z PR — sprawdź</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Analiza dokumentów -->
+    <div class="category c2">
+      <div class="cat-header">
+        <div class="cat-icon">🔍</div>
+        <div class="cat-title">Analiza dokumentów</div>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="item-name">Przegląd umów — kluczowe zapisy</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Szybkie wyłuskanie klauzul, terminów, stron</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Interpretacja prawna — wyłącznie przez prawnika</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Analiza opinii klientów (bulk)</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Kategoryzacja tematów i sentymentu z setek rekordów</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Kontekst kulturowy, ironia — może się mylić</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Wyciąganie danych z PDF / skanów</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Faktury, formularze — dane strukturalne z dokumentów</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Nieczytelne skany, niestandardowe układy — sprawdź wynik</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Porównywanie wersji dokumentów</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Wykrywa zmiany między wersjami szybciej niż człowiek</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Znaczenie zmian — ocena należy do eksperta dziedzinowego</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Podsumowania -->
+    <div class="category c3">
+      <div class="cat-header">
+        <div class="cat-icon">📋</div>
+        <div class="cat-title">Podsumowania</div>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="item-name">Notatki ze spotkań</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Listy akcji, decyzji i uczestników — z nagrania lub transkryptu</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Intencje, subtelności, tematy poufne — zweryfikuj</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Streszczenia długich raportów</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Esencja 50 stron w 5 punktach — błyskawicznie</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Może pominąć ważne detale — czytaj oryginał przy decyzjach</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Digest wiadomości / e-maili</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Priorytetyzacja skrzynki, wyróżnienie akcji do podjęcia</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Pilność i kontekst relacji — ocena ludzka konieczna</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Podsumowanie wątków projektowych</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Status projektu, otwarte zadania — z narzędzi PM</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Ryzyka i "miękki" kontekst — wymaga ludzkiej oceny</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Tłumaczenia -->
+    <div class="category c4">
+      <div class="cat-header">
+        <div class="cat-icon">🌍</div>
+        <div class="cat-title">Tłumaczenia</div>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="item-name">Tłumaczenie robocze dokumentów</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Zrozumienie treści obcojęzycznej — w sekundy</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Umowy, dokumenty prawne — wymaga tłumacza przysięgłego</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Lokalizacja treści marketingowych</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Dobry punkt wyjścia, oszczędza 60–70% czasu native speakera</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Idiomy, humor, kontekst kulturowy — native speaker musi sprawdzić</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Tłumaczenie korespondencji e-mail</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Codzienne maile biznesowe — wysoka jakość</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Negocjacje, relacje wrażliwe — zleć do weryfikacji</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Praca z danymi -->
+    <div class="category c5">
+      <div class="cat-header">
+        <div class="cat-icon">📊</div>
+        <div class="cat-title">Praca z danymi</div>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="item-name">Formuły i makra w Excelu / Sheets</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Generuje złożone formuły z opisu w języku naturalnym</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Przetestuj na małym zbiorze przed użyciem produkcyjnym</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Czyszczenie i normalizacja danych</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Usuwanie duplikatów, ujednolicanie formatów — szybko</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Dane wrażliwe — nie wysyłaj do zewnętrznych AI bez anonimizacji</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Wizualizacje i wykresy (opis)</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Sugeruje odpowiedni typ wykresu i opisuje wnioski</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Interpretacja biznesowa danych — należy do analityka</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Zapytania SQL / Power Query</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Pisze i wyjaśnia zapytania bazodanowe z opisu</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Przetestuj przed użyciem na produkcji — może mieć błędy logiczne</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Automatyzacja -->
+    <div class="category c6">
+      <div class="cat-header">
+        <div class="cat-icon">⚙️</div>
+        <div class="cat-title">Automatyzacja zadań</div>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="item-name">Generowanie szablonów i formularzy</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Onboarding, checklisty, procedury — na zamówienie</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Zatwierdzenie przez właściciela procesu przed wdrożeniem</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Routing i klasyfikacja zadań</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Kategoryzacja zgłoszeń, przypisanie priorytetów</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Kwestie eskalacyjne — zawsze człowiek decyduje finalnie</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Harmonogramowanie i przypomnienia</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Proponuje terminy, generuje zaproszenia kalendarza</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Decyzja o uczestnikach i priorytecie — ludzka</div></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-name">Skrypty i kod do zadań biurowych</div>
+          <div class="tags">
+            <div class="tag tag-good"><div class="tag-dot"></div><div class="tag-text">Python, VBA, Power Automate — z opisu po polsku</div></div>
+            <div class="tag tag-watch"><div class="tag-dot"></div><div class="tag-text">Przetestuj przed automatycznym uruchomieniem na danych</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <footer>AI Literacy · Katalog zastosowań AI w pracy biurowej · Ściągawka uczestnika szkolenia</footer>
+</div>
+</body>
+</html>
