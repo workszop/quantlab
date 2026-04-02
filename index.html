@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szkolenia AI – Quantica Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #050505; font-family: 'Space Grotesk', sans-serif; }
+        h1, h2, h3, h4, .font-black { font-family: 'Archivo Black', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#050505] text-neutral-100 font-grotesk overflow-x-hidden" data-theme="dark">
+
+    <!-- Nav -->
+    <nav class="nav-bar fixed top-0 left-0 w-full px-6 md:px-16 py-5 flex justify-between items-center z-50 bg-[#050505] border-b border-neutral-800">
+        <a href="index.html" class="nav-logo flex items-center gap-4">
+            <img src="Quantica_logo_color.png" alt="Quantica" class="h-10">
+        </a>
+        
+        <div class="flex items-center gap-6">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode" title="Zmień motyw">
+                <svg class="icon-sun text-white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg class="icon-moon text-white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="min-h-[60vh] bg-[#050505] text-neutral-100 flex flex-col justify-end pb-16 px-6 md:px-20 relative overflow-hidden">
+        <div aria-hidden="true" class="absolute font-black text-white pointer-events-none select-none" style="font-family:'Archivo Black',sans-serif; font-size:clamp(10rem,35vw,50rem); opacity:0.04; top:50%; left:50%; transform:translate(-50%,-50%); line-height:1;">AI</div>
+        <div class="relative z-10">
+            <h1 class="font-black tracking-tighter leading-none uppercase mb-8" style="font-family:'Archivo Black',sans-serif; font-size:clamp(3rem,8vw,10rem);">
+                Szkolenia<br><span style="color:#BB2649">AI</span><span style="color:#BB2649">.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-neutral-400 max-w-2xl font-medium leading-relaxed">
+                Rozwiń kompetencje swojego zespołu i przygotuj firmę na wyzwania jutra dzięki naszym kompleksowym programom szkoleniowym ze sztucznej inteligencji.
+            </p>
+        </div>
+    </section>
+
+    <!-- Programs Listing -->
+    <section class="py-20 px-6 md:px-20 bg-[#050505]">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <a href="ai_literacy/index.html" class="group block border border-neutral-800 p-10 hover:bg-neutral-900 transition-colors">
+                <div class="inline-block border border-neutral-700 text-xs font-bold tracking-widest uppercase px-3 py-1 mb-6 text-neutral-400 group-hover:bg-white group-hover:text-black transition-colors">Podstawy</div>
+                <h3 class="font-black text-3xl mb-4 leading-none uppercase tracking-tighter">AI Literacy<span style="color:#BB2649">.</span></h3>
+                <p class="text-neutral-400 text-base leading-relaxed">Podstawy technologii i wykorzystania AI. Szkolenie wprowadzające, które buduje wspólny język.</p>
+            </a>
+            
+            <a href="ai_dla_kadry_projekty/index.html" class="group block border border-neutral-800 p-10 hover:bg-neutral-900 transition-colors">
+                <div class="inline-block border border-neutral-700 text-xs font-bold tracking-widest uppercase px-3 py-1 mb-6 text-neutral-400 group-hover:bg-white group-hover:text-black transition-colors">Operacje</div>
+                <h3 class="font-black text-3xl mb-4 leading-none uppercase tracking-tighter">AI dla kadry – projekty<span style="color:#BB2649">.</span></h3>
+                <p class="text-neutral-400 text-base leading-relaxed">Warsztaty operacyjne, których celem jest przełożenie kierunku działań AI na konkretne inicjatywy.</p>
+            </a>
+
+            <a href="ai_dla_kadry_strategia/index.html" class="group block border border-neutral-800 p-10 hover:bg-neutral-900 transition-colors">
+                <div class="inline-block border border-neutral-700 text-xs font-bold tracking-widest uppercase px-3 py-1 mb-6 text-neutral-400 group-hover:bg-white group-hover:text-black transition-colors">Strategia</div>
+                <h3 class="font-black text-3xl mb-4 leading-none uppercase tracking-tighter">AI dla kadry – strategia<span style="color:#BB2649">.</span></h3>
+                <p class="text-neutral-400 text-base leading-relaxed">Warsztaty strategiczne, dla kadry zarządzającej. Definiujemy rolę AI w modelu biznesowym.</p>
+            </a>
+
+            <a href="start_z_ai/index.html" class="group block border border-neutral-800 p-10 hover:bg-neutral-900 transition-colors">
+                <div class="inline-block border border-neutral-700 text-xs font-bold tracking-widest uppercase px-3 py-1 mb-6 text-neutral-400 group-hover:bg-white group-hover:text-black transition-colors">Starter</div>
+                <h3 class="font-black text-3xl mb-4 leading-none uppercase tracking-tighter">Start z AI<span style="color:#BB2649">.</span></h3>
+                <p class="text-neutral-400 text-base leading-relaxed">Intensywne spotkanie robocze, które pozwala szybko ocenić, czy wdrożenie AI ma u Ciebie sens.</p>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-white text-black py-20 px-6 md:px-20 flex flex-col md:flex-row justify-between items-end relative overflow-hidden">
+        <div class="text-[40vw] font-black leading-none absolute -bottom-20 -right-10 opacity-5 pointer-events-none select-none" style="font-family:'Archivo Black',sans-serif">Q</div>
+        <div class="z-10 mb-10 md:mb-0">
+            <img src="Quantica_logo_color.png" alt="Quantica" class="h-10 md:h-12 mb-4">
+            <p class="text-sm font-bold uppercase tracking-widest opacity-80">kontakt@quanticalab.ai</p>
+        </div>
+        <div class="z-10 flex flex-col items-start md:items-end gap-4">
+            <div class="flex flex-wrap gap-6 text-sm font-bold uppercase tracking-widest">
+                <span>Doradztwo</span>
+                <span>Wdrożenia</span>
+                <span>Szkolenia</span>
+                <span>AI</span>
+            </div>
+            <p class="text-xs opacity-50">© 2025 Quantica Lab sp. z o.o. · <a href="https://workszop.github.io/q223/llms.txt" class="underline">llms.txt</a></p>
+        </div>
+    </footer>
+
+    <script src="app.js" defer></script>
+</body>
+</html>
