@@ -575,6 +575,20 @@
   /* ─── JUSTIFIED BODY TEXT (Polish print convention) ─── */
   p, .bullets li, .cap-item, .route-callout { text-align: justify; }
   .cover-tagline, .contact p { text-align: left; }
+
+  /* ─── DENSE PAGE VARIANT (last page: 5 benefit rows + contact) ─── */
+  .page-dense .num-row { padding: 12px 0; }
+  .page-dense .num-row:first-child { padding-top: 6px; }
+  .page-dense .num-row p { font-size: 10pt; line-height: 1.5; }
+  .page-dense .num-row .digit { font-size: 38pt; }
+  .page-dense .num-label { font-size: 12pt; margin-bottom: 3pt; }
+  .page-dense .h-major { margin-bottom: 6pt; }
+  .page-dense .contact { padding: 16px 22px; margin-top: 10pt; }
+  .page-dense .contact h2 { font-size: 16pt; margin-bottom: 5pt; }
+  .page-dense .contact p { font-size: 9.5pt; margin-bottom: 8pt; }
+  .page-dense .contact-pills { margin-bottom: 10px; }
+  .page-dense .pill { padding: 7px 16px; font-size: 9pt; }
+  .page-dense .contact-info { padding-top: 8pt; }
 </style>
 </head>
 <body>
@@ -612,7 +626,7 @@
 
     <div class="page-header">
       <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
-      <div class="pgnum"><em>02</em> / 06 · Zagłoba · inteligentny asystent wiedzy</div>
+      <div class="pgnum"><em>02</em> / 05 · Zagłoba · inteligentny asystent wiedzy</div>
     </div>
 
     <p>Wiedza potrzebna pracownikom do podejmowania decyzji i realizacji codziennych zadań jest często rozproszona między wieloma dokumentami, repozytoriami i systemami. Odnalezienie właściwej informacji wymaga czasu i przeszukiwania wielu źródeł. Jednocześnie wykorzystanie publicznych modeli językowych do pracy z dokumentami organizacji może wiązać się z ryzykiem ujawnienia danych oraz brakiem kontroli nad sposobem ich przetwarzania.</p>
@@ -642,7 +656,7 @@
 
     <div class="page-header">
       <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
-      <div class="pgnum"><em>03</em> / 06 · Co wyróżnia nasz system RAG?</div>
+      <div class="pgnum"><em>03</em> / 05 · Co wyróżnia nasz system RAG?</div>
     </div>
 
     <h3 class="num-label">Integracja z systemami i źródłami danych organizacji</h3>
@@ -669,7 +683,7 @@
 
     <div class="page-header">
       <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
-      <div class="pgnum"><em>04</em> / 06 · Co potrafi Zagłoba?</div>
+      <div class="pgnum"><em>04</em> / 05 · Co potrafi Zagłoba?</div>
     </div>
 
     <h3 class="num-label">Monitoring, elastyczne wdrożenie i skalowanie</h3>
@@ -691,19 +705,6 @@
         <div class="cap-item">Automatyczne uwzględnianie nowych i zmienionych dokumentów oraz rozwijanie kolejnych integracji</div>
         <div class="cap-item">Zachowanie istniejących ról i uprawnień użytkowników oraz generowanie odpowiedzi wyłącznie na podstawie dostępnych im zasobów</div>
       </div>
-    </div>
-
-  </section>
-
-  <!-- ════════════════ PAGE 5 — CO ZYSKUJE ORGANIZACJA (1–3) ════════════════ -->
-  <section class="page page-content">
-
-    <div class="page-header">
-      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
-      <div class="pgnum"><em>05</em> / 06 · Co zyskuje organizacja?</div>
-    </div>
-
-    <div class="cap-grid">
       <div class="cap-panel">
         <div class="cap-head">Precyzja, bezpieczeństwo i kontrola jakości</div>
         <div class="cap-item">Hybrydowe wyszukiwanie, ponowna ocena trafności wyników i filtrowanie dokumentów na podstawie metadanych</div>
@@ -718,7 +719,17 @@
       </div>
     </div>
 
-    <h2 class="h-major h-pink mt-block">Co zyskuje organizacja?</h2>
+  </section>
+
+  <!-- ════════════════ PAGE 5 — CO ZYSKUJE ORGANIZACJA (1–3) ════════════════ -->
+  <section class="page page-last page-final page-dense">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>05</em> / 05 · Co zyskuje organizacja?</div>
+    </div>
+
+    <h2 class="h-major h-pink">Co zyskuje organizacja?</h2>
 
     <div class="num-list">
       <div class="num-row">
@@ -735,19 +746,6 @@
           <p>System odpowiada na podstawie kontrolowanych źródeł wiedzy i wskazuje dokumenty wykorzystane do przygotowania odpowiedzi. Użytkownik może sprawdzić podstawę udzielonej informacji, a organizacja ogranicza ryzyko generowania odpowiedzi niezgodnych z dokumentacją.</p>
         </div>
       </div>
-    </div>
-
-  </section>
-
-  <!-- ════════════════ PAGE 6 — CO ZYSKUJE ORGANIZACJA (4–5) + KONTAKT ════════════════ -->
-  <section class="page page-last page-final">
-
-    <div class="page-header">
-      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
-      <div class="pgnum"><em>06</em> / 06 · Co zyskuje organizacja?</div>
-    </div>
-
-    <div class="num-list">
       <div class="num-row">
         <span class="digit">3</span>
         <div>
