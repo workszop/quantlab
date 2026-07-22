@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<!--
+  QUANTICA LAB - strona produktowa: Dyndalski, inteligentny generator dokumentów
+  Standalone marketing website built from the dyndalski_inteligentny_generator_dokumentow.html flyer.
+  All marketing copy verbatim from the flyer; simulation labels are UI demo data.
+-->
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Dyndalski: inteligentny generator dokumentów. Profesjonalne dokumenty o odpowiedniej strukturze, stylu i formie, zgodne z normą językową i standardami organizacji.">
+<title>Dyndalski: inteligentny generator dokumentów | Quantica Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23d20757'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='20' font-weight='700' fill='%23fff' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* ─── Brand tokens (mirror of design-system colors_and_type.css) ─── */
+    --quantica-pink:    #d20757;
+    --rose-pink:        #d20757;
+    --deep-berry:       #8A004C;
+    --magenta-tint:     #FFE6F1;
+
+    --violet-primary:   #7030A0;
+    --violet-deep:      #4F1F75;
+    --ink:              #0A1F2C;
+    --mist:             #F4EEFA;
+
+    --near-black:       #111111;
+    --white:            #FFFFFF;
+
+    --fg-1:             #111111;
+    --fg-2:             #111111;
+    --fg-3:             #4B5563;
+
+    --bg-1:             #FFFFFF;
+    --bg-2:             #F5F6F8;
+
+    --border-1:         #E6E8EC;
+    --border-2:         #D1D5DB;
+
+    --font-display:     "Satoshi", system-ui, -apple-system, sans-serif;
+    --font-sans:        "Satoshi", system-ui, -apple-system, sans-serif;
+    --font-mono:        "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --radius-sm:        6px;
+    --radius-md:        10px;
+    --radius-lg:        16px;
+
+    --shadow-pink-soft: 0 6px 18px rgba(210, 7, 87, 0.10);
+    --shadow-card:      0 10px 30px -12px rgba(10, 20, 40, 0.12);
+
+    --nav-h: 64px;
+    --content-w: 1120px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 12px); }
+  body {
+    font-family: var(--font-sans);
+    color: var(--fg-2);
+    background: var(--bg-1);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  img { max-width: 100%; }
+  a { color: var(--quantica-pink); }
+
+  .wrap {
+    max-width: var(--content-w);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ─── Scroll reveal ─── */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 600ms ease, transform 600ms ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  /* ─── NAV ─── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    z-index: 40;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-1);
+  }
+  .nav-inner {
+    max-width: var(--content-w);
+    margin: 0 auto;
+    padding: 0 28px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .nav-logo img { height: 30px; width: auto; display: block; }
+  .nav-links { display: flex; align-items: center; gap: 26px; }
+  .nav-links a {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--fg-1);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+  .nav-links a:hover { color: var(--quantica-pink); }
+  .nav-cta {
+    background: var(--quantica-pink);
+    color: var(--white) !important;
+    font-weight: 700;
+    padding: 9px 20px;
+    border-radius: 999px;
+    box-shadow: var(--shadow-pink-soft);
+    transition: background 200ms;
+  }
+  .nav-cta:hover { background: var(--deep-berry); color: var(--white); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    color: var(--white);
+    padding: calc(var(--nav-h) + 48px) 0 72px;
+    background:
+      radial-gradient(ellipse 70% 55% at 78% 70%, rgba(112, 48, 160, 0.36) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 45% at 18% 22%, rgba(210, 7, 87, 0.55) 0%, transparent 70%),
+      linear-gradient(160deg, #07151f 0%, #0A1F2C 50%, #0d2538 100%);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 60%, black 30%, transparent 90%);
+    pointer-events: none;
+  }
+  .hero-q {
+    position: absolute;
+    right: -6%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(46vw, 640px);
+    opacity: 0.16;
+    filter: drop-shadow(0 30px 60px rgba(210, 7, 87, 0.45));
+    pointer-events: none;
+  }
+  .hero-q img { width: 100%; display: block; }
+  .hero-inner { position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rose-pink);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--rose-pink);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(56px, 9vw, 112px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+  .hero-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3.4vw, 40px);
+    font-weight: 400;
+    color: var(--white);
+    margin-top: 10px;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  .hero-subtitle em { font-style: normal; color: var(--rose-pink); }
+  .hero-tagline {
+    font-size: clamp(15px, 1.6vw, 18px);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 560px;
+    margin-top: 24px;
+    font-weight: 400;
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+  .pill {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    transition: transform 200ms, background 200ms, color 200ms;
+  }
+  .pill:hover { transform: translateY(-1px); }
+  .pill-solid { background: var(--quantica-pink); color: var(--white); box-shadow: var(--shadow-pink-soft); }
+  .pill-solid:hover { background: var(--deep-berry); }
+  .pill-outline { border: 1.5px solid var(--white); color: var(--white); }
+  .pill-outline:hover { background: rgba(255, 255, 255, 0.1); }
+  .pill .icon { width: 17px; height: 17px; }
+  .hero-footer {
+    position: absolute;
+    bottom: 22px;
+    left: 0; right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  /* ─── SECTION SCAFFOLD ─── */
+  .section { padding: 88px 0; }
+  .section-alt { background: var(--bg-2); }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--quantica-pink);
+    margin-bottom: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--quantica-pink);
+  }
+  .h-section {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--fg-1);
+    margin-bottom: 22px;
+  }
+  .h-pink { color: var(--quantica-pink); }
+  .section p { font-size: 15.5px; line-height: 1.75; margin-bottom: 14px; max-width: 780px; }
+  .section p strong { color: var(--quantica-pink); font-weight: 700; }
+
+  /* ─── VIOLET NOTE ─── */
+  .note-violet {
+    background: var(--mist);
+    border: 1.5px solid var(--violet-primary);
+    border-radius: var(--radius-md);
+    padding: 22px 26px;
+    margin: 22px 0;
+    max-width: 860px;
+  }
+  .note-violet p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--fg-1); font-weight: 500; max-width: none; }
+  .note-violet { display: flex; gap: 18px; align-items: flex-start; }
+  .note-violet .note-icon {
+    flex: none;
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-md);
+    background: rgba(112, 48, 160, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .note-violet .note-icon .icon { width: 23px; height: 23px; color: var(--violet-primary); }
+
+  /* ─── ICON CARDS (paragraphs split into smaller visual parts) ─── */
+  .split-grid { display: flex; flex-wrap: wrap; gap: 18px; margin: 26px 0; }
+  .icon-card {
+    flex: 1 1 280px;
+    min-width: 260px;
+    background: var(--bg-1);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+  }
+  .icon-chip {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--magenta-tint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  .icon-chip .icon { width: 22px; height: 22px; color: var(--quantica-pink); }
+  .icon-card p { margin: 0; max-width: none; font-size: 14.5px; line-height: 1.7; }
+
+  /* ─── SIMULATION ─── */
+  .sim-shell {
+    background: var(--ink);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    margin-top: 36px;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 60% 60% at 85% 10%, rgba(112, 48, 160, 0.30) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 60% at 5% 95%, rgba(210, 7, 87, 0.22) 0%, transparent 65%),
+      linear-gradient(150deg, #07151f 0%, #0A1F2C 55%, #0d2538 100%);
+  }
+  .sim-toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+  .sim-toolbar .toolbar-label {
+    flex-basis: 100%;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 2px;
+  }
+  .prompt-btn {
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    transition: border-color 200ms, background 200ms;
+  }
+  .prompt-btn .icon { width: 16px; height: 16px; color: var(--rose-pink); }
+  .prompt-btn:hover { border-color: var(--rose-pink); background: rgba(210, 7, 87, 0.12); }
+  .prompt-btn.active { border-color: var(--rose-pink); background: rgba(210, 7, 87, 0.20); }
+  .prompt-btn:focus-visible { outline: 2px solid var(--rose-pink); outline-offset: 2px; }
+
+  .sim-stage { position: relative; }
+  .sim-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 28px;
+    align-items: center;
+  }
+  .sim-col { display: flex; flex-direction: column; gap: 18px; }
+  .sim-node {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.22);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    transition: border-color 300ms, background 300ms, box-shadow 300ms;
+  }
+  .sim-node .node-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    color: var(--white);
+  }
+  .sim-node .node-head .icon { width: 19px; height: 19px; color: var(--rose-pink); flex: none; }
+  .sim-node .node-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.62);
+    margin-top: 7px;
+  }
+  .sim-node.lit {
+    border-color: var(--rose-pink);
+    background: rgba(210, 7, 87, 0.14);
+    box-shadow: 0 0 26px rgba(210, 7, 87, 0.30);
+  }
+  .sim-node.lit-violet {
+    border-color: #A66BD4;
+    background: rgba(112, 48, 160, 0.22);
+    box-shadow: 0 0 26px rgba(112, 48, 160, 0.38);
+  }
+  .sim-node.dim { opacity: 0.42; }
+  .node-badge {
+    display: none;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    align-items: center;
+    gap: 7px;
+    width: fit-content;
+  }
+  .node-badge .icon { width: 13px; height: 13px; flex: none; }
+  .sim-node.show-badge .node-badge { display: inline-flex; }
+  .badge-ok { background: rgba(210, 7, 87, 0.22); color: #ff9dbf; }
+
+  .genre-chip {
+    display: none;
+    margin-top: 11px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    background: rgba(112, 48, 160, 0.30);
+    color: #d9b8f2;
+    width: fit-content;
+  }
+  .genre-chip.on { display: inline-flex; }
+
+  .sim-query-text {
+    margin-top: 11px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.85);
+    min-height: 3.2em;
+  }
+  .sim-query-text::before { content: "\201E"; }
+  .sim-query-text::after { content: "\201D"; }
+  .sim-query-text.empty { color: rgba(255, 255, 255, 0.4); font-style: italic; }
+  .sim-query-text.empty::before, .sim-query-text.empty::after { content: ""; }
+
+  .analysis-checks { display: flex; flex-direction: column; gap: 7px; margin-top: 12px; }
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .check-row .icon { width: 13px; height: 13px; flex: none; color: rgba(255, 255, 255, 0.45); }
+  .check-row.on { color: var(--white); }
+  .check-row.on .icon { color: var(--rose-pink); }
+
+  .doc-preview {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 118px;
+  }
+  .doc-empty {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.4);
+  }
+  .doc-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 380ms ease, transform 380ms ease;
+  }
+  .doc-line.on { opacity: 1; transform: none; }
+  .doc-line .doc-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.78);
+    white-space: nowrap;
+  }
+  .doc-line .doc-bar {
+    flex: 1;
+    min-width: 28px;
+    height: 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.16);
+  }
+  .doc-line:first-child .doc-bar { background: rgba(210, 7, 87, 0.55); }
+
+  .packet {
+    position: absolute;
+    z-index: 5;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--rose-pink);
+    box-shadow: 0 0 14px rgba(210, 7, 87, 0.9), 0 0 34px rgba(210, 7, 87, 0.55);
+    top: 0; left: 0;
+    opacity: 0;
+    transition: transform 750ms cubic-bezier(0.45, 0, 0.25, 1), opacity 250ms;
+    pointer-events: none;
+  }
+  .packet.visible { opacity: 1; }
+  .packet.instant { transition: none; }
+
+  .sim-log {
+    margin-top: 26px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.85);
+    min-height: 108px;
+  }
+  .sim-log .log-line { display: flex; gap: 9px; }
+  .sim-log .log-line::before { content: ">"; color: var(--rose-pink); font-weight: 600; }
+  .sim-log .log-line.muted { color: rgba(255, 255, 255, 0.45); }
+
+  .sim-caption {
+    margin-top: 16px;
+    font-size: 12.5px;
+    color: var(--fg-3);
+    max-width: 780px;
+  }
+
+  /* ─── CAPABILITIES (flexbox, incomplete rows center) ─── */
+  .cap-grid { display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; margin-top: 40px; }
+  .cap-panel {
+    flex: 1 1 calc(50% - 11px);
+    min-width: 300px;
+    background: var(--bg-1);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-lg);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: var(--shadow-card);
+  }
+  .cap-panel-wide { flex-basis: 100%; }
+  .cap-head {
+    background: var(--violet-primary);
+    color: var(--white);
+    border-radius: var(--radius-md);
+    padding: 15px 18px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16.5px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cap-head .icon { width: 21px; height: 21px; flex: none; }
+  .cap-item {
+    background: var(--bg-2);
+    border-radius: var(--radius-sm);
+    padding: 12px 15px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--fg-1);
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+  }
+  .cap-item .icon { width: 16px; height: 16px; flex: none; color: var(--quantica-pink); margin-top: 3px; }
+  .cap-item-list { font-family: var(--font-mono); font-size: 12.5px; line-height: 1.9; letter-spacing: 0.01em; }
+
+  /* ─── BENEFITS ─── */
+  .benefit-grid { display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; margin-top: 40px; }
+  .benefit {
+    flex: 1 1 calc(50% - 11px);
+    min-width: 300px;
+    background: var(--bg-1);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 20px;
+    align-items: start;
+    box-shadow: var(--shadow-card);
+  }
+  .benefit .digit {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 0.9;
+    color: var(--quantica-pink);
+    letter-spacing: -0.04em;
+  }
+  .benefit h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--fg-1);
+    font-size: 18px;
+    margin-bottom: 10px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .benefit p { font-size: 14px; line-height: 1.7; margin: 0; }
+
+  /* ─── CONTACT ─── */
+  .contact {
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 50%, rgba(112, 48, 160, 0.28) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 70% at 0% 0%, rgba(210, 7, 87, 0.30) 0%, transparent 65%),
+      linear-gradient(135deg, #0A1F2C 0%, #0d2538 100%);
+    color: var(--white);
+    padding: 52px 56px;
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-q {
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 280px;
+    opacity: 0.14;
+    pointer-events: none;
+  }
+  .contact-q img { width: 100%; display: block; }
+  .contact .eyebrow { color: var(--rose-pink); }
+  .contact .eyebrow::before { background: var(--rose-pink); }
+  .contact h2 {
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.4vw, 36px);
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+  .contact p { color: rgba(255, 255, 255, 0.92); font-size: 15px; margin-bottom: 26px; max-width: 560px; position: relative; z-index: 1; }
+  .contact-pills { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; position: relative; z-index: 1; }
+  .contact .pill-solid { background: var(--white); color: var(--quantica-pink); }
+  .contact .pill-solid:hover { background: var(--magenta-tint); }
+  .contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    padding-top: 22px;
+    position: relative;
+    z-index: 1;
+  }
+  .contact-meta { font-size: 13px; color: var(--white); }
+  .contact-meta strong { font-weight: 600; }
+  .contact-logo img { height: 40px; width: auto; display: block; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    padding: 26px 0;
+    border-top: 1px solid var(--border-1);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: var(--fg-3);
+  }
+  .footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+    .hero { min-height: auto; padding: calc(var(--nav-h) + 56px) 0 96px; }
+    .hero-q { width: 70vw; right: -18%; opacity: 0.12; }
+    .section { padding: 60px 0; }
+    .wrap { padding: 0 20px; }
+    .nav-inner { padding: 0 20px; }
+    .sim-shell { padding: 20px; }
+    .sim-grid { grid-template-columns: 1fr; gap: 16px; }
+    .cap-panel, .benefit { flex-basis: 100%; min-width: 0; }
+    .benefit { padding: 22px; grid-template-columns: 54px 1fr; gap: 14px; }
+    .benefit .digit { font-size: 48px; }
+    .contact { padding: 34px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ NAV ════════════════ -->
+<nav class="nav" aria-label="Nawigacja">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top" aria-label="Quantica Lab">
+      <img src="quantica-logo-color.png" alt="Quantica Lab">
+    </a>
+    <div class="nav-links">
+      <a href="#jak-dziala">Jak działa</a>
+      <a href="#symulacja">Symulacja</a>
+      <a href="#mozliwosci">Możliwości</a>
+      <a href="#korzysci">Korzyści</a>
+      <a class="nav-cta" href="#kontakt">Kontakt</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════ HERO ════════════════ -->
+<header class="hero" id="top">
+  <div class="hero-q" aria-hidden="true"><img src="quantica-q-mark-white.png" alt=""></div>
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow">Quantica Lab</div>
+    <h1 class="hero-title">Dyndalski</h1>
+    <div class="hero-subtitle">inteligentny <em>generator dokumentów</em></div>
+    <p class="hero-tagline">Profesjonalne dokumenty o odpowiedniej strukturze, stylu i formie, zgodne z normą językową i standardami organizacji</p>
+    <div class="hero-actions">
+      <a class="pill pill-solid" href="#kontakt"><i data-lucide="messages-square" class="icon"></i>Porozmawiajmy o wdrożeniu</a>
+      <a class="pill pill-outline" href="#symulacja"><i data-lucide="play" class="icon"></i>Zobacz symulację</a>
+    </div>
+  </div>
+  <div class="hero-footer wrap">
+    <div>quanticalab.ai</div>
+    <div>Dyndalski · inteligentny generator dokumentów</div>
+  </div>
+</header>
+
+<main>
+
+<!-- ════════════════ JAK DZIAŁA ════════════════ -->
+<section class="section" id="jak-dziala">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Jak działa Dyndalski</div>
+      <h2 class="h-section">Inteligentny <span class="h-pink">generator dokumentów</span></h2>
+    </div>
+
+    <div class="split-grid reveal">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="building-2" class="icon"></i></div>
+        <p>W urzędach, instytucjach i firmach każdego dnia powstają różne typy dokumentów, takich jak uchwały, zawiadomienia, protokoły, umowy czy regulaminy.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="layers" class="icon"></i></div>
+        <p>Każdy z nich stanowi odrębny gatunek tekstu – ma określoną strukturę, charakterystyczny styl i sposób formułowania treści.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="pen-line" class="icon"></i></div>
+        <p>Przygotowanie poprawnego, profesjonalnego dokumentu wymaga nie tylko wiedzy o sprawie, której dotyczy, ale również znajomości zasad właściwych dla danego typu pisma i umiejętności ich konsekwentnego stosowania.</p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <p><strong>Dyndalski</strong> to system sztucznej inteligencji umożliwiający automatyczne tworzenie dokumentów zgodnych z tymi zasadami.</p>
+    </div>
+
+    <div class="note-violet reveal">
+      <div class="note-icon"><i data-lucide="wand-2" class="icon"></i></div>
+      <p>Użytkownik nie musi samodzielnie redagować tekstu ani posługiwać się specjalistycznym językiem – wystarczy przekazać najważniejsze informacje dotyczące sprawy, takie jak opis sytuacji, podjęta decyzja czy podstawa prawna. Na tej podstawie Dyndalski przygotowuje kompletny dokument o odpowiedniej strukturze i stylu, dbając również o poprawność językową i właściwe formatowanie.</p>
+    </div>
+
+    <div class="split-grid reveal">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="server" class="icon"></i></div>
+        <p>Podstawą działania Dyndalskiego są autorskie, lokalnie uruchamiane modele językowe, dostrojone do tworzenia dokumentów zgodnych z wzorcami gatunkowymi w języku polskim.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="target" class="icon"></i></div>
+        <p>Pozwala to uzyskać wysoką jakość i powtarzalność rezultatów przy wykorzystaniu modeli znacznie mniejszych niż popularne modele ogólnego przeznaczenia.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="lock" class="icon"></i></div>
+        <p>Oznacza również brak konieczności przekazywania danych do zewnętrznych dostawców AI – Dyndalski może działać w infrastrukturze organizacji lub w środowisku polskich centrów obliczeniowych, zapewniając pełną kontrolę nad przetwarzaniem informacji.</p>
+      </div>
+    </div>
+
+    <div class="split-grid reveal">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="graduation-cap" class="icon"></i></div>
+        <p>Rozwiązanie zostało opracowane we współpracy z ekspertami z Uniwersytetu Łódzkiego. Jego skuteczność została potwierdzona w rygorystycznej ewaluacji, w której wyspecjalizowane modele osiągały wyniki wyższe niż znacznie większe, uniwersalne modele językowe.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="library" class="icon"></i></div>
+        <p>Wzorce wykorzystywane przez system powstały na podstawie analizy tysięcy rzeczywistych dokumentów oraz badań nad strukturą, stylem i funkcją poszczególnych gatunków tekstu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SYMULACJA ════════════════ -->
+<section class="section section-alt" id="symulacja">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Symulacja</div>
+      <h2 class="h-section">Od informacji o sprawie do <span class="h-pink">gotowego dokumentu</span></h2>
+    </div>
+
+    <div class="split-grid reveal">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="mouse-pointer-click" class="icon"></i></div>
+        <p>Proces tworzenia dokumentu rozpoczyna się od wyboru gatunku tekstu.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="text-cursor-input" class="icon"></i></div>
+        <p>Następnie użytkownik uzupełnia formularz, podając informacje o danej sprawie.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="message-square-text" class="icon"></i></div>
+        <p>Użytkownik może przekazywać informacje w sposób skrótowy i nie musi znać specjalistycznej terminologii, wymaganej struktury dokumentu ani zasad jego redagowania.</p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <p>Na podstawie wprowadzonych danych Dyndalski generuje kompletny dokument zgodny ze wzorcem gatunkowym. System automatycznie dobiera właściwą strukturę, styl i sposób przedstawienia informacji. Dba także o poprawność językową i formatowanie. Wygenerowany dokument można edytować oraz zapisać w wybranym formacie.</p>
+    </div>
+
+    <div class="sim-shell reveal" id="simShell">
+      <div class="sim-toolbar" role="group" aria-label="Przykładowe gatunki dokumentów">
+        <div class="toolbar-label">Wybierz gatunek dokumentu</div>
+        <button class="prompt-btn" type="button" data-prompt="uchwala">
+          <i data-lucide="landmark" class="icon"></i>Uchwała
+        </button>
+        <button class="prompt-btn" type="button" data-prompt="zawiadomienie">
+          <i data-lucide="megaphone" class="icon"></i>Zawiadomienie
+        </button>
+        <button class="prompt-btn" type="button" data-prompt="protokol">
+          <i data-lucide="clipboard-list" class="icon"></i>Protokół
+        </button>
+      </div>
+
+      <div class="sim-stage" id="simStage">
+        <div class="packet" id="packet" aria-hidden="true"></div>
+        <div class="sim-grid">
+          <div class="sim-col">
+            <div class="sim-node" id="nodeForm">
+              <div class="node-head"><i data-lucide="text-cursor-input" class="icon"></i>Wybór gatunku i formularz</div>
+              <span class="genre-chip" id="genreChip"></span>
+              <div class="sim-query-text empty" id="queryText">wybierz gatunek dokumentu powyżej</div>
+            </div>
+          </div>
+          <div class="sim-col">
+            <div class="sim-node" id="nodeGenerate">
+              <div class="node-head"><i data-lucide="settings-2" class="icon"></i>Generowanie dokumentu</div>
+              <div class="node-sub">lokalnie uruchamiany model językowy</div>
+              <div class="analysis-checks">
+                <div class="check-row" id="checkComplete"><i data-lucide="list-checks" class="icon"></i>kompletność danych</div>
+                <div class="check-row" id="checkStructure"><i data-lucide="layout-template" class="icon"></i>struktura i styl</div>
+                <div class="check-row" id="checkLanguage"><i data-lucide="spell-check" class="icon"></i>poprawność językowa</div>
+                <div class="check-row" id="checkFormat"><i data-lucide="align-left" class="icon"></i>formatowanie</div>
+              </div>
+            </div>
+          </div>
+          <div class="sim-col">
+            <div class="sim-node" id="nodeDoc">
+              <div class="node-head"><i data-lucide="file-text" class="icon"></i>Gotowy dokument</div>
+              <div class="doc-preview" id="docPreview">
+                <div class="doc-empty">oczekiwanie na dane z formularza</div>
+              </div>
+              <span class="node-badge badge-ok" id="badgeDoc"><i data-lucide="file-check-2" class="icon"></i><span>do weryfikacji i ewentualnej korekty</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-log" id="simLog" aria-live="polite">
+        <div class="log-line muted">system gotowy - wybierz gatunek dokumentu</div>
+      </div>
+    </div>
+    <p class="sim-caption reveal">Symulacja poglądowa. Przykładowe dane, gatunki i komunikaty ilustrują sposób działania generatora dokumentów.</p>
+  </div>
+</section>
+
+<!-- ════════════════ MOŻLIWOŚCI ════════════════ -->
+<section class="section" id="mozliwosci">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Możliwości</div>
+      <h2 class="h-section h-pink">Co potrafi Dyndalski?</h2>
+    </div>
+
+    <div class="reveal">
+      <p>W wersji beta Dyndalski obsługuje 25 gatunków urzędowych. Zakres rozwiązania jest sukcesywnie rozszerzany o kolejne typy dokumentów wykorzystywane w administracji, biznesie i praktyce prawnej, takie jak akty notarialne.</p>
+    </div>
+
+    <div class="cap-grid" style="margin-top: 26px;">
+      <div class="cap-panel cap-panel-wide reveal">
+        <div class="cap-head"><i data-lucide="files" class="icon"></i>25 typów dokumentów w wersji beta</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Wybierz typ dokumentu i uzupełnij podstawowe informacje, a Dyndalski przygotuje kompletny, profesjonalnie sformatowany tekst.</div>
+        <div class="cap-item cap-item-list"><i data-lucide="files" class="icon"></i>uchwała · petycja · apel · interpelacja · zawiadomienie · statut · sprawozdanie · regulamin · obwieszczenie · komunikat · informacja · odpowiedź na interpelację · zarządzenie · ogłoszenie · postanowienie · ustawa · decyzja administracyjna · kodeks · instrukcja · karta usługi · rozporządzenie · umowa · protokół · zaproszenie · rozstrzygnięcie nadzorcze</div>
+      </div>
+    </div>
+
+    <div class="note-violet reveal" style="margin-top: 30px;">
+      <div class="note-icon"><i data-lucide="plug" class="icon"></i></div>
+      <p>Rozwiązanie może zostać zintegrowane z systemami i repozytoriami wiedzy organizacji. Pozwala to automatycznie uzupełniać część informacji, podpowiadać dane na podstawie dokumentów i systemów wewnętrznych oraz dostosować sposób generowania dokumentów do standardów i praktyk obowiązujących w konkretnej instytucji.</p>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap-panel reveal">
+        <div class="cap-head"><i data-lucide="file-text" class="icon"></i>Tworzenie dokumentów zgodnych ze wzorcami gatunkowymi</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Generowanie kompletnych dokumentów na podstawie informacji przekazanych przez użytkownika</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Zachowanie właściwej struktury, stylu, wymaganych elementów i formatowania</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Dostosowanie języka i sposobu przedstawienia informacji do funkcji i gatunku dokumentu</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Obsługa wielu gatunków dokumentów w ramach jednego rozwiązania</div>
+      </div>
+      <div class="cap-panel reveal">
+        <div class="cap-head"><i data-lucide="keyboard" class="icon"></i>Intuicyjne wprowadzanie informacji</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Formularze dostosowane do rodzaju przygotowywanego dokumentu</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Możliwość przekazywania informacji w naturalnym języku, również w formie skrótowych i nieuporządkowanych opisów</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Weryfikacja kompletności danych i możliwość podpowiadania brakujących informacji</div>
+      </div>
+      <div class="cap-panel reveal">
+        <div class="cap-head"><i data-lucide="badge-check" class="icon"></i>Jakość i standaryzacja dokumentów</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Wykorzystanie wzorców gatunkowych opracowanych na podstawie analizy tysięcy rzeczywistych dokumentów</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Zachowanie spójnego standardu językowego, strukturalnego i redakcyjnego</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Ograniczenie błędów językowych, brakujących elementów i nieprawidłowego formatowania</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Możliwość dostosowania wzorców do praktyk i standardów obowiązujących w organizacji</div>
+      </div>
+      <div class="cap-panel reveal">
+        <div class="cap-head"><i data-lucide="database" class="icon"></i>Integracja z wiedzą i systemami organizacji</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Automatyczne uzupełnianie i podpowiadanie danych na podstawie dokumentów oraz informacji dostępnych w organizacji</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Integracja z repozytoriami wiedzy, systemami obiegu dokumentów i systemami dziedzinowymi</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Dostosowanie formularzy, wzorców i procesu generowania do potrzeb organizacji</div>
+      </div>
+      <div class="cap-panel reveal">
+        <div class="cap-head"><i data-lucide="shield-check" class="icon"></i>Bezpieczeństwo i wdrożenie</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Wykorzystanie lokalnie uruchamianych modeli językowych bez konieczności przekazywania danych do zewnętrznych dostawców AI</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Możliwość wdrożenia w infrastrukturze klienta lub wykorzystania infrastruktury polskich centrów obliczeniowych</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Pełna kontrola nad miejscem przetwarzania danych, sposobem działania rozwiązania i kosztami jego utrzymania</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ KORZYŚCI ════════════════ -->
+<section class="section section-alt" id="korzysci">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Korzyści</div>
+      <h2 class="h-section h-pink">Co zyskuje organizacja?</h2>
+    </div>
+
+    <div class="benefit-grid">
+      <div class="benefit reveal">
+        <span class="digit">1</span>
+        <div>
+          <h3>Szybsze przygotowywanie dokumentów</h3>
+          <p>Dyndalski automatyzuje proces redagowania dokumentów. Pracownik przekazuje informacje dotyczące sprawy, a system przygotowuje kompletny tekst wymagający jedynie weryfikacji i ewentualnej korekty.</p>
+        </div>
+      </div>
+      <div class="benefit reveal">
+        <span class="digit">2</span>
+        <div>
+          <h3>Wyższa jakość i spójność dokumentacji</h3>
+          <p>Dokumenty są tworzone na podstawie zdefiniowanych wzorców gatunkowych i jednolitych zasad, co pozwala utrzymać spójny standard dokumentacji niezależnie od doświadczenia i indywidualnego sposobu pracy poszczególnych użytkowników.</p>
+        </div>
+      </div>
+      <div class="benefit reveal">
+        <span class="digit">3</span>
+        <div>
+          <h3>Mniej błędów i prostsze tworzenie specjalistycznych dokumentów</h3>
+          <p>System pilnuje struktury, wymaganych elementów, poprawności językowej i formatowania. Użytkownik nie musi znać szczegółowych reguł redagowania każdego gatunku tekstu, aby przygotować profesjonalny dokument.</p>
+        </div>
+      </div>
+      <div class="benefit reveal">
+        <span class="digit">4</span>
+        <div>
+          <h3>Bezpieczeństwo i pełna kontrola nad rozwiązaniem</h3>
+          <p>Lokalne modele językowe i możliwość wdrożenia w kontrolowanej infrastrukturze pozwalają korzystać z generatywnej AI bez przekazywania danych do zewnętrznych dostawców. Organizacja zachowuje kontrolę nad danymi, sposobem działania systemu oraz kosztami jego utrzymania. Wyspecjalizowane modele dostrojone do konkretnego zadania zapewniają wysoką powtarzalność rezultatów oraz ograniczają zależność od zmian w zewnętrznych usługach AI, wersjach modeli i cennikach API.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ KONTAKT ════════════════ -->
+<section class="section" id="kontakt">
+  <div class="wrap">
+    <div class="contact reveal">
+      <div class="contact-q" aria-hidden="true"><img src="quantica-q-mark-white.png" alt=""></div>
+      <div class="eyebrow">Kontakt</div>
+      <h2>Porozmawiajmy o wdrożeniu</h2>
+      <p>Napisz do nas – pokażemy Dyndalskiego w działaniu i omówimy scenariusz wdrożenia dopasowany do Twojej organizacji.</p>
+      <div class="contact-pills">
+        <a class="pill pill-solid" href="mailto:kontakt@quanticalab.ai">kontakt@quanticalab.ai</a>
+        <a class="pill pill-outline" href="https://www.quanticalab.ai" target="_blank" rel="noopener">www.quanticalab.ai</a>
+      </div>
+      <div class="contact-info">
+        <div class="contact-logo"><img src="quantica-logo-white.png" alt="Quantica Lab"></div>
+        <div class="contact-meta"><strong>Quanticalab Sp. z o.o.</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div>quanticalab.ai</div>
+    <div>Dyndalski · inteligentny generator dokumentów</div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+(function () {
+  "use strict";
+
+  // ─── Constants ───
+  var PHASE_MS = 850;
+  var DOC_LINE_MS = 240;
+  var REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var SCENARIOS = {
+    uchwala: {
+      genre: "uchwała",
+      input: "rada przyjmuje regulamin korzystania z parku miejskiego, obowiązuje od 1 września, podstawa prawna do uzupełnienia",
+      completeLog: "weryfikacja kompletności danych: podpowiedziano brakującą podstawę prawną",
+      docLines: [
+        "tytuł i oznaczenie uchwały",
+        "podstawa prawna",
+        "treść uchwały (§ 1 - § 4)",
+        "termin wejścia w życie",
+        "podpis przewodniczącego"
+      ]
+    },
+    zawiadomienie: {
+      genre: "zawiadomienie",
+      input: "posiedzenie komisji rewizyjnej przesunięte na 12 maja, godz. 14:00, sala 102, poinformować mieszkańców",
+      completeLog: "weryfikacja kompletności danych: komplet informacji o sprawie",
+      docLines: [
+        "oznaczenie organu i data",
+        "adresaci zawiadomienia",
+        "treść zawiadomienia",
+        "pouczenie",
+        "podpis"
+      ]
+    },
+    protokol: {
+      genre: "protokół",
+      input: "spotkanie zespołu projektowego 4 czerwca, lista obecności w załączeniu, przyjęto trzy ustalenia, wnioski do realizacji",
+      completeLog: "weryfikacja kompletności danych: komplet informacji o sprawie",
+      docLines: [
+        "nagłówek i data posiedzenia",
+        "lista obecności",
+        "przebieg posiedzenia",
+        "podjęte ustalenia",
+        "podpisy uczestników"
+      ]
+    }
+  };
+
+  // ─── State ───
+  var state = {
+    activePrompt: null,
+    timers: []
+  };
+
+  // ─── DOM refs ───
+  var stage = document.getElementById("simStage");
+  var packet = document.getElementById("packet");
+  var queryText = document.getElementById("queryText");
+  var genreChip = document.getElementById("genreChip");
+  var nodeForm = document.getElementById("nodeForm");
+  var nodeGenerate = document.getElementById("nodeGenerate");
+  var nodeDoc = document.getElementById("nodeDoc");
+  var checkComplete = document.getElementById("checkComplete");
+  var checkStructure = document.getElementById("checkStructure");
+  var checkLanguage = document.getElementById("checkLanguage");
+  var checkFormat = document.getElementById("checkFormat");
+  var docPreview = document.getElementById("docPreview");
+  var simLog = document.getElementById("simLog");
+  var promptButtons = Array.prototype.slice.call(document.querySelectorAll(".prompt-btn"));
+
+  // ─── Helpers ───
+  function schedule(fn, delay) {
+    if (REDUCED_MOTION) { delay = Math.min(delay, 50); }
+    state.timers.push(window.setTimeout(fn, delay));
+  }
+
+  function clearTimers() {
+    state.timers.forEach(window.clearTimeout);
+    state.timers = [];
+  }
+
+  function nodeCenter(node) {
+    var stageRect = stage.getBoundingClientRect();
+    var rect = node.getBoundingClientRect();
+    return {
+      x: rect.left + rect.width / 2 - stageRect.left,
+      y: rect.top + rect.height / 2 - stageRect.top
+    };
+  }
+
+  function movePacket(node, instant) {
+    var c = nodeCenter(node);
+    packet.classList.toggle("instant", Boolean(instant) || REDUCED_MOTION);
+    packet.style.transform = "translate(" + (c.x - 7) + "px, " + (c.y - 7) + "px)";
+  }
+
+  function logLine(text, muted) {
+    var line = document.createElement("div");
+    line.className = "log-line" + (muted ? " muted" : "");
+    line.textContent = text;
+    simLog.appendChild(line);
+    simLog.scrollTop = simLog.scrollHeight;
+  }
+
+  function buildDocLines(labels) {
+    docPreview.innerHTML = "";
+    return labels.map(function (label) {
+      var line = document.createElement("div");
+      line.className = "doc-line";
+      var span = document.createElement("span");
+      span.className = "doc-label";
+      span.textContent = label;
+      var bar = document.createElement("span");
+      bar.className = "doc-bar";
+      line.appendChild(span);
+      line.appendChild(bar);
+      docPreview.appendChild(line);
+      return line;
+    });
+  }
+
+  function resetSim() {
+    clearTimers();
+    simLog.innerHTML = "";
+    [nodeForm, nodeGenerate, nodeDoc].forEach(function (n) {
+      n.classList.remove("lit", "lit-violet", "dim", "show-badge");
+    });
+    [checkComplete, checkStructure, checkLanguage, checkFormat].forEach(function (c) {
+      c.classList.remove("on");
+    });
+    docPreview.innerHTML = '<div class="doc-empty">oczekiwanie na dane z formularza</div>';
+    genreChip.classList.remove("on");
+    packet.classList.remove("visible");
+  }
+
+  // ─── Render (scenario playback) ───
+  function playScenario(id) {
+    var s = SCENARIOS[id];
+    if (!s) { return; }
+    resetSim();
+    state.activePrompt = id;
+    promptButtons.forEach(function (btn) {
+      btn.classList.toggle("active", btn.dataset.prompt === id);
+    });
+
+    genreChip.textContent = "gatunek: " + s.genre;
+    genreChip.classList.add("on");
+    queryText.textContent = s.input;
+    queryText.classList.remove("empty");
+
+    // Phase 1: genre chosen, form data received
+    nodeForm.classList.add("lit");
+    logLine("wybrano gatunek tekstu: " + s.genre);
+    movePacket(nodeForm, true);
+    packet.classList.add("visible");
+
+    schedule(function () {
+      logLine("odebrano informacje o sprawie z formularza");
+    }, PHASE_MS * 0.55);
+
+    // Phase 2: travel to generation
+    schedule(function () {
+      movePacket(nodeGenerate);
+    }, PHASE_MS * 0.9);
+
+    // Phase 3: generation checks
+    schedule(function () {
+      nodeForm.classList.remove("lit");
+      nodeGenerate.classList.add("lit-violet");
+      checkComplete.classList.add("on");
+      logLine(s.completeLog);
+    }, PHASE_MS * 1.5);
+
+    schedule(function () {
+      checkStructure.classList.add("on");
+      logLine("dobór właściwej struktury, stylu i sposobu przedstawienia informacji");
+    }, PHASE_MS * 2.1);
+
+    schedule(function () {
+      checkLanguage.classList.add("on");
+      checkFormat.classList.add("on");
+      logLine("kontrola poprawności językowej i formatowania");
+    }, PHASE_MS * 2.7);
+
+    // Phase 4: travel to document
+    schedule(function () {
+      movePacket(nodeDoc);
+      logLine("generowanie dokumentu zgodnego ze wzorcem gatunkowym: " + s.genre);
+    }, PHASE_MS * 3.2);
+
+    // Phase 5: document builds up line by line
+    schedule(function () {
+      nodeGenerate.classList.remove("lit-violet");
+      nodeGenerate.classList.add("dim");
+      nodeDoc.classList.add("lit");
+      var lines = buildDocLines(s.docLines);
+      lines.forEach(function (line, index) {
+        schedule(function () {
+          line.classList.add("on");
+        }, DOC_LINE_MS * (index + 1));
+      });
+      schedule(function () {
+        nodeDoc.classList.add("show-badge");
+        logLine("gotowy dokument - można go edytować oraz zapisać w wybranym formacie");
+      }, DOC_LINE_MS * (lines.length + 1));
+    }, PHASE_MS * 3.8);
+  }
+
+  // ─── Scroll reveal ───
+  function initReveal() {
+    var revealed = document.querySelectorAll(".reveal");
+    if (REDUCED_MOTION || !("IntersectionObserver" in window)) {
+      revealed.forEach(function (el) { el.classList.add("visible"); });
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealed.forEach(function (el) { observer.observe(el); });
+  }
+
+  // ─── Listeners ───
+  promptButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      playScenario(btn.dataset.prompt);
+    });
+  });
+
+  window.addEventListener("resize", function () {
+    if (state.activePrompt) { packet.classList.remove("visible"); }
+  });
+
+  // Keyboard shortcuts 1-3 select scenarios when the simulation is on screen
+  document.addEventListener("keydown", function (event) {
+    if (event.target !== document.body) { return; }
+    var index = ["1", "2", "3"].indexOf(event.key);
+    if (index === -1) { return; }
+    var rect = stage.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) { return; }
+    promptButtons[index].click();
+  });
+
+  // ─── Init ───
+  if (window.lucide) { window.lucide.createIcons(); }
+  initReveal();
+
+  // Auto-play the first scenario when the simulation scrolls into view
+  if ("IntersectionObserver" in window) {
+    var autoPlayed = false;
+    var simObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !autoPlayed) {
+          autoPlayed = true;
+          playScenario("uchwala");
+          simObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.45 });
+    simObserver.observe(document.getElementById("simShell"));
+  }
+})();
+</script>
+
+</body>
+</html>
