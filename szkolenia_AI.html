@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<!--
+  QUANTICA LAB — oferta szkoleń AI (karta-katalogowa style)
+  A4 portrait flyer for browser Print → "Save as PDF".
+  Copy source: PUB_ready/szkolenia_AI_rozszerzona.html (verbatim, dash-fixed).
+  Design scaffold: klara_bezpieczny_chat_AI.html (style block copied exactly,
+  plus a small additions block: content eyebrows, module labels, print density).
+-->
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oferta szkoleń AI | Quantica Lab</title>
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* ── Brand tokens (mirror of design-system colors_and_type.css) ──────── */
+    --quantica-pink:    #d20757;
+    --rose-pink:        #d20757;
+    --deep-berry:       #8A004C;
+    --magenta-tint:     #FFE6F1;
+
+    --violet-primary:   #7030A0;
+    --violet-deep:      #4F1F75;
+    --ink:              #0A1F2C;
+    --mist:             #F4EEFA;
+
+    --near-black:       #111111;
+    --white:            #FFFFFF;
+
+    --fg-1:             #111111;
+    --fg-2:             #111111;
+    --fg-3:             #111111;
+
+    --bg-1:             #FFFFFF;
+    --bg-2:             #F5F6F8;
+
+    --border-1:         #E6E8EC;
+    --border-2:         #D1D5DB;
+
+    --font-display:     "Satoshi", system-ui, -apple-system, sans-serif;
+    --font-sans:        "Satoshi", system-ui, -apple-system, sans-serif;
+    --font-mono:        "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --radius-sm:        6px;
+    --radius-md:        10px;
+    --radius-lg:        16px;
+
+    --shadow-pink-soft: 0 6px 18px rgba(210, 7, 87,0.10);
+
+    --page-w: 210mm;
+    --page-h: 297mm;
+    --page-pad-x: 18mm;
+    --page-pad-y: 18mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    color: var(--fg-2);
+    background: #ECEEF2;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ─────────── PAGE (A4) ─────────── */
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    margin: 18px auto;
+    background: var(--bg-1);
+    box-shadow: 0 30px 80px -20px rgba(10, 20, 40, 0.18), 0 8px 24px -8px rgba(10, 20, 40, 0.08);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .page + .page { page-break-before: always; break-before: page; }
+  .page-content { padding: var(--page-pad-y) var(--page-pad-x); }
+  .page-last    { padding: var(--page-pad-y) var(--page-pad-x) 0; }
+  .page-final { padding-bottom: var(--page-pad-y); }
+  .page-final .contact { margin-top: auto; }
+
+  /* ─────────── COVER ─────────── */
+  .page-cover {
+    color: #fff;
+    padding: var(--page-pad-y) var(--page-pad-x);
+    background:
+      radial-gradient(ellipse 70% 55% at 78% 70%, rgba(112, 48, 160, 0.36) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 45% at 18% 22%, rgba(210, 7, 87, 0.55) 0%, transparent 70%),
+      linear-gradient(160deg, #07151f 0%, #0A1F2C 50%, #0d2538 100%);
+    overflow: hidden;
+  }
+  .page-cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 60%, black 30%, transparent 90%);
+    pointer-events: none;
+  }
+  .cover-q {
+    position: absolute;
+    right: -4%;
+    top: 18%;
+    width: 62%;
+    opacity: 0.18;
+    filter: drop-shadow(0 30px 60px rgba(210, 7, 87, 0.45));
+    pointer-events: none;
+  }
+  .cover-q img { width: 100%; display: block; }
+  .cover-top {
+    position: absolute;
+    top: var(--page-pad-y);
+    left: var(--page-pad-x);
+    right: var(--page-pad-x);
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cover-top .meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: #fff;
+  }
+  .cover-bottom {
+    position: absolute;
+    bottom: 26mm;
+    left: var(--page-pad-x);
+    right: var(--page-pad-x);
+    z-index: 2;
+  }
+  .cover-eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rose-pink);
+    margin-bottom: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cover-eyebrow::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--rose-pink);
+  }
+  .cover-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: #fff;
+    max-width: 92%;
+  }
+  .cover-title em { font-style: normal; color: var(--rose-pink); }
+  .cover-subtitle {
+    font-family: var(--font-display);
+    font-size: 27px;
+    font-weight: 400;
+    color: #fff;
+    margin-top: 10px;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+  .cover-tagline {
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #fff;
+    max-width: 70%;
+    margin-top: 20px;
+    font-weight: 400;
+  }
+  .cover-footer {
+    position: absolute;
+    bottom: 12mm;
+    left: var(--page-pad-x);
+    right: var(--page-pad-x);
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─────────── TYPE ─────────── */
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    color: var(--fg-1);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .h-major {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 16px;
+    letter-spacing: -0.025em;
+  }
+  .h-pink { color: var(--quantica-pink); }
+  .mt-block { margin-top: 26px; }
+  p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--fg-2);
+    margin-bottom: 10px;
+  }
+  p strong { color: var(--quantica-pink); font-weight: 700; }
+  .lead-block { margin-bottom: 18px; }
+
+  /* ─────────── NUMBERED ROWS ─────────── */
+  .num-list { display: flex; flex-direction: column; margin-top: 8px; }
+  .num-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 18px;
+    align-items: start;
+    padding: 18px 0;
+    border-top: 1px solid var(--border-1);
+    break-inside: avoid;
+  }
+  .num-row:first-child { border-top: none; padding-top: 6px; }
+  .num-row .digit {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 0.9;
+    color: var(--quantica-pink);
+    letter-spacing: -0.04em;
+  }
+  .num-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--fg-1);
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .num-row p { font-size: 12.5px; line-height: 1.6; margin-bottom: 8px; }
+  .num-row p:last-child { margin-bottom: 0; }
+
+  /* ─────────── VIOLET NOTE (key statement, idea from Klara card) ─────────── */
+  .note-violet {
+    background: var(--mist);
+    border: 1.5px solid var(--violet-primary);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin: 12px 0 14px;
+    break-inside: avoid;
+  }
+  .note-violet p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--fg-1); font-weight: 500; }
+
+  /* ─────────── ROUTING CALLOUTS + BRANCH (idea from Klara card) ─────────── */
+  .route-callout {
+    background: var(--magenta-tint);
+    color: var(--quantica-pink);
+    font-size: 12.5px;
+    line-height: 1.6;
+    font-weight: 500;
+    padding: 12px 18px 12px 34px;
+    margin: 12px 0 0;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    clip-path: polygon(0 50%, 18px 0, 100% 0, 100% 100%, 18px 100%);
+    break-inside: avoid;
+  }
+  .route-branch { position: relative; }
+  .route-cards { position: relative; display: flex; gap: 18px; padding-top: 32px; }
+  .route-cards::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 1.5px;
+    height: 16px;
+    background: var(--quantica-pink);
+    transform: translateX(-50%);
+  }
+  .route-cards::after {
+    content: "";
+    position: absolute;
+    top: 32px;
+    left: calc(25% - 4.5px);
+    right: calc(25% - 4.5px);
+    height: 1.5px;
+    background: var(--quantica-pink);
+  }
+  .route-card {
+    position: relative;
+    flex: 1;
+    background: var(--bg-1);
+    border: 1.5px solid var(--quantica-pink);
+    border-radius: var(--radius-md);
+    padding: 12px 15px;
+    margin-top: 14px;
+    break-inside: avoid;
+  }
+  .route-card::before {
+    content: "";
+    position: absolute;
+    top: -15.5px;
+    left: 50%;
+    width: 1.5px;
+    height: 15.5px;
+    background: var(--quantica-pink);
+    transform: translateX(-50%);
+  }
+  .route-card p { margin: 0; font-size: 12px; line-height: 1.55; color: var(--fg-1); }
+
+  /* ─────────── CAPABILITY PANELS (header bar + item cards, idea from Klara card) ───────────
+     flexbox, not grid, so an incomplete row centers */
+  .cap-grid { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 6px; }
+  .cap-panel {
+    flex: 1 1 calc(50% - 7px);
+    min-width: 0;
+    background: var(--bg-2);
+    border-radius: var(--radius-md);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    break-inside: avoid;
+  }
+  .cap-head {
+    background: var(--violet-primary);
+    color: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 10px 13px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13.5px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .cap-item {
+    background: var(--bg-1);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-sm);
+    padding: 8px 11px;
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: var(--fg-1);
+  }
+
+  /* ─────────── CONTACT (dark CTA card, pills idea from Klara card) ─────────── */
+  .contact {
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 50%, rgba(112,48,160,0.28) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 70% at 0% 0%, rgba(210, 7, 87,0.30) 0%, transparent 65%),
+      linear-gradient(135deg, #0A1F2C 0%, #0d2538 100%);
+    color: #fff;
+    padding: 24px 28px;
+    margin: 24px 0 0;
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-q {
+    position: absolute;
+    right: -36px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 190px;
+    opacity: 0.14;
+    pointer-events: none;
+  }
+  .contact-q img { width: 100%; display: block; }
+  .contact .eyebrow-contact {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rose-pink);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .contact .eyebrow-contact::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--rose-pink);
+  }
+  .contact h2 {
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+  .contact p { color: #fff; font-size: 12px; margin-bottom: 16px; max-width: 560px; position: relative; z-index: 1; }
+  .contact-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 2px 0 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .pill {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 12.5px;
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 999px;
+    display: inline-block;
+  }
+  .pill-solid { background: var(--white); color: var(--quantica-pink); }
+  .pill-outline { border: 1.5px solid var(--white); color: var(--white); }
+  .contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    padding-top: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .contact-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12.5px;
+    color: #fff;
+  }
+  .contact-meta strong { color: #fff; font-weight: 600; }
+  .contact-logo img { height: 40px; width: auto; display: block; }
+
+  /* ─────────── PAGE HEADER (top of content pages) ─────────── */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-1);
+  }
+  .page-header .logo img { height: 28px; width: auto; display: block; }
+  .page-header .pgnum {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+  .page-header .pgnum em { font-style: normal; color: var(--quantica-pink); font-weight: 600; }
+
+  /* ─────────── PRINT BUTTON ─────────── */
+  .print-btn {
+    position: fixed; right: 18px; bottom: 18px; z-index: 50;
+    background: var(--quantica-pink); color: #fff;
+    border: none; padding: 12px 20px;
+    font-family: var(--font-sans); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer; border-radius: 999px;
+    box-shadow: var(--shadow-pink-soft);
+    transition: transform 200ms;
+  }
+  .print-btn:hover { background: var(--deep-berry); transform: translateY(-1px); }
+
+  /* ─────────── RESPONSIVE ─────────── */
+  @media screen and (max-width: 760px) {
+    .page { width: 100%; min-height: auto; margin: 12px 0; }
+    .page-content, .page-last { padding: 32px 24px; }
+    .page-cover { padding: 36px 24px; aspect-ratio: 3 / 4; min-height: auto; }
+    .cover-top { top: 36px; left: 24px; right: 24px; }
+    .cover-bottom { bottom: 36px; left: 24px; right: 24px; }
+    .cover-footer { bottom: 18px; left: 24px; right: 24px; }
+    .cover-title { font-size: 44px; }
+    .cover-subtitle { font-size: 20px; }
+    .cover-tagline { max-width: 100%; }
+    .cover-q { width: 60%; right: -8%; top: 28%; }
+    .h-major { font-size: 24px; }
+    .num-row { grid-template-columns: 48px 1fr; gap: 12px; padding: 14px 0; }
+    .num-row .digit { font-size: 44px; }
+    .route-cards { flex-direction: column; padding-top: 14px; }
+    .route-cards::before, .route-cards::after, .route-card::before { display: none; }
+    .route-card { margin-top: 0; }
+    .cap-panel { flex-basis: 100%; }
+    .contact { padding: 32px 24px; }
+    .contact h2 { font-size: 22px; }
+  }
+
+  /* ─────────── PRINT (A4, screen pad 18mm → print pad 16mm) ─────────── */
+  @page { size: A4; margin: 0; }
+  @media print {
+    body { background: white; margin: 0; padding: 0; }
+    .page {
+      width: 210mm; height: 297mm; min-height: 297mm;
+      margin: 0; box-shadow: none;
+      page-break-after: always; break-after: page;
+      overflow: hidden;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    .print-btn { display: none; }
+
+    .page-content { padding: 16mm var(--page-pad-x); }
+    .page-last    { padding: 16mm var(--page-pad-x) 0; }
+    /* must come after .page-last: its padding shorthand would reset bottom to 0 */
+    .page-final   { padding-bottom: 16mm; }
+
+    .h-major   { font-size: 21pt; margin-bottom: 8pt; line-height: 1.05; }
+    .mt-block  { margin-top: 16pt; }
+    p          { font-size: 10pt; line-height: 1.55; margin-bottom: 6pt; }
+    .lead-block { margin-bottom: 8pt; }
+
+    .note-violet { padding: 11px 15px; margin: 9pt 0 11pt; }
+    .note-violet p { font-size: 10pt; line-height: 1.55; }
+
+    .route-callout { font-size: 9.5pt; line-height: 1.55; padding: 10px 15px 10px 30px; margin-top: 9pt; }
+    .route-cards { gap: 16px; padding-top: 28px; }
+    .route-cards::before { top: 14px; height: 14px; }
+    .route-cards::after { top: 28px; left: calc(25% - 4px); right: calc(25% - 4px); }
+    .route-card { padding: 9px 12px; margin-top: 12px; }
+    .route-card::before { top: -13.5px; height: 13.5px; }
+    .route-card p { font-size: 9pt; line-height: 1.5; }
+
+    .cap-grid { gap: 10px; }
+    .cap-panel { flex-basis: calc(50% - 5px); padding: 7px; gap: 7px; }
+    .cap-head { font-size: 10.5pt; padding: 8px 11px; }
+    .cap-item { font-size: 8.5pt; line-height: 1.45; padding: 6px 9px; }
+
+    .num-row { grid-template-columns: 60px 1fr; gap: 18px; padding: 20px 0; }
+    .num-row .digit { font-size: 46pt; }
+    .num-label { font-size: 13pt; margin-bottom: 5pt; }
+    .num-row p { font-size: 10.5pt; line-height: 1.6; margin-bottom: 5pt; }
+
+    .contact { padding: 26px 30px; margin-top: 14pt; border-radius: 12px; }
+    .contact h2 { font-size: 19pt; margin-bottom: 7pt; }
+    .contact p  { font-size: 10.5pt; margin-bottom: 12pt; }
+    .contact-pills { margin-bottom: 14px; gap: 10px; }
+    .pill { font-size: 9.5pt; padding: 8px 18px; }
+    .contact-info { padding-top: 10pt; gap: 18px; }
+    .contact-meta { font-size: 9pt; }
+    .contact-logo img { height: 32px; }
+
+    .cover-title { font-size: 56pt; }
+    .cover-subtitle { font-size: 20pt; margin-top: 8pt; }
+    .cover-eyebrow { font-size: 10pt; margin-bottom: 10pt; }
+    .cover-tagline { font-size: 11pt; margin-top: 14pt; }
+
+    .page-header { margin-bottom: 13pt; padding-bottom: 8pt; }
+    .page-header .logo img { height: 22px; }
+    .page-header .pgnum { font-size: 9pt; }
+  }
+
+  /* ─── JUSTIFIED BODY TEXT (Polish print convention) ─── */
+  p, .bullets li, .cap-item, .route-callout { text-align: justify; }
+  .cover-tagline, .contact p { text-align: left; }
+
+  /* ─── SZKOLENIA ADDITIONS (on top of the karta-katalogowa scaffold) ─── */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--quantica-pink);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--quantica-pink); }
+  .intro p { font-size: 13.5px; line-height: 1.7; }
+  .lead-text { font-size: 13.5px; line-height: 1.7; }
+  .cap-mod {
+    display: block;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 3px;
+  }
+  .route-callout strong { font-weight: 700; }
+
+  @media print {
+    .eyebrow { font-size: 8.5pt; margin-bottom: 8pt; }
+    .intro p { font-size: 10.5pt; line-height: 1.68; margin-bottom: 7pt; }
+    .lead-text { font-size: 10.5pt; line-height: 1.65; }
+    .cap-mod { font-size: 6.5pt; margin-bottom: 2px; }
+    /* denser capability panels for the 18 module grids */
+    .cap-grid { gap: 8px; }
+    .cap-panel { flex-basis: calc(50% - 4px); padding: 5px; gap: 5px; }
+    .cap-head { font-size: 9.5pt; padding: 6px 10px; }
+    .cap-item { font-size: 7.5pt; line-height: 1.4; padding: 4px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">Pobierz PDF →</button>
+
+<article class="doc">
+
+  <!-- ════════════════ PAGE 1 — COVER ════════════════ -->
+  <section class="page page-cover">
+    <div class="cover-q" aria-hidden="true">
+      <img src="quantica-q-mark-white.png" alt="">
+    </div>
+    <div class="cover-top">
+      <div class="logo">
+        <img src="quantica-logo-white.png" alt="Quantica Lab" style="height:40px;width:auto;display:block;">
+      </div>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="cover-eyebrow">Oferta szkoleń</div>
+      <h1 class="cover-title">Szkolenia AI<br>dla <em>organizacji</em>.</h1>
+      <p class="cover-tagline">Od podstaw dla pracowników po warsztaty strategiczne dla zarządu.</p>
+    </div>
+
+    <div class="cover-footer">
+      <div>quanticalab.ai</div>
+      <div>Oferta szkoleń AI</div>
+    </div>
+  </section>
+
+  <!-- ════════════════ PAGE 2 — WSTĘP + AI LITERACY (intro) ════════════════ -->
+  <section class="page page-content intro">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>02</em> / 06 · Oferta szkoleń</div>
+    </div>
+
+    <div class="eyebrow">Quantica Lab</div>
+    <h2 class="h-major">Quantica Lab<br>oferta szkoleń AI</h2>
+
+    <p>Rozwój kompetencji w obszarze AI staje się elementem odpowiedzialnego zarządzania organizacją. Decyduje on nie tylko o efektywności operacyjnej, ale także o zdolności organizacji do podejmowania trafnych decyzji i budowania przewagi konkurencyjnej.</p>
+
+    <p>Zgodnie z AI Act organizacje wykorzystujące systemy AI są zobowiązane do zapewnienia odpowiedniego poziomu wiedzy i świadomości pracowników (tzw. AI literacy). Obejmuje to zarówno rozumienie możliwości technologii, jak i jej ograniczeń, ryzyk oraz zasad bezpiecznego wykorzystania.</p>
+
+    <p>Jednocześnie w wielu organizacjach AI jest już wykorzystywana oddolnie – poza formalnymi procesami i politykami (tzw. „shadow AI"). Pracownicy korzystają z zewnętrznych narzędzi, często bez jasnych wytycznych dotyczących bezpieczeństwa danych czy odpowiedzialności za wyniki. W praktyce oznacza to realne ryzyko, zarówno operacyjne, jak i prawne.</p>
+
+    <p>Oferujemy praktyczne szkolenia, które budują kompetencje AI w Twojej organizacji – od podstaw dla wszystkich pracowników po zaawansowane warsztaty dla kadry zarządzającej.</p>
+
+    <div class="note-violet">
+      <p>Nasze podejście opiera się na pracy na rzeczywistych procesach i danych organizacji. Jesteśmy praktykami – tworzymy i wdrażamy rozwiązania AI – dlatego koncentrujemy się na tym, co ma realny sens biznesowy, unikając ogólnych przykładów i modnych narracji.</p>
+    </div>
+
+    <p>Szkolenia mają charakter warsztatowy i prowadzą do konkretnych rezultatów – od uporządkowania wiedzy i zasad korzystania z AI po zdefiniowanie inicjatyw i pierwszych kroków wdrożeniowych. Szczególny nacisk kładziemy na bezpieczeństwo, zgodność z regulacjami oraz podejmowanie świadomych decyzji technologicznych.</p>
+
+    <div class="eyebrow mt-block">Program szkoleniowy</div>
+    <h2 class="h-major h-pink">AI Literacy</h2>
+
+    <p class="lead-text">Szkolenie wprowadzające, które buduje wspólny język i zrozumienie AI w ramach organizacji. Uczestnicy zdobywają nie tylko wiedzę o tym, czym jest AI i jak działa, ale przede wszystkim uczą się rozpoznawać realne możliwości jej zastosowania w codziennej pracy oraz świadomie oceniać jej ograniczenia. Program ma charakter praktyczny i koncentruje się na odpowiedzialnym, bezpiecznym i efektywnym wykorzystaniu narzędzi AI w środowisku zawodowym.</p>
+
+  </section>
+
+  <!-- ════════════════ PAGE 3 — AI LITERACY (moduły) + KADRA: PROJEKTY (intro + moduły 1-2) ════════════════ -->
+  <section class="page page-content">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>03</em> / 06 · AI Literacy</div>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 1</span>Podstawy AI – demystyfikacja technologii</div>
+        <div class="cap-item">Czym jest AI, ML, generatywna AI – wyjaśnienie bez żargonu</div>
+        <div class="cap-item">Jak działają modele językowe (intuicyjnie, bez matematyki)</div>
+        <div class="cap-item">Możliwości i ograniczenia – co AI potrafi, a czego nie</div>
+        <div class="cap-item">Praktyczne zastosowania w codziennej pracy (teksty, analiza, automatyzacja)</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 2</span>Bezpieczne korzystanie z AI</div>
+        <div class="cap-item">Zasady bezpieczeństwa danych przy pracy z AI</div>
+        <div class="cap-item">Co można, a czego nie można wprowadzać do narzędzi AI</div>
+        <div class="cap-item">Rozpoznawanie halucynacji i weryfikacja wyników</div>
+        <div class="cap-item">Polityka firmy dotycząca AI – dozwolone narzędzia i praktyki</div>
+        <div class="cap-item">Ochrona danych osobowych i poufnych informacji biznesowych</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 3</span>Regulacje i etyka AI</div>
+        <div class="cap-item">AI Act – kluczowe wymagania i co oznaczają dla pracowników</div>
+        <div class="cap-item">Klasyfikacja ryzyka systemów AI</div>
+        <div class="cap-item">Etyka AI: stronniczość, transparentność, odpowiedzialność</div>
+        <div class="cap-item">Human-in-the-loop – dlaczego decyzja zawsze należy do człowieka</div>
+      </div>
+    </div>
+
+    <div class="eyebrow mt-block">Program szkoleniowy</div>
+    <h2 class="h-major h-pink">AI dla kadry kierowniczej<br>– projekty</h2>
+
+    <p class="lead-text">Warsztaty operacyjne, których celem jest przełożenie kierunku działań w obszarze AI na konkretne inicjatywy. Pracujemy na realnych procesach organizacji, identyfikując projekty o największym sensie biznesowym i najwyższej wykonalności. Efektem jest uporządkowana lista inicjatyw wraz z oceną ich opłacalności, wymagań w zakresie danych oraz gotowości organizacyjnej.</p>
+
+    <div class="route-callout"><strong>Przygotowanie do szkolenia:</strong> dwa 30-minutowe wywiady indywidualne z kierownictwem lub wybranymi pracownikami firmy (rekomendujemy udział pracowników wykorzystujących AI dzisiaj) w celu zrozumienia obecnej strategii AI firmy oraz stopnia wykorzystania AI.</div>
+
+  
+
+    <div class="cap-grid">
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 1</span>Podstawy AI</div>
+        <div class="cap-item">Czym jest AI, ML, generatywna AI – wyjaśnienie bez żargonu</div>
+        <div class="cap-item">Jak działają modele językowe (intuicyjnie, bez matematyki)</div>
+        <div class="cap-item">Przegląd aktualnego stanu technologii AI (generatywna AI, agenci, automatyzacja) pod kątem możliwości i ograniczeń – co AI potrafi, a czego nie</div>
+        <div class="cap-item">Przykłady wdrożeń AI w różnych branżach</div>
+        <div class="cap-item">Przedstawienie trendów technologicznych AI</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 2</span>Analiza procesów pod kątem AI</div>
+        <div class="cap-item">Kryteria oceny potencjału automatyzacji procesów (powtarzalność, złożoność, dane)</div>
+        <div class="cap-item">Warsztat: mapowanie procesów realizowanych w danym dziale</div>
+        <div class="cap-item">Identyfikacja „quick wins"</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════ PAGE 4 — KADRA: PROJEKTY (moduły 3-4) + KADRA: STRATEGIA ════════════════ -->
+  <section class="page page-content">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>04</em> / 06 · AI dla kadry kierowniczej</div>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 3</span>Przygotowanie do projektów AI</div>
+        <div class="cap-item">Ocena dostępności i jakości danych</div>
+        <div class="cap-item">Ocena kompetencji zespołu i luk do uzupełnienia</div>
+        <div class="cap-item">Analiza scenariuszy integracji z istniejącymi narzędziami (ERP, CRM, workflow)</div>
+        <div class="cap-item">Dyskusja warsztatowa – priorytetyzacja projektów</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 4</span>Planowanie wdrożenia i ROI</div>
+        <div class="cap-item">Definiowanie mierników sukcesu (KPI przed/po)</div>
+        <div class="cap-item">Tworzenie scenariuszy użycia i planu pilotażowego</div>
+        <div class="cap-item">Zarządzanie zmianą – przygotowanie zespołów</div>
+      </div>
+    </div>
+
+    <div class="eyebrow mt-block">Program szkoleniowy</div>
+    <h2 class="h-major h-pink">AI dla kadry kierowniczej<br>– strategia</h2>
+
+    <p class="lead-text">Warsztaty strategiczne dla zarządów, dyrektorów i menedżerów odpowiedzialnych za rozwój organizacji. Celem jest określenie realnej roli AI w modelu biznesowym firmy oraz wypracowanie spójnych zasad podejmowania decyzji w obszarze inwestycji technologicznych. Pracujemy na danych i procesach organizacji, oddzielając rzeczywiste możliwości od marketingowych narracji i krótkoterminowych trendów.</p>
+
+    <div class="route-callout"><strong>Przygotowanie do szkolenia:</strong> dwa 30-minutowe wywiady indywidualne z kierownictwem lub wybranymi pracownikami firmy (rekomendujemy udział pracowników wykorzystujących AI dzisiaj) w celu zrozumienia obecnej strategii AI firmy oraz stopnia wykorzystania AI.</div>
+
+  
+
+    <div class="cap-grid">
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 1</span>Podstawy AI</div>
+        <div class="cap-item">Czym jest AI, ML, generatywna AI – wyjaśnienie bez żargonu</div>
+        <div class="cap-item">Jak działają modele językowe (intuicyjnie, bez matematyki)</div>
+        <div class="cap-item">Przegląd aktualnego stanu technologii AI (generatywna AI, agenci, automatyzacja) pod kątem możliwości i ograniczeń – co AI potrafi, a czego nie</div>
+        <div class="cap-item">Przykłady wdrożeń AI w różnych branżach</div>
+        <div class="cap-item">Przedstawienie trendów technologicznych AI</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 2</span>Strategia AI – warsztaty</div>
+        <div class="cap-item">Definiowanie wizji AI dla organizacji</div>
+        <div class="cap-item">Strategia firmy i priorytetyzacja projektów AI</div>
+        <div class="cap-item">Wybór obszarów wdrożenia (matryca wpływ/wykonalność)</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════ PAGE 5 — SUPERMOCE Z AI (intro + moduły 1-4) ════════════════ -->
+  <section class="page page-content">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>05</em> / 06 · Supermoce z AI</div>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 3</span>Analiza gotowości cyfrowej organizacji</div>
+        <div class="cap-item">Dane: jakość, dostępność, integracja źródeł</div>
+        <div class="cap-item">Platforma i technologia: infrastruktura (chmura, środowisko lokalne), narzędzia (analityka, platformy ML), integracja (API, middleware)</div>
+        <div class="cap-item">Kompetencje: inżynieria danych, analityka, kompetencje związane z AI</div>
+        <div class="cap-item">Procesy: podejmowanie decyzji w oparciu o dane, kultura eksperymentowania, podatność procesów na automatyzację</div>
+        <div class="cap-item">Governance: odpowiedzialność za dane, bezpieczeństwo i zgodność z przepisami</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 4</span>Przygotowanie do projektów AI</div>
+        <div class="cap-item">Jak zaprojektować AI governance</div>
+        <div class="cap-item">Kluczowe działania na podstawie oceny gotowości cyfrowej</div>
+        <div class="cap-item">Zarządzanie zmianą – organizacja i pracownicy</div>
+        <div class="cap-item">Budowa roadmapy w perspektywie krótko- i długoterminowej</div>
+      </div>
+    </div>
+
+    <div class="eyebrow mt-block">Program szkoleniowy</div>
+    <h2 class="h-major h-pink">Supermoce z AI</h2>
+
+    <p class="lead-text">Supermoce z AI to praktyczne warsztaty typu hands-on, podczas których uczestnicy samodzielnie pracują z szerokim zestawem narzędzi generatywnej sztucznej inteligencji ucząc się je wykorzystywać w realnych zadaniach zawodowych.</p>
+
+    <p class="lead-text">Osoby biorące udział w szkoleniu nie tylko poznają możliwości AI, ale od razu tworzą własne materiały, analizy, prezentacje, prototypy aplikacji i asystentów.</p>
+
+    <p class="lead-text">Celem warsztatów jest pokazanie, jak AI może wykonywać lub wspierać zadania, które wcześniej wymagały zaangażowania grafika, analityka, researchera, copywritera, programisty czy konsultanta.</p>
+
+    <div class="cap-grid">
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 1</span>Fundamenty pracy z czatami AI</div>
+        <div class="cap-item">Cztery zasady pracy z AI na podstawie książki „Co-Intelligence" Ethana Mollicka</div>
+        <div class="cap-item">Jak naprawdę działa czat AI: data odcięcia wiedzy, halucynacje, multimodalność narzędzia i dostęp do danych</div>
+        <div class="cap-item">Przegląd i porównanie popularnych chatów (ChatGPT, Claude, Gemini, Grok, Qwen/DeepSeek, Mistral)</div>
+        <div class="cap-item">Praktyczne ustawienia czata: style odpowiedzi, instrukcje systemowe, personalizacja</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 2</span>Prompting – sztuka skutecznych zapytań</div>
+        <div class="cap-item">Anatomia dobrego promptu</div>
+        <div class="cap-item">Trzy poziomy promptowania na realnym przykładzie biznesowym</div>
+        <div class="cap-item">Meta-prompting, czyli wykorzystanie AI do tworzenia lepszych promptów</div>
+        <div class="cap-item">Budowanie własnego profilu zawodowego do pracy z AI</div>
+        <div class="cap-item">Ćwiczenia na danych, dokumentach i procesach biznesowych</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════ PAGE 6 — SUPERMOCE Z AI (moduły 5-7) + KONTAKT ════════════════ -->
+  <section class="page page-last page-final">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>06</em> / 06 · Supermoce z AI · kontakt</div>
+    </div>
+
+    <div class="eyebrow">Supermoce z AI · program warsztatów</div>
+
+    <div class="cap-grid">
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 3</span>Praca z danymi</div>
+        <div class="cap-item">Analiza plików, dokumentów, tabel i wykresów</div>
+        <div class="cap-item">Przekształcanie wykresów w tabele i interaktywne wizualizacje</div>
+        <div class="cap-item">Generowanie prezentacji i artykułów z pomocą AI</div>
+        <div class="cap-item">Narzędzia: Deep Research, Stanford STORM, Perplexity, NotebookLM</div>
+        <div class="cap-item">Ćwiczenia: analiza umowy lub regulaminu, prezentacja</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 4</span>Generowanie multimediów: grafika, wideo i dźwięk</div>
+        <div class="cap-item">Generowanie obrazów i grafik</div>
+        <div class="cap-item">Infografiki, sketchnotes i visual thinking z wykorzystaniem narzędzi AI</div>
+        <div class="cap-item">Ożywianie obrazów i tworzenie krótkich klipów wideo</div>
+        <div class="cap-item">Generowanie muzyki</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 5</span>Tworzenie własnych aplikacji – vibe coding</div>
+        <div class="cap-item">Budowanie aplikacji webowych z AI</div>
+        <div class="cap-item">Praca z PRD, czyli Product Requirement Document, jako podstawą aplikacji</div>
+        <div class="cap-item">Trzy sposoby uruchamiania aplikacji: (bezpośrednio w czacie, lokalnie na laptopie oraz publicznie, np. przez Netlify lub GitHub Pages)</div>
+        <div class="cap-item">Ćwiczenia: aplikacja do alokacji budżetu, własny analizator danych</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 6</span>Własny asystent AI, RAG i Copilot</div>
+        <div class="cap-item">Asystenci na własnych danych (GPTs, Gemini Gems, Claude Projects)</div>
+        <div class="cap-item">Trzy sposoby wykorzystania danych: dane w prompcie, RAG i fine-tuning</div>
+        <div class="cap-item">Jak działa RAG (baza wektorowa, wyszukiwanie i generacja odpowiedzi)</div>
+        <div class="cap-item">Lokalne uruchamianie modeli językowych (LM Studio, Jan, Msty)</div>
+        <div class="cap-item">Microsoft Copilot: integracja z danymi organizacji, zastosowania i ograniczenia</div>
+        <div class="cap-item">Ćwiczenia: budowa asystenta AI</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head"><span class="cap-mod">Moduł 7</span>Agenci AI</div>
+        <div class="cap-item">Czym jest Agentic AI i czym różni się od klasycznego czatu</div>
+        <div class="cap-item">Cykl działania agenta: planowanie, użycie narzędzia, wykonanie, refleksja</div>
+        <div class="cap-item">Modele generatywne a agenci na przykładach: obsługa klienta, programowanie</div>
+        <div class="cap-item">Projekt końcowy: budowa agenta AI</div>
+      </div>
+    </div>
+
+    <!-- CONTACT (pinned to bottom via .page-final) -->
+    <section class="contact" style="padding:14px 22px;">
+      <div class="contact-q" aria-hidden="true">
+        <img src="quantica-q-mark-white.png" alt="">
+      </div>
+      <div class="eyebrow-contact" style="margin-bottom:6px;">Kontakt</div>
+      <h2 style="margin-bottom:5px;">Porozmawiajmy o szkoleniach</h2>
+      <p style="margin-bottom:8px;">Napisz do nas – omówimy program szkoleń dopasowany do Twojej organizacji.</p>
+
+      <div class="contact-pills" style="margin:2px 0 10px;">
+        <a class="pill pill-solid" href="mailto:kontakt@quanticalab.ai">kontakt@quanticalab.ai</a>
+        <a class="pill pill-outline" href="https://www.quanticalab.ai" target="_blank" rel="noopener">www.quanticalab.ai</a>
+      </div>
+
+      <div class="contact-info" style="padding-top:8px;">
+        <div class="contact-logo">
+          <img src="quantica-logo-white.png" alt="Quantica Lab">
+        </div>
+        <div class="contact-meta">
+          <strong>Quanticalab Sp. z o.o.</strong>
+        </div>
+      </div>
+    </section>
+
+  </section>
+
+</article>
+
+</body>
+</html>

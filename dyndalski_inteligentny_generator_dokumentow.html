@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<!--
+  QUANTICA LAB — karta katalogowa: Dyndalski, inteligentny generator dokumentów
+  A4 portrait flyer for browser Print → "Save as PDF".
+  Structure and full <style> block reused verbatim from the approved reference
+  card klara_bezpieczny_chat_AI.html (dark cover → editorial content pages →
+  benefits + contact page); only the content differs.
+-->
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dyndalski: inteligentny generator dokumentów | Quantica Lab</title>
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* ── Brand tokens (mirror of design-system colors_and_type.css) ──────── */
+    --quantica-pink:    #d20757;
+    --rose-pink:        #d20757;
+    --deep-berry:       #8A004C;
+    --magenta-tint:     #FFE6F1;
+
+    --violet-primary:   #7030A0;
+    --violet-deep:      #4F1F75;
+    --ink:              #0A1F2C;
+    --mist:             #F4EEFA;
+
+    --near-black:       #111111;
+    --white:            #FFFFFF;
+
+    --fg-1:             #111111;
+    --fg-2:             #111111;
+    --fg-3:             #111111;
+
+    --bg-1:             #FFFFFF;
+    --bg-2:             #F5F6F8;
+
+    --border-1:         #E6E8EC;
+    --border-2:         #D1D5DB;
+
+    --font-display:     "Satoshi", system-ui, -apple-system, sans-serif;
+    --font-sans:        "Satoshi", system-ui, -apple-system, sans-serif;
+    --font-mono:        "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --radius-sm:        6px;
+    --radius-md:        10px;
+    --radius-lg:        16px;
+
+    --shadow-pink-soft: 0 6px 18px rgba(210, 7, 87,0.10);
+
+    --page-w: 210mm;
+    --page-h: 297mm;
+    --page-pad-x: 18mm;
+    --page-pad-y: 18mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    color: var(--fg-2);
+    background: #ECEEF2;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ─────────── PAGE (A4) ─────────── */
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    margin: 18px auto;
+    background: var(--bg-1);
+    box-shadow: 0 30px 80px -20px rgba(10, 20, 40, 0.18), 0 8px 24px -8px rgba(10, 20, 40, 0.08);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .page + .page { page-break-before: always; break-before: page; }
+  .page-content { padding: var(--page-pad-y) var(--page-pad-x); }
+  .page-last    { padding: var(--page-pad-y) var(--page-pad-x) 0; }
+  .page-final { padding-bottom: var(--page-pad-y); }
+  .page-final .contact { margin-top: auto; }
+
+  /* ─────────── COVER ─────────── */
+  .page-cover {
+    color: #fff;
+    padding: var(--page-pad-y) var(--page-pad-x);
+    background:
+      radial-gradient(ellipse 70% 55% at 78% 70%, rgba(112, 48, 160, 0.36) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 45% at 18% 22%, rgba(210, 7, 87, 0.55) 0%, transparent 70%),
+      linear-gradient(160deg, #07151f 0%, #0A1F2C 50%, #0d2538 100%);
+    overflow: hidden;
+  }
+  .page-cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 60%, black 30%, transparent 90%);
+    pointer-events: none;
+  }
+  .cover-q {
+    position: absolute;
+    right: -4%;
+    top: 18%;
+    width: 62%;
+    opacity: 0.18;
+    filter: drop-shadow(0 30px 60px rgba(210, 7, 87, 0.45));
+    pointer-events: none;
+  }
+  .cover-q img { width: 100%; display: block; }
+  .cover-top {
+    position: absolute;
+    top: var(--page-pad-y);
+    left: var(--page-pad-x);
+    right: var(--page-pad-x);
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cover-top .meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: #fff;
+  }
+  .cover-bottom {
+    position: absolute;
+    bottom: 26mm;
+    left: var(--page-pad-x);
+    right: var(--page-pad-x);
+    z-index: 2;
+  }
+  .cover-eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rose-pink);
+    margin-bottom: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cover-eyebrow::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--rose-pink);
+  }
+  .cover-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: #fff;
+    max-width: 92%;
+  }
+  .cover-title em { font-style: normal; color: var(--rose-pink); }
+  .cover-subtitle {
+    font-family: var(--font-display);
+    font-size: 27px;
+    font-weight: 400;
+    color: #fff;
+    margin-top: 10px;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+  .cover-tagline {
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #fff;
+    max-width: 70%;
+    margin-top: 20px;
+    font-weight: 400;
+  }
+  .cover-footer {
+    position: absolute;
+    bottom: 12mm;
+    left: var(--page-pad-x);
+    right: var(--page-pad-x);
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─────────── TYPE ─────────── */
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    color: var(--fg-1);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .h-major {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 16px;
+    letter-spacing: -0.025em;
+  }
+  .h-pink { color: var(--quantica-pink); }
+  .mt-block { margin-top: 26px; }
+  p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--fg-2);
+    margin-bottom: 10px;
+  }
+  p strong { color: var(--quantica-pink); font-weight: 700; }
+  .lead-block { margin-bottom: 18px; }
+
+  /* ─────────── NUMBERED ROWS ─────────── */
+  .num-list { display: flex; flex-direction: column; margin-top: 8px; }
+  .num-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 18px;
+    align-items: start;
+    padding: 18px 0;
+    border-top: 1px solid var(--border-1);
+    break-inside: avoid;
+  }
+  .num-row:first-child { border-top: none; padding-top: 6px; }
+  .num-row .digit {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 0.9;
+    color: var(--quantica-pink);
+    letter-spacing: -0.04em;
+  }
+  .num-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--fg-1);
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .num-row p { font-size: 12.5px; line-height: 1.6; margin-bottom: 8px; }
+  .num-row p:last-child { margin-bottom: 0; }
+
+  /* ─────────── VIOLET NOTE (key statement, idea from Klara card) ─────────── */
+  .note-violet {
+    background: var(--mist);
+    border: 1.5px solid var(--violet-primary);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin: 12px 0 14px;
+    break-inside: avoid;
+  }
+  .note-violet p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--fg-1); font-weight: 500; }
+
+  /* ─────────── ROUTING CALLOUTS + BRANCH (idea from Klara card) ─────────── */
+  .route-callout {
+    background: var(--magenta-tint);
+    color: var(--quantica-pink);
+    font-size: 12.5px;
+    line-height: 1.6;
+    font-weight: 500;
+    padding: 12px 18px 12px 34px;
+    margin: 12px 0 0;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    clip-path: polygon(0 50%, 18px 0, 100% 0, 100% 100%, 18px 100%);
+    break-inside: avoid;
+  }
+  .route-branch { position: relative; }
+  .route-cards { position: relative; display: flex; gap: 18px; padding-top: 32px; }
+  .route-cards::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 1.5px;
+    height: 16px;
+    background: var(--quantica-pink);
+    transform: translateX(-50%);
+  }
+  .route-cards::after {
+    content: "";
+    position: absolute;
+    top: 32px;
+    left: calc(25% - 4.5px);
+    right: calc(25% - 4.5px);
+    height: 1.5px;
+    background: var(--quantica-pink);
+  }
+  .route-card {
+    position: relative;
+    flex: 1;
+    background: var(--bg-1);
+    border: 1.5px solid var(--quantica-pink);
+    border-radius: var(--radius-md);
+    padding: 12px 15px;
+    margin-top: 14px;
+    break-inside: avoid;
+  }
+  .route-card::before {
+    content: "";
+    position: absolute;
+    top: -15.5px;
+    left: 50%;
+    width: 1.5px;
+    height: 15.5px;
+    background: var(--quantica-pink);
+    transform: translateX(-50%);
+  }
+  .route-card p { margin: 0; font-size: 12px; line-height: 1.55; color: var(--fg-1); }
+
+  /* ─────────── CAPABILITY PANELS (header bar + item cards, idea from Klara card) ───────────
+     flexbox, not grid, so an incomplete row centers */
+  .cap-grid { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 6px; }
+  .cap-panel {
+    flex: 1 1 calc(50% - 7px);
+    min-width: 0;
+    background: var(--bg-2);
+    border-radius: var(--radius-md);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    break-inside: avoid;
+  }
+  .cap-head {
+    background: var(--violet-primary);
+    color: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 10px 13px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13.5px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .cap-item {
+    background: var(--bg-1);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-sm);
+    padding: 8px 11px;
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: var(--fg-1);
+  }
+
+  /* ─────────── CONTACT (dark CTA card, pills idea from Klara card) ─────────── */
+  .contact {
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 50%, rgba(112,48,160,0.28) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 70% at 0% 0%, rgba(210, 7, 87,0.30) 0%, transparent 65%),
+      linear-gradient(135deg, #0A1F2C 0%, #0d2538 100%);
+    color: #fff;
+    padding: 24px 28px;
+    margin: 24px 0 0;
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-q {
+    position: absolute;
+    right: -36px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 190px;
+    opacity: 0.14;
+    pointer-events: none;
+  }
+  .contact-q img { width: 100%; display: block; }
+  .contact .eyebrow-contact {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rose-pink);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .contact .eyebrow-contact::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--rose-pink);
+  }
+  .contact h2 {
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+  .contact p { color: #fff; font-size: 12px; margin-bottom: 16px; max-width: 560px; position: relative; z-index: 1; }
+  .contact-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 2px 0 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .pill {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 12.5px;
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 999px;
+    display: inline-block;
+  }
+  .pill-solid { background: var(--white); color: var(--quantica-pink); }
+  .pill-outline { border: 1.5px solid var(--white); color: var(--white); }
+  .contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    padding-top: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .contact-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12.5px;
+    color: #fff;
+  }
+  .contact-meta strong { color: #fff; font-weight: 600; }
+  .contact-logo img { height: 40px; width: auto; display: block; }
+
+  /* ─────────── PAGE HEADER (top of content pages) ─────────── */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-1);
+  }
+  .page-header .logo img { height: 28px; width: auto; display: block; }
+  .page-header .pgnum {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+  .page-header .pgnum em { font-style: normal; color: var(--quantica-pink); font-weight: 600; }
+
+  /* ─────────── PRINT BUTTON ─────────── */
+  .print-btn {
+    position: fixed; right: 18px; bottom: 18px; z-index: 50;
+    background: var(--quantica-pink); color: #fff;
+    border: none; padding: 12px 20px;
+    font-family: var(--font-sans); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer; border-radius: 999px;
+    box-shadow: var(--shadow-pink-soft);
+    transition: transform 200ms;
+  }
+  .print-btn:hover { background: var(--deep-berry); transform: translateY(-1px); }
+
+  /* ─────────── RESPONSIVE ─────────── */
+  @media screen and (max-width: 760px) {
+    .page { width: 100%; min-height: auto; margin: 12px 0; }
+    .page-content, .page-last { padding: 32px 24px; }
+    .page-cover { padding: 36px 24px; aspect-ratio: 3 / 4; min-height: auto; }
+    .cover-top { top: 36px; left: 24px; right: 24px; }
+    .cover-bottom { bottom: 36px; left: 24px; right: 24px; }
+    .cover-footer { bottom: 18px; left: 24px; right: 24px; }
+    .cover-title { font-size: 44px; }
+    .cover-subtitle { font-size: 20px; }
+    .cover-tagline { max-width: 100%; }
+    .cover-q { width: 60%; right: -8%; top: 28%; }
+    .h-major { font-size: 24px; }
+    .num-row { grid-template-columns: 48px 1fr; gap: 12px; padding: 14px 0; }
+    .num-row .digit { font-size: 44px; }
+    .route-cards { flex-direction: column; padding-top: 14px; }
+    .route-cards::before, .route-cards::after, .route-card::before { display: none; }
+    .route-card { margin-top: 0; }
+    .cap-panel { flex-basis: 100%; }
+    .contact { padding: 32px 24px; }
+    .contact h2 { font-size: 22px; }
+  }
+
+  /* ─────────── PRINT (A4, screen pad 18mm → print pad 16mm) ─────────── */
+  @page { size: A4; margin: 0; }
+  @media print {
+    body { background: white; margin: 0; padding: 0; }
+    .page {
+      width: 210mm; height: 297mm; min-height: 297mm;
+      margin: 0; box-shadow: none;
+      page-break-after: always; break-after: page;
+      overflow: hidden;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    .print-btn { display: none; }
+
+    .page-content { padding: 16mm var(--page-pad-x); }
+    .page-last    { padding: 16mm var(--page-pad-x) 0; }
+    /* must come after .page-last: its padding shorthand would reset bottom to 0 */
+    .page-final   { padding-bottom: 16mm; }
+
+    .h-major   { font-size: 21pt; margin-bottom: 8pt; line-height: 1.05; }
+    .mt-block  { margin-top: 16pt; }
+    p          { font-size: 10pt; line-height: 1.55; margin-bottom: 6pt; }
+    .lead-block { margin-bottom: 8pt; }
+
+    .note-violet { padding: 11px 15px; margin: 9pt 0 11pt; }
+    .note-violet p { font-size: 10pt; line-height: 1.55; }
+
+    .route-callout { font-size: 9.5pt; line-height: 1.55; padding: 10px 15px 10px 30px; margin-top: 9pt; }
+    .route-cards { gap: 16px; padding-top: 28px; }
+    .route-cards::before { top: 14px; height: 14px; }
+    .route-cards::after { top: 28px; left: calc(25% - 4px); right: calc(25% - 4px); }
+    .route-card { padding: 9px 12px; margin-top: 12px; }
+    .route-card::before { top: -13.5px; height: 13.5px; }
+    .route-card p { font-size: 9pt; line-height: 1.5; }
+
+    .cap-grid { gap: 10px; }
+    .cap-panel { flex-basis: calc(50% - 5px); padding: 7px; gap: 7px; }
+    .cap-head { font-size: 10.5pt; padding: 8px 11px; }
+    .cap-item { font-size: 8.5pt; line-height: 1.45; padding: 6px 9px; }
+
+    .num-row { grid-template-columns: 60px 1fr; gap: 18px; padding: 20px 0; }
+    .num-row .digit { font-size: 46pt; }
+    .num-label { font-size: 13pt; margin-bottom: 5pt; }
+    .num-row p { font-size: 10.5pt; line-height: 1.6; margin-bottom: 5pt; }
+
+    .contact { padding: 26px 30px; margin-top: 14pt; border-radius: 12px; }
+    .contact h2 { font-size: 19pt; margin-bottom: 7pt; }
+    .contact p  { font-size: 10.5pt; margin-bottom: 12pt; }
+    .contact-pills { margin-bottom: 14px; gap: 10px; }
+    .pill { font-size: 9.5pt; padding: 8px 18px; }
+    .contact-info { padding-top: 10pt; gap: 18px; }
+    .contact-meta { font-size: 9pt; }
+    .contact-logo img { height: 32px; }
+
+    .cover-title { font-size: 56pt; }
+    .cover-subtitle { font-size: 20pt; margin-top: 8pt; }
+    .cover-eyebrow { font-size: 10pt; margin-bottom: 10pt; }
+    .cover-tagline { font-size: 11pt; margin-top: 14pt; }
+
+    .page-header { margin-bottom: 13pt; padding-bottom: 8pt; }
+    .page-header .logo img { height: 22px; }
+    .page-header .pgnum { font-size: 9pt; }
+  }
+
+  /* ─── DENSE PAGE VARIANT (page 4 carries panel + benefits + contact) ─── */
+  .page-dense .num-row { padding: 12px 0; }
+  .page-dense .num-row:first-child { padding-top: 6px; }
+  .page-dense .num-row p { font-size: 10pt; line-height: 1.5; }
+  .page-dense .num-row .digit { font-size: 38pt; }
+  .page-dense .num-label { font-size: 12pt; margin-bottom: 3pt; }
+  .page-dense .mt-block { margin-top: 10pt; }
+  .page-dense .h-major { margin-bottom: 6pt; }
+  .page-dense .cap-item { padding: 5px 8px; font-size: 8pt; }
+  .page-dense .cap-head { padding: 7px 10px; font-size: 10pt; }
+  .page-dense .contact { padding: 18px 22px; }
+  .page-dense .contact h2 { font-size: 16pt; margin-bottom: 5pt; }
+  .page-dense .contact p { font-size: 9.5pt; margin-bottom: 8pt; }
+  .page-dense .contact-pills { margin-bottom: 10px; }
+  .page-dense .pill { padding: 7px 16px; font-size: 9pt; }
+  .page-dense .contact-info { padding-top: 8pt; }
+
+  /* ─── JUSTIFIED BODY TEXT (Polish print convention) ─── */
+  p, .bullets li, .cap-item, .route-callout { text-align: justify; }
+  .cover-tagline, .contact p { text-align: left; }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">Pobierz PDF →</button>
+
+<article class="doc">
+
+  <!-- ════════════════ PAGE 1 — COVER ════════════════ -->
+  <section class="page page-cover">
+    <div class="cover-q" aria-hidden="true">
+      <img src="quantica-q-mark-white.png" alt="">
+    </div>
+    <div class="cover-top">
+      <div class="logo">
+        <img src="quantica-logo-white.png" alt="Quantica Lab" style="height:40px;width:auto;display:block;">
+      </div>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="cover-eyebrow">Karta katalogowa</div>
+      <h1 class="cover-title">Dyndalski</h1>
+      <div class="cover-subtitle">inteligentny <em style="font-style:normal;color:var(--rose-pink);">generator dokumentów</em></div>
+      <p class="cover-tagline">Profesjonalne dokumenty o odpowiedniej strukturze, stylu i formie, zgodne z normą językową i standardami organizacji</p>
+    </div>
+
+    <div class="cover-footer">
+      <div>quanticalab.ai</div>
+      <div>Dyndalski · inteligentny generator dokumentów</div>
+    </div>
+  </section>
+
+  <!-- ════════════════ PAGE 2 — JAK DZIAŁA DYNDALSKI ════════════════ -->
+  <section class="page page-content">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>02</em> / 04 · Dyndalski · inteligentny generator dokumentów</div>
+    </div>
+
+    <p>W urzędach, instytucjach i firmach każdego dnia powstają różne typy dokumentów, takich jak uchwały, zawiadomienia, protokoły, umowy czy regulaminy. Każdy z nich stanowi odrębny gatunek tekstu – ma określoną strukturę, charakterystyczny styl i sposób formułowania treści. Przygotowanie poprawnego, profesjonalnego dokumentu wymaga nie tylko wiedzy o sprawie, której dotyczy, ale również znajomości zasad właściwych dla danego typu pisma i umiejętności ich konsekwentnego stosowania.</p>
+
+    <p><strong>Dyndalski</strong> to system sztucznej inteligencji umożliwiający automatyczne tworzenie dokumentów zgodnych z tymi zasadami.</p>
+
+    <div class="note-violet">
+      <p>Użytkownik nie musi samodzielnie redagować tekstu ani posługiwać się specjalistycznym językiem – wystarczy przekazać najważniejsze informacje dotyczące sprawy, takie jak opis sytuacji, podjęta decyzja czy podstawa prawna. Na tej podstawie Dyndalski przygotowuje kompletny dokument o odpowiedniej strukturze i stylu, dbając również o poprawność językową i właściwe formatowanie.</p>
+    </div>
+
+    <p>Podstawą działania Dyndalskiego są autorskie, lokalnie uruchamiane modele językowe, dostrojone do tworzenia dokumentów zgodnych z wzorcami gatunkowymi w języku polskim. Pozwala to uzyskać wysoką jakość i powtarzalność rezultatów przy wykorzystaniu modeli znacznie mniejszych niż popularne modele ogólnego przeznaczenia. Oznacza również brak konieczności przekazywania danych do zewnętrznych dostawców AI – Dyndalski może działać w infrastrukturze organizacji lub w środowisku polskich centrów obliczeniowych, zapewniając pełną kontrolę nad przetwarzaniem informacji.</p>
+
+    <p>Rozwiązanie zostało opracowane we współpracy z ekspertami z Uniwersytetu Łódzkiego. Jego skuteczność została potwierdzona w rygorystycznej ewaluacji, w której wyspecjalizowane modele osiągały wyniki wyższe niż znacznie większe, uniwersalne modele językowe. Wzorce wykorzystywane przez system powstały na podstawie analizy tysięcy rzeczywistych dokumentów oraz badań nad strukturą, stylem i funkcją poszczególnych gatunków tekstu.</p>
+
+    <h2 class="h-major h-pink mt-block">Od informacji o sprawie do gotowego dokumentu</h2>
+
+    <p>Proces tworzenia dokumentu rozpoczyna się od wyboru gatunku tekstu. Następnie użytkownik uzupełnia formularz, podając informacje o danej sprawie. Użytkownik może przekazywać informacje w sposób skrótowy i nie musi znać specjalistycznej terminologii, wymaganej struktury dokumentu ani zasad jego redagowania.</p>
+
+    <p>Na podstawie wprowadzonych danych Dyndalski generuje kompletny dokument zgodny ze wzorcem gatunkowym. System automatycznie dobiera właściwą strukturę, styl i sposób przedstawienia informacji. Dba także o poprawność językową i formatowanie. Wygenerowany dokument można edytować oraz zapisać w wybranym formacie.</p>
+
+  </section>
+
+  <!-- ════════════════ PAGE 3 — OD INFORMACJI O SPRAWIE DO GOTOWEGO DOKUMENTU ════════════════ -->
+  <section class="page page-content">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>03</em> / 04 · Co potrafi Dyndalski?</div>
+    </div>
+
+    <p>W wersji beta Dyndalski obsługuje 25 gatunków urzędowych. Zakres rozwiązania jest sukcesywnie rozszerzany o kolejne typy dokumentów wykorzystywane w administracji, biznesie i praktyce prawnej, takie jak akty notarialne.</p>
+
+    <div class="cap-grid" style="margin-bottom:12px;">
+      <div class="cap-panel" style="flex-basis:100%;">
+        <div class="cap-head">25 typów dokumentów w wersji beta</div>
+        <div class="cap-item">Wybierz typ dokumentu i uzupełnij podstawowe informacje, a Dyndalski przygotuje kompletny, profesjonalnie sformatowany tekst.</div>
+        <div class="cap-item">uchwała · petycja · apel · interpelacja · zawiadomienie · statut · sprawozdanie · regulamin · obwieszczenie · komunikat · informacja · odpowiedź na interpelację · zarządzenie · ogłoszenie · postanowienie · ustawa · decyzja administracyjna · kodeks · instrukcja · karta usługi · rozporządzenie · umowa · protokół · zaproszenie · rozstrzygnięcie nadzorcze</div>
+      </div>
+    </div>
+
+    <p>Rozwiązanie może zostać zintegrowane z systemami i repozytoriami wiedzy organizacji. Pozwala to automatycznie uzupełniać część informacji, podpowiadać dane na podstawie dokumentów i systemów wewnętrznych oraz dostosować sposób generowania dokumentów do standardów i praktyk obowiązujących w konkretnej instytucji.</p>
+
+    <h2 class="h-major h-pink mt-block">Co potrafi Dyndalski?</h2>
+
+    <div class="cap-grid">
+      <div class="cap-panel">
+        <div class="cap-head">Tworzenie dokumentów zgodnych ze wzorcami gatunkowymi</div>
+        <div class="cap-item">Generowanie kompletnych dokumentów na podstawie informacji przekazanych przez użytkownika</div>
+        <div class="cap-item">Zachowanie właściwej struktury, stylu, wymaganych elementów i formatowania</div>
+        <div class="cap-item">Dostosowanie języka i sposobu przedstawienia informacji do funkcji i gatunku dokumentu</div>
+        <div class="cap-item">Obsługa wielu gatunków dokumentów w ramach jednego rozwiązania</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head">Intuicyjne wprowadzanie informacji</div>
+        <div class="cap-item">Formularze dostosowane do rodzaju przygotowywanego dokumentu</div>
+        <div class="cap-item">Możliwość przekazywania informacji w naturalnym języku, również w formie skrótowych i nieuporządkowanych opisów</div>
+        <div class="cap-item">Weryfikacja kompletności danych i możliwość podpowiadania brakujących informacji</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head">Jakość i standaryzacja dokumentów</div>
+        <div class="cap-item">Wykorzystanie wzorców gatunkowych opracowanych na podstawie analizy tysięcy rzeczywistych dokumentów</div>
+        <div class="cap-item">Zachowanie spójnego standardu językowego, strukturalnego i redakcyjnego</div>
+        <div class="cap-item">Ograniczenie błędów językowych, brakujących elementów i nieprawidłowego formatowania</div>
+        <div class="cap-item">Możliwość dostosowania wzorców do praktyk i standardów obowiązujących w organizacji</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head">Integracja z wiedzą i systemami organizacji</div>
+        <div class="cap-item">Automatyczne uzupełnianie i podpowiadanie danych na podstawie dokumentów oraz informacji dostępnych w organizacji</div>
+        <div class="cap-item">Integracja z repozytoriami wiedzy, systemami obiegu dokumentów i systemami dziedzinowymi</div>
+        <div class="cap-item">Dostosowanie formularzy, wzorców i procesu generowania do potrzeb organizacji</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════ PAGE 4 — CO POTRAFI (CD.) + CO ZYSKUJE ORGANIZACJA + KONTAKT ════════════════ -->
+  <section class="page page-last page-final page-dense">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>04</em> / 04 · Co zyskuje organizacja?</div>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap-panel" style="flex-basis:100%;">
+        <div class="cap-head">Bezpieczeństwo i wdrożenie</div>
+        <div class="cap-item">Wykorzystanie lokalnie uruchamianych modeli językowych bez konieczności przekazywania danych do zewnętrznych dostawców AI</div>
+        <div class="cap-item">Możliwość wdrożenia w infrastrukturze klienta lub wykorzystania infrastruktury polskich centrów obliczeniowych</div>
+        <div class="cap-item">Pełna kontrola nad miejscem przetwarzania danych, sposobem działania rozwiązania i kosztami jego utrzymania</div>
+      </div>
+    </div>
+
+    <h2 class="h-major h-pink mt-block">Co zyskuje organizacja?</h2>
+
+    <div class="num-list">
+      <div class="num-row">
+        <span class="digit">1</span>
+        <div>
+          <h4 class="num-label">Szybsze przygotowywanie dokumentów</h4>
+          <p>Dyndalski automatyzuje proces redagowania dokumentów. Pracownik przekazuje informacje dotyczące sprawy, a system przygotowuje kompletny tekst wymagający jedynie weryfikacji i ewentualnej korekty.</p>
+        </div>
+      </div>
+      <div class="num-row">
+        <span class="digit">2</span>
+        <div>
+          <h4 class="num-label">Wyższa jakość i spójność dokumentacji</h4>
+          <p>Dokumenty są tworzone na podstawie zdefiniowanych wzorców gatunkowych i jednolitych zasad, co pozwala utrzymać spójny standard dokumentacji niezależnie od doświadczenia i indywidualnego sposobu pracy poszczególnych użytkowników.</p>
+        </div>
+      </div>
+      <div class="num-row">
+        <span class="digit">3</span>
+        <div>
+          <h4 class="num-label">Mniej błędów i prostsze tworzenie specjalistycznych dokumentów</h4>
+          <p>System pilnuje struktury, wymaganych elementów, poprawności językowej i formatowania. Użytkownik nie musi znać szczegółowych reguł redagowania każdego gatunku tekstu, aby przygotować profesjonalny dokument.</p>
+        </div>
+      </div>
+      <div class="num-row">
+        <span class="digit">4</span>
+        <div>
+          <h4 class="num-label">Bezpieczeństwo i pełna kontrola nad rozwiązaniem</h4>
+          <p>Lokalne modele językowe i możliwość wdrożenia w kontrolowanej infrastrukturze pozwalają korzystać z generatywnej AI bez przekazywania danych do zewnętrznych dostawców. Organizacja zachowuje kontrolę nad danymi, sposobem działania systemu oraz kosztami jego utrzymania. Wyspecjalizowane modele dostrojone do konkretnego zadania zapewniają wysoką powtarzalność rezultatów oraz ograniczają zależność od zmian w zewnętrznych usługach AI, wersjach modeli i cennikach API.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT (pinned to bottom via .page-final) -->
+    <section class="contact">
+      <div class="contact-q" aria-hidden="true">
+        <img src="quantica-q-mark-white.png" alt="">
+      </div>
+      <div class="eyebrow-contact">Kontakt</div>
+      <h2>Porozmawiajmy o wdrożeniu</h2>
+      <p>Napisz do nas – pokażemy Dyndalskiego w działaniu i omówimy scenariusz wdrożenia dopasowany do Twojej organizacji.</p>
+
+      <div class="contact-pills">
+        <a class="pill pill-solid" href="mailto:kontakt@quanticalab.ai">kontakt@quanticalab.ai</a>
+        <a class="pill pill-outline" href="https://www.quanticalab.ai" target="_blank" rel="noopener">www.quanticalab.ai</a>
+      </div>
+
+      <div class="contact-info">
+        <div class="contact-logo">
+          <img src="quantica-logo-white.png" alt="Quantica Lab">
+        </div>
+        <div class="contact-meta">
+          <strong>Quanticalab Sp. z o.o.</strong>
+        </div>
+      </div>
+    </section>
+
+  </section>
+
+</article>
+
+</body>
+</html>

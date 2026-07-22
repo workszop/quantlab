@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<!--
+  QUANTICA LAB — karta katalogowa: Zagłoba, inteligentny asystent wiedzy
+  A4 portrait flyer for browser Print → "Save as PDF".
+  Built on the approved Klara card scaffold (same style block + page
+  architecture: dark cover → editorial content pages → benefits + contact).
+-->
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zagłoba: inteligentny asystent wiedzy | Quantica Lab</title>
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* ── Brand tokens (mirror of design-system colors_and_type.css) ──────── */
+    --quantica-pink:    #d20757;
+    --rose-pink:        #d20757;
+    --deep-berry:       #8A004C;
+    --magenta-tint:     #FFE6F1;
+
+    --violet-primary:   #7030A0;
+    --violet-deep:      #4F1F75;
+    --ink:              #0A1F2C;
+    --mist:             #F4EEFA;
+
+    --near-black:       #111111;
+    --white:            #FFFFFF;
+
+    --fg-1:             #111111;
+    --fg-2:             #111111;
+    --fg-3:             #111111;
+
+    --bg-1:             #FFFFFF;
+    --bg-2:             #F5F6F8;
+
+    --border-1:         #E6E8EC;
+    --border-2:         #D1D5DB;
+
+    --font-display:     "Satoshi", system-ui, -apple-system, sans-serif;
+    --font-sans:        "Satoshi", system-ui, -apple-system, sans-serif;
+    --font-mono:        "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --radius-sm:        6px;
+    --radius-md:        10px;
+    --radius-lg:        16px;
+
+    --shadow-pink-soft: 0 6px 18px rgba(210, 7, 87,0.10);
+
+    --page-w: 210mm;
+    --page-h: 297mm;
+    --page-pad-x: 18mm;
+    --page-pad-y: 18mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    color: var(--fg-2);
+    background: #ECEEF2;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ─────────── PAGE (A4) ─────────── */
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    margin: 18px auto;
+    background: var(--bg-1);
+    box-shadow: 0 30px 80px -20px rgba(10, 20, 40, 0.18), 0 8px 24px -8px rgba(10, 20, 40, 0.08);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .page + .page { page-break-before: always; break-before: page; }
+  .page-content { padding: var(--page-pad-y) var(--page-pad-x); }
+  .page-last    { padding: var(--page-pad-y) var(--page-pad-x) 0; }
+  .page-final { padding-bottom: var(--page-pad-y); }
+  .page-final .contact { margin-top: auto; }
+
+  /* ─────────── COVER ─────────── */
+  .page-cover {
+    color: #fff;
+    padding: var(--page-pad-y) var(--page-pad-x);
+    background:
+      radial-gradient(ellipse 70% 55% at 78% 70%, rgba(112, 48, 160, 0.36) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 45% at 18% 22%, rgba(210, 7, 87, 0.55) 0%, transparent 70%),
+      linear-gradient(160deg, #07151f 0%, #0A1F2C 50%, #0d2538 100%);
+    overflow: hidden;
+  }
+  .page-cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 60%, black 30%, transparent 90%);
+    pointer-events: none;
+  }
+  .cover-q {
+    position: absolute;
+    right: -4%;
+    top: 18%;
+    width: 62%;
+    opacity: 0.18;
+    filter: drop-shadow(0 30px 60px rgba(210, 7, 87, 0.45));
+    pointer-events: none;
+  }
+  .cover-q img { width: 100%; display: block; }
+  .cover-top {
+    position: absolute;
+    top: var(--page-pad-y);
+    left: var(--page-pad-x);
+    right: var(--page-pad-x);
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cover-top .meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: #fff;
+  }
+  .cover-bottom {
+    position: absolute;
+    bottom: 26mm;
+    left: var(--page-pad-x);
+    right: var(--page-pad-x);
+    z-index: 2;
+  }
+  .cover-eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rose-pink);
+    margin-bottom: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cover-eyebrow::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--rose-pink);
+  }
+  .cover-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: #fff;
+    max-width: 92%;
+  }
+  .cover-title em { font-style: normal; color: var(--rose-pink); }
+  .cover-subtitle {
+    font-family: var(--font-display);
+    font-size: 27px;
+    font-weight: 400;
+    color: #fff;
+    margin-top: 10px;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+  .cover-tagline {
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #fff;
+    max-width: 70%;
+    margin-top: 20px;
+    font-weight: 400;
+  }
+  .cover-footer {
+    position: absolute;
+    bottom: 12mm;
+    left: var(--page-pad-x);
+    right: var(--page-pad-x);
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─────────── TYPE ─────────── */
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    color: var(--fg-1);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .h-major {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 16px;
+    letter-spacing: -0.025em;
+  }
+  .h-pink { color: var(--quantica-pink); }
+  .mt-block { margin-top: 26px; }
+  p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--fg-2);
+    margin-bottom: 10px;
+  }
+  p strong { color: var(--quantica-pink); font-weight: 700; }
+  .lead-block { margin-bottom: 18px; }
+
+  /* ─────────── NUMBERED ROWS ─────────── */
+  .num-list { display: flex; flex-direction: column; margin-top: 8px; }
+  .num-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 18px;
+    align-items: start;
+    padding: 18px 0;
+    border-top: 1px solid var(--border-1);
+    break-inside: avoid;
+  }
+  .num-row:first-child { border-top: none; padding-top: 6px; }
+  .num-row .digit {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 0.9;
+    color: var(--quantica-pink);
+    letter-spacing: -0.04em;
+  }
+  .num-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--fg-1);
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .num-row p { font-size: 12.5px; line-height: 1.6; margin-bottom: 8px; }
+  .num-row p:last-child { margin-bottom: 0; }
+
+  /* ─────────── VIOLET NOTE (key statement, idea from Klara card) ─────────── */
+  .note-violet {
+    background: var(--mist);
+    border: 1.5px solid var(--violet-primary);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin: 12px 0 14px;
+    break-inside: avoid;
+  }
+  .note-violet p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--fg-1); font-weight: 500; }
+
+  /* ─────────── ROUTING CALLOUTS + BRANCH (idea from Klara card) ─────────── */
+  .route-callout {
+    background: var(--magenta-tint);
+    color: var(--quantica-pink);
+    font-size: 12.5px;
+    line-height: 1.6;
+    font-weight: 500;
+    padding: 12px 18px 12px 34px;
+    margin: 12px 0 0;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    clip-path: polygon(0 50%, 18px 0, 100% 0, 100% 100%, 18px 100%);
+    break-inside: avoid;
+  }
+  .route-branch { position: relative; }
+  .route-cards { position: relative; display: flex; gap: 18px; padding-top: 32px; }
+  .route-cards::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 1.5px;
+    height: 16px;
+    background: var(--quantica-pink);
+    transform: translateX(-50%);
+  }
+  .route-cards::after {
+    content: "";
+    position: absolute;
+    top: 32px;
+    left: calc(25% - 4.5px);
+    right: calc(25% - 4.5px);
+    height: 1.5px;
+    background: var(--quantica-pink);
+  }
+  .route-card {
+    position: relative;
+    flex: 1;
+    background: var(--bg-1);
+    border: 1.5px solid var(--quantica-pink);
+    border-radius: var(--radius-md);
+    padding: 12px 15px;
+    margin-top: 14px;
+    break-inside: avoid;
+  }
+  .route-card::before {
+    content: "";
+    position: absolute;
+    top: -15.5px;
+    left: 50%;
+    width: 1.5px;
+    height: 15.5px;
+    background: var(--quantica-pink);
+    transform: translateX(-50%);
+  }
+  .route-card p { margin: 0; font-size: 12px; line-height: 1.55; color: var(--fg-1); }
+
+  /* ─────────── CAPABILITY PANELS (header bar + item cards, idea from Klara card) ───────────
+     flexbox, not grid, so an incomplete row centers */
+  .cap-grid { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 6px; }
+  .cap-panel {
+    flex: 1 1 calc(50% - 7px);
+    min-width: 0;
+    background: var(--bg-2);
+    border-radius: var(--radius-md);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    break-inside: avoid;
+  }
+  .cap-head {
+    background: var(--violet-primary);
+    color: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 10px 13px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13.5px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .cap-item {
+    background: var(--bg-1);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-sm);
+    padding: 8px 11px;
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: var(--fg-1);
+  }
+
+  /* ─────────── CONTACT (dark CTA card, pills idea from Klara card) ─────────── */
+  .contact {
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 50%, rgba(112,48,160,0.28) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 70% at 0% 0%, rgba(210, 7, 87,0.30) 0%, transparent 65%),
+      linear-gradient(135deg, #0A1F2C 0%, #0d2538 100%);
+    color: #fff;
+    padding: 24px 28px;
+    margin: 24px 0 0;
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-q {
+    position: absolute;
+    right: -36px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 190px;
+    opacity: 0.14;
+    pointer-events: none;
+  }
+  .contact-q img { width: 100%; display: block; }
+  .contact .eyebrow-contact {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rose-pink);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .contact .eyebrow-contact::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--rose-pink);
+  }
+  .contact h2 {
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+  .contact p { color: #fff; font-size: 12px; margin-bottom: 16px; max-width: 560px; position: relative; z-index: 1; }
+  .contact-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 2px 0 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .pill {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 12.5px;
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 999px;
+    display: inline-block;
+  }
+  .pill-solid { background: var(--white); color: var(--quantica-pink); }
+  .pill-outline { border: 1.5px solid var(--white); color: var(--white); }
+  .contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    padding-top: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .contact-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12.5px;
+    color: #fff;
+  }
+  .contact-meta strong { color: #fff; font-weight: 600; }
+  .contact-logo img { height: 40px; width: auto; display: block; }
+
+  /* ─────────── PAGE HEADER (top of content pages) ─────────── */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-1);
+  }
+  .page-header .logo img { height: 28px; width: auto; display: block; }
+  .page-header .pgnum {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+  .page-header .pgnum em { font-style: normal; color: var(--quantica-pink); font-weight: 600; }
+
+  /* ─────────── PRINT BUTTON ─────────── */
+  .print-btn {
+    position: fixed; right: 18px; bottom: 18px; z-index: 50;
+    background: var(--quantica-pink); color: #fff;
+    border: none; padding: 12px 20px;
+    font-family: var(--font-sans); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer; border-radius: 999px;
+    box-shadow: var(--shadow-pink-soft);
+    transition: transform 200ms;
+  }
+  .print-btn:hover { background: var(--deep-berry); transform: translateY(-1px); }
+
+  /* ─────────── RESPONSIVE ─────────── */
+  @media screen and (max-width: 760px) {
+    .page { width: 100%; min-height: auto; margin: 12px 0; }
+    .page-content, .page-last { padding: 32px 24px; }
+    .page-cover { padding: 36px 24px; aspect-ratio: 3 / 4; min-height: auto; }
+    .cover-top { top: 36px; left: 24px; right: 24px; }
+    .cover-bottom { bottom: 36px; left: 24px; right: 24px; }
+    .cover-footer { bottom: 18px; left: 24px; right: 24px; }
+    .cover-title { font-size: 44px; }
+    .cover-subtitle { font-size: 20px; }
+    .cover-tagline { max-width: 100%; }
+    .cover-q { width: 60%; right: -8%; top: 28%; }
+    .h-major { font-size: 24px; }
+    .num-row { grid-template-columns: 48px 1fr; gap: 12px; padding: 14px 0; }
+    .num-row .digit { font-size: 44px; }
+    .route-cards { flex-direction: column; padding-top: 14px; }
+    .route-cards::before, .route-cards::after, .route-card::before { display: none; }
+    .route-card { margin-top: 0; }
+    .cap-panel { flex-basis: 100%; }
+    .contact { padding: 32px 24px; }
+    .contact h2 { font-size: 22px; }
+  }
+
+  /* ─────────── PRINT (A4, screen pad 18mm → print pad 16mm) ─────────── */
+  @page { size: A4; margin: 0; }
+  @media print {
+    body { background: white; margin: 0; padding: 0; }
+    .page {
+      width: 210mm; height: 297mm; min-height: 297mm;
+      margin: 0; box-shadow: none;
+      page-break-after: always; break-after: page;
+      overflow: hidden;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    .print-btn { display: none; }
+
+    .page-content { padding: 16mm var(--page-pad-x); }
+    .page-last    { padding: 16mm var(--page-pad-x) 0; }
+    /* must come after .page-last: its padding shorthand would reset bottom to 0 */
+    .page-final   { padding-bottom: 16mm; }
+
+    .h-major   { font-size: 21pt; margin-bottom: 8pt; line-height: 1.05; }
+    .mt-block  { margin-top: 16pt; }
+    p          { font-size: 10pt; line-height: 1.55; margin-bottom: 6pt; }
+    .lead-block { margin-bottom: 8pt; }
+
+    .note-violet { padding: 11px 15px; margin: 9pt 0 11pt; }
+    .note-violet p { font-size: 10pt; line-height: 1.55; }
+
+    .route-callout { font-size: 9.5pt; line-height: 1.55; padding: 10px 15px 10px 30px; margin-top: 9pt; }
+    .route-cards { gap: 16px; padding-top: 28px; }
+    .route-cards::before { top: 14px; height: 14px; }
+    .route-cards::after { top: 28px; left: calc(25% - 4px); right: calc(25% - 4px); }
+    .route-card { padding: 9px 12px; margin-top: 12px; }
+    .route-card::before { top: -13.5px; height: 13.5px; }
+    .route-card p { font-size: 9pt; line-height: 1.5; }
+
+    .cap-grid { gap: 10px; }
+    .cap-panel { flex-basis: calc(50% - 5px); padding: 7px; gap: 7px; }
+    .cap-head { font-size: 10.5pt; padding: 8px 11px; }
+    .cap-item { font-size: 8.5pt; line-height: 1.45; padding: 6px 9px; }
+
+    .num-row { grid-template-columns: 60px 1fr; gap: 18px; padding: 20px 0; }
+    .num-row .digit { font-size: 46pt; }
+    .num-label { font-size: 13pt; margin-bottom: 5pt; }
+    .num-row p { font-size: 10.5pt; line-height: 1.6; margin-bottom: 5pt; }
+
+    .contact { padding: 26px 30px; margin-top: 14pt; border-radius: 12px; }
+    .contact h2 { font-size: 19pt; margin-bottom: 7pt; }
+    .contact p  { font-size: 10.5pt; margin-bottom: 12pt; }
+    .contact-pills { margin-bottom: 14px; gap: 10px; }
+    .pill { font-size: 9.5pt; padding: 8px 18px; }
+    .contact-info { padding-top: 10pt; gap: 18px; }
+    .contact-meta { font-size: 9pt; }
+    .contact-logo img { height: 32px; }
+
+    .cover-title { font-size: 56pt; }
+    .cover-subtitle { font-size: 20pt; margin-top: 8pt; }
+    .cover-eyebrow { font-size: 10pt; margin-bottom: 10pt; }
+    .cover-tagline { font-size: 11pt; margin-top: 14pt; }
+
+    .page-header { margin-bottom: 13pt; padding-bottom: 8pt; }
+    .page-header .logo img { height: 22px; }
+    .page-header .pgnum { font-size: 9pt; }
+  }
+
+  /* ─── JUSTIFIED BODY TEXT (Polish print convention) ─── */
+  p, .bullets li, .cap-item, .route-callout { text-align: justify; }
+  .cover-tagline, .contact p { text-align: left; }
+
+  /* ─── DENSE PAGE VARIANT (last page: 5 benefit rows + contact) ─── */
+  .page-dense .num-row { padding: 12px 0; }
+  .page-dense .num-row:first-child { padding-top: 6px; }
+  .page-dense .num-row p { font-size: 10pt; line-height: 1.5; }
+  .page-dense .num-row .digit { font-size: 38pt; }
+  .page-dense .num-label { font-size: 12pt; margin-bottom: 3pt; }
+  .page-dense .h-major { margin-bottom: 6pt; }
+  .page-dense .contact { padding: 16px 22px; }
+  .page-dense .contact h2 { font-size: 16pt; margin-bottom: 5pt; }
+  .page-dense .contact p { font-size: 9.5pt; margin-bottom: 8pt; }
+  .page-dense .contact-pills { margin-bottom: 10px; }
+  .page-dense .pill { padding: 7px 16px; font-size: 9pt; }
+  .page-dense .contact-info { padding-top: 8pt; }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">Pobierz PDF →</button>
+
+<article class="doc">
+
+  <!-- ════════════════ PAGE 1 — COVER ════════════════ -->
+  <section class="page page-cover">
+    <div class="cover-q" aria-hidden="true">
+      <img src="quantica-q-mark-white.png" alt="">
+    </div>
+    <div class="cover-top">
+      <div class="logo">
+        <img src="quantica-logo-white.png" alt="Quantica Lab" style="height:40px;width:auto;display:block;">
+      </div>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="cover-eyebrow">Karta katalogowa</div>
+      <h1 class="cover-title">Zagłoba</h1>
+      <div class="cover-subtitle">inteligentny <em style="font-style:normal;color:var(--rose-pink);">asystent wiedzy</em></div>
+      <p class="cover-tagline">Bezpieczny dostęp do wiedzy organizacji, precyzyjne odpowiedzi ze wskazaniem źródeł i integracja z istniejącymi systemami oraz bazami danych</p>
+    </div>
+
+    <div class="cover-footer">
+      <div>quanticalab.ai</div>
+      <div>Zagłoba · inteligentny asystent wiedzy</div>
+    </div>
+  </section>
+
+  <!-- ════════════════ PAGE 2 — CZYM JEST ZAGŁOBA + CO WYRÓŻNIA (1/5) ════════════════ -->
+  <section class="page page-content">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>02</em> / 05 · Zagłoba · inteligentny asystent wiedzy</div>
+    </div>
+
+    <p>Wiedza potrzebna pracownikom do podejmowania decyzji i realizacji codziennych zadań jest często rozproszona między wieloma dokumentami, repozytoriami i systemami. Odnalezienie właściwej informacji wymaga czasu i przeszukiwania wielu źródeł. Jednocześnie wykorzystanie publicznych modeli językowych do pracy z dokumentami organizacji może wiązać się z ryzykiem ujawnienia danych oraz brakiem kontroli nad sposobem ich przetwarzania.</p>
+
+    <p><strong>Zagłoba</strong> to system RAG (Retrieval-Augmented Generation), który zapewnia szybki i bezpieczny dostęp do wiedzy organizacji: użytkownik zadaje pytanie, a system przeszukuje dostępne źródła danych, identyfikuje najbardziej trafne informacje i na ich podstawie przygotowuje odpowiedź.</p>
+
+    <div class="note-violet">
+      <p>Rozwiązanie łączy możliwości dużych modeli językowych z aktualną wiedzą organizacji. Odpowiedzi są generowane na podstawie informacji wyszukanych w zdefiniowanych źródłach, co ogranicza ryzyko udzielania odpowiedzi błędnych lub nieaktualnych oraz pozwala zweryfikować informacje w materiałach źródłowych.</p>
+    </div>
+
+    <p>Zagłoba nie wymaga przenoszenia dokumentów do kolejnego, odrębnego repozytorium. Integruje się z istniejącymi systemami i źródłami danych organizacji, automatycznie uwzględniając nowe i zmienione dokumenty. Zachowuje przy tym istniejące role i poziomy dostępu – odpowiedzi dla każdego użytkownika są generowane wyłącznie na podstawie informacji, do których ma uprawnienia.</p>
+
+    <p>System może działać w pełni lokalnie, bez konieczności przekazywania dokumentów i danych do zewnętrznych dostawców AI. Pozwala to organizacji zachować pełną kontrolę nad miejscem przechowywania i przetwarzania danych oraz uniezależnić koszty działania systemu od liczby zapytań kierowanych do komercyjnych modeli językowych.</p>
+
+    <p>Zagłoba został opracowany przez zespół współtworzący polskie modele językowe PLLuM, posiadający doświadczenie we wdrożeniach w administracji publicznej i sektorze prywatnym, m.in. przy budowie Wirtualnego Asystenta w aplikacji mObywatel (ok. 500 tys. zapytań miesięcznie), czatbotów w urzędach oraz systemów AI wspierających pracę organizacji posiadających rozbudowane zasoby wiedzy.</p>
+
+    <h2 class="h-major h-pink" style="margin-top:18px;">Co wyróżnia nasz system RAG?</h2>
+
+    <h3 class="num-label">Architektura klasy enterprise rozwijana dla polskich organizacji</h3>
+    <p>Zagłoba bazuje na architekturze Intel AI for Enterprise RAG – rozwijanym przez Intel rozwiązaniu przeznaczonym do budowy skalowalnych i bezpiecznych systemów RAG w środowiskach produkcyjnych. Wykorzystanie dojrzałej architektury klasy enterprise zapewnia solidną podstawę technologiczną obejmującą mechanizmy bezpieczeństwa, zarządzania dostępem, skalowania, monitorowania i obserwowalności działania systemu.</p>
+    <p>Na tej podstawie stworzyliśmy własne rozwiązanie dostosowane do specyfiki języka polskiego i realiów polskich organizacji, z możliwością dodatkowej adaptacji do specyfiki konkretnej instytucji. Rozwijamy i konfigurujemy komponenty odpowiedzialne za przetwarzanie dokumentów, wyszukiwanie informacji, ocenę trafności wyników, generowanie odpowiedzi i bezpieczeństwo działania systemu. Modele oraz mechanizmy wyszukiwania dobieramy na podstawie własnych badań, wyników ewaluacji i doświadczeń z rzeczywistych wdrożeń.</p>
+
+  </section>
+
+  <!-- ════════════════ PAGE 3 — CO WYRÓŻNIA (2/5 – 4/5) ════════════════ -->
+  <section class="page page-content">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>03</em> / 05 · Co wyróżnia nasz system RAG?</div>
+    </div>
+
+    <h3 class="num-label">Integracja z systemami i źródłami danych organizacji</h3>
+    <p>Zagłoba integruje się z Microsoft 365 i SharePoint, Amazon S3 oraz systemami przechowywania danych zgodnymi ze standardem S3, takimi jak MinIO, Ceph Object Gateway czy Dell ObjectScale. System automatycznie wykrywa nowe i zmienione dokumenty oraz aktualizuje bazę wiedzy na podstawie danych znajdujących się w istniejących repozytoriach organizacji.</p>
+    <p>Integracja z Microsoft 365 umożliwia logowanie za pomocą kont organizacyjnych (SSO). Zagłoba może dziedziczyć uprawnienia do dokumentów ze zintegrowanych repozytoriów, dzięki czemu odpowiedzi dla danego użytkownika są generowane wyłącznie na podstawie informacji, do których ma dostęp. Pozwala to zachować istniejące role i poziomy uprawnień oraz ograniczyć ryzyko ujawnienia informacji osobom nieuprawnionym.</p>
+    <p>Architektura rozwiązania pozwala rozwijać kolejne integracje z systemami obiegu dokumentów, repozytoriami wiedzy i systemami dziedzinowymi. Zakres obsługiwanych źródeł danych jest sukcesywnie rozszerzany.</p>
+
+    <h3 class="num-label" style="margin-top:18px;">Precyzja wyszukiwania i mierzalna jakość odpowiedzi</h3>
+    <p>Zagłoba wykorzystuje hybrydowe mechanizmy wyszukiwania i ponownej oceny trafności wyników, co zwiększa precyzję odpowiedzi. System umożliwia filtrowanie i ograniczanie zakresu wyszukiwania na podstawie metadanych dokumentów, takich jak źródło, typ dokumentu, data czy jednostka organizacyjna. Pozwala to dostosować sposób wyszukiwania do struktury wiedzy konkretnej organizacji.</p>
+    <p>Odpowiedzi zawierają odwołania do dokumentów źródłowych w formie cytowań, co zwiększa przejrzystość i wiarygodność działania systemu. Użytkownik może doprecyzować pytanie i prowadzić rozmowę z zachowaniem kontekstu.</p>
+    <p>Jakość Zagłoby jest oceniana na zbiorach zadań odpowiadających rzeczywistym procesom organizacji. Dla każdego wdrożenia możemy przygotować indywidualny zbiór testowy i mierzyć jakość wyszukiwania, trafność odpowiedzi oraz zachowanie systemu w sytuacjach, w których potrzebnych informacji nie ma w bazie wiedzy.</p>
+
+    <h3 class="num-label" style="margin-top:18px;">Bezpieczeństwo danych i kontrola działania systemu</h3>
+    <p>Zagłoba może działać w całości w infrastrukturze organizacji. Dokumenty, baza wiedzy, modele językowe i pozostałe komponenty systemu mogą być uruchamiane lokalnie, bez konieczności przekazywania danych do zewnętrznych dostawców AI.</p>
+    <p>System wykorzystuje mechanizmy zarządzania tożsamością i dostępem oraz pozwala kontrolować, którzy użytkownicy mogą korzystać z określonych zasobów wiedzy. Architektura rozwiązania została zaprojektowana z myślą o bezpiecznych wdrożeniach produkcyjnych i obejmuje mechanizmy ochrony poszczególnych komponentów systemu oraz kontroli dostępu do danych.</p>
+    <p>Mechanizmy zabezpieczające (guardrails) pozwalają kontrolować sposób wykorzystania systemu i ograniczać generowanie treści wykraczających poza ustalony zakres działania, szkodliwych lub niezgodnych z politykami organizacji.</p>
+
+    <div class="route-callout">W przypadku braku informacji w bazie Zagłoba nie tworzy odpowiedzi spekulatywnych, lecz informuje o braku danych i może skierować użytkownika do odpowiedniego źródła informacji.</div>
+
+  </section>
+
+  <!-- ════════════════ PAGE 4 — CO WYRÓŻNIA (5/5) + CO POTRAFI ZAGŁOBA ════════════════ -->
+  <section class="page page-content">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>04</em> / 05 · Co potrafi Zagłoba?</div>
+    </div>
+
+    <h3 class="num-label">Monitoring, elastyczne wdrożenie i skalowanie</h3>
+    <p>Zagłoba może zostać wdrożony lokalnie, w infrastrukturze chmurowej lub w modelu hybrydowym, zgodnie z wymaganiami bezpieczeństwa i architekturą IT organizacji. Modułowa architektura pozwala dobierać modele, bazy wektorowe i pozostałe komponenty do wymagań konkretnego wdrożenia oraz skalować system wraz ze wzrostem liczby użytkowników, dokumentów i obsługiwanych zapytań.</p>
+    <p>System umożliwia monitorowanie działania poszczególnych komponentów i całego procesu obsługi zapytania. Mechanizmy logowania, telemetrii i śledzenia przepływu zapytań pozwalają analizować wydajność, diagnozować problemy i kontrolować działanie rozwiązania w środowisku produkcyjnym.</p>
+
+    <h2 class="h-major h-pink" style="margin-top:18px;">Co potrafi Zagłoba?</h2>
+
+    <div class="cap-grid">
+      <div class="cap-panel">
+        <div class="cap-head">Szybki dostęp do wiedzy organizacji</div>
+        <div class="cap-item">Wyszukiwanie informacji w dokumentach i repozytoriach za pomocą języka naturalnego</div>
+        <div class="cap-item">Generowanie odpowiedzi na podstawie aktualnych źródeł wiedzy wraz ze wskazaniem dokumentów źródłowych</div>
+        <div class="cap-item">Prowadzenie rozmowy z zachowaniem kontekstu i możliwością doprecyzowania pytania</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head">Integracja i bezpieczne udostępnianie wiedzy</div>
+        <div class="cap-item">Integracja z Microsoft 365, SharePoint, Amazon S3 i systemami przechowywania danych zgodnymi ze standardem S3</div>
+        <div class="cap-item">Automatyczne uwzględnianie nowych i zmienionych dokumentów oraz rozwijanie kolejnych integracji</div>
+        <div class="cap-item">Zachowanie istniejących ról i uprawnień użytkowników oraz generowanie odpowiedzi wyłącznie na podstawie dostępnych im zasobów</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head">Precyzja, bezpieczeństwo i kontrola jakości</div>
+        <div class="cap-item">Hybrydowe wyszukiwanie, ponowna ocena trafności wyników i filtrowanie dokumentów na podstawie metadanych</div>
+        <div class="cap-item">Mechanizmy guardrails oraz ograniczanie odpowiedzi niepopartych wiedzą organizacji</div>
+        <div class="cap-item">Ewaluacja jakości działania na danych i scenariuszach odpowiadających rzeczywistym procesom organizacji</div>
+      </div>
+      <div class="cap-panel">
+        <div class="cap-head">Architektura i wdrożenie</div>
+        <div class="cap-item">Architektura klasy enterprise przeznaczona do bezpiecznych wdrożeń produkcyjnych</div>
+        <div class="cap-item">Możliwość działania lokalnie, w chmurze lub w modelu hybrydowym oraz dobór modeli i komponentów do potrzeb organizacji</div>
+        <div class="cap-item">Monitoring działania systemu i skalowanie wraz ze wzrostem liczby dokumentów, użytkowników i zapytań</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════ PAGE 5 — CO ZYSKUJE ORGANIZACJA (1–3) ════════════════ -->
+  <section class="page page-last page-final page-dense">
+
+    <div class="page-header">
+      <div class="logo"><img src="quantica-logo-color.png" alt="Quantica Lab"></div>
+      <div class="pgnum"><em>05</em> / 05 · Co zyskuje organizacja?</div>
+    </div>
+
+    <h2 class="h-major h-pink">Co zyskuje organizacja?</h2>
+
+    <div class="num-list">
+      <div class="num-row">
+        <span class="digit">1</span>
+        <div>
+          <h4 class="num-label">Szybszy dostęp do wiedzy</h4>
+          <p>Pracownicy mogą uzyskiwać potrzebne informacje bez ręcznego przeszukiwania dokumentów, repozytoriów i systemów. Zagłoba skraca czas potrzebny na dotarcie do wiedzy i pozwala skoncentrować się na zadaniach wymagających analizy i podejmowania decyzji.</p>
+        </div>
+      </div>
+      <div class="num-row">
+        <span class="digit">2</span>
+        <div>
+          <h4 class="num-label">Wiarygodne i weryfikowalne odpowiedzi</h4>
+          <p>System odpowiada na podstawie kontrolowanych źródeł wiedzy i wskazuje dokumenty wykorzystane do przygotowania odpowiedzi. Użytkownik może sprawdzić podstawę udzielonej informacji, a organizacja ogranicza ryzyko generowania odpowiedzi niezgodnych z dokumentacją.</p>
+        </div>
+      </div>
+      <div class="num-row">
+        <span class="digit">3</span>
+        <div>
+          <h4 class="num-label">Wykorzystanie istniejących systemów i danych</h4>
+          <p>Zagłoba integruje się z repozytoriami i źródłami danych organizacji, automatycznie uwzględniając nowe i zmienione dokumenty. Organizacja może wykorzystać posiadaną wiedzę bez konieczności ręcznego przenoszenia i aktualizowania dokumentów w kolejnym systemie.</p>
+        </div>
+      </div>
+      <div class="num-row">
+        <span class="digit">4</span>
+        <div>
+          <h4 class="num-label">Bezpieczeństwo i kontrola nad wiedzą organizacji</h4>
+          <p>Możliwość lokalnego wdrożenia, mechanizmy zarządzania dostępem i guardrails pozwalają zachować kontrolę nad danymi, sposobem działania systemu oraz zakresem informacji dostępnym dla poszczególnych użytkowników.</p>
+        </div>
+      </div>
+      <div class="num-row">
+        <span class="digit">5</span>
+        <div>
+          <h4 class="num-label">Rozwiązanie gotowe do rozwoju wraz z organizacją</h4>
+          <p>Architektura klasy enterprise, modułowa budowa i monitoring działania pozwalają rozwijać system wraz ze wzrostem zasobów wiedzy, liczby użytkowników i nowych zastosowań AI w organizacji.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT (pinned to bottom via .page-final) -->
+    <section class="contact">
+      <div class="contact-q" aria-hidden="true">
+        <img src="quantica-q-mark-white.png" alt="">
+      </div>
+      <div class="eyebrow-contact">Kontakt</div>
+      <h2>Porozmawiajmy o wdrożeniu</h2>
+      <p>Napisz do nas – pokażemy Zagłobę w działaniu i omówimy scenariusz wdrożenia dopasowany do Twojej organizacji.</p>
+
+      <div class="contact-pills">
+        <a class="pill pill-solid" href="mailto:kontakt@quanticalab.ai">kontakt@quanticalab.ai</a>
+        <a class="pill pill-outline" href="https://www.quanticalab.ai" target="_blank" rel="noopener">www.quanticalab.ai</a>
+      </div>
+
+      <div class="contact-info">
+        <div class="contact-logo">
+          <img src="quantica-logo-white.png" alt="Quantica Lab">
+        </div>
+        <div class="contact-meta">
+          <strong>Quanticalab Sp. z o.o.</strong>
+        </div>
+      </div>
+    </section>
+
+  </section>
+
+</article>
+
+</body>
+</html>

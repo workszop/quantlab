@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<!--
+  QUANTICA LAB — strona produktowa: Klara, bezpieczny chat AI
+  Standalone marketing website built from the klara_bezpieczny_chat_AI.html flyer.
+  All marketing copy verbatim from the flyer; simulation labels are UI demo data.
+-->
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Klara: bezpieczny chat AI. Kontrolowane wykorzystanie generatywnej AI z inteligentnym doborem modeli i optymalizacją kosztów.">
+<title>Klara: bezpieczny chat AI | Quantica Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23d20757'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='20' font-weight='700' fill='%23fff' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* ─── Brand tokens (mirror of design-system colors_and_type.css) ─── */
+    --quantica-pink:    #d20757;
+    --rose-pink:        #d20757;
+    --deep-berry:       #8A004C;
+    --magenta-tint:     #FFE6F1;
+
+    --violet-primary:   #7030A0;
+    --violet-deep:      #4F1F75;
+    --ink:              #0A1F2C;
+    --mist:             #F4EEFA;
+
+    --near-black:       #111111;
+    --white:            #FFFFFF;
+
+    --fg-1:             #111111;
+    --fg-2:             #111111;
+    --fg-3:             #4B5563;
+
+    --bg-1:             #FFFFFF;
+    --bg-2:             #F5F6F8;
+
+    --border-1:         #E6E8EC;
+    --border-2:         #D1D5DB;
+
+    --font-display:     "Satoshi", system-ui, -apple-system, sans-serif;
+    --font-sans:        "Satoshi", system-ui, -apple-system, sans-serif;
+    --font-mono:        "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --radius-sm:        6px;
+    --radius-md:        10px;
+    --radius-lg:        16px;
+
+    --shadow-pink-soft: 0 6px 18px rgba(210, 7, 87, 0.10);
+    --shadow-card:      0 10px 30px -12px rgba(10, 20, 40, 0.12);
+
+    --nav-h: 64px;
+    --content-w: 1120px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 12px); }
+  body {
+    font-family: var(--font-sans);
+    color: var(--fg-2);
+    background: var(--bg-1);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  img { max-width: 100%; }
+  a { color: var(--quantica-pink); }
+
+  .wrap {
+    max-width: var(--content-w);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ─── Scroll reveal ─── */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 600ms ease, transform 600ms ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  /* ─── NAV ─── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    z-index: 40;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-1);
+  }
+  .nav-inner {
+    max-width: var(--content-w);
+    margin: 0 auto;
+    padding: 0 28px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .nav-logo img { height: 30px; width: auto; display: block; }
+  .nav-links { display: flex; align-items: center; gap: 26px; }
+  .nav-links a {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--fg-1);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+  .nav-links a:hover { color: var(--quantica-pink); }
+  .nav-cta {
+    background: var(--quantica-pink);
+    color: var(--white) !important;
+    font-weight: 700;
+    padding: 9px 20px;
+    border-radius: 999px;
+    box-shadow: var(--shadow-pink-soft);
+    transition: background 200ms;
+  }
+  .nav-cta:hover { background: var(--deep-berry); color: var(--white); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    color: var(--white);
+    padding: calc(var(--nav-h) + 48px) 0 72px;
+    background:
+      radial-gradient(ellipse 70% 55% at 78% 70%, rgba(112, 48, 160, 0.36) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 45% at 18% 22%, rgba(210, 7, 87, 0.55) 0%, transparent 70%),
+      linear-gradient(160deg, #07151f 0%, #0A1F2C 50%, #0d2538 100%);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 60%, black 30%, transparent 90%);
+    pointer-events: none;
+  }
+  .hero-q {
+    position: absolute;
+    right: -6%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(46vw, 640px);
+    opacity: 0.16;
+    filter: drop-shadow(0 30px 60px rgba(210, 7, 87, 0.45));
+    pointer-events: none;
+  }
+  .hero-q img { width: 100%; display: block; }
+  .hero-inner { position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rose-pink);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--rose-pink);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(64px, 10vw, 120px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+  .hero-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3.4vw, 40px);
+    font-weight: 400;
+    color: var(--white);
+    margin-top: 10px;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  .hero-subtitle em { font-style: normal; color: var(--rose-pink); }
+  .hero-tagline {
+    font-size: clamp(15px, 1.6vw, 18px);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 560px;
+    margin-top: 24px;
+    font-weight: 400;
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+  .pill {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    transition: transform 200ms, background 200ms, color 200ms;
+  }
+  .pill:hover { transform: translateY(-1px); }
+  .pill-solid { background: var(--quantica-pink); color: var(--white); box-shadow: var(--shadow-pink-soft); }
+  .pill-solid:hover { background: var(--deep-berry); }
+  .pill-outline { border: 1.5px solid var(--white); color: var(--white); }
+  .pill-outline:hover { background: rgba(255, 255, 255, 0.1); }
+  .pill .icon { width: 17px; height: 17px; }
+  .hero-footer {
+    position: absolute;
+    bottom: 22px;
+    left: 0; right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  /* ─── SECTION SCAFFOLD ─── */
+  .section { padding: 88px 0; }
+  .section-alt { background: var(--bg-2); }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--quantica-pink);
+    margin-bottom: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--quantica-pink);
+  }
+  .h-section {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--fg-1);
+    margin-bottom: 22px;
+  }
+  .h-pink { color: var(--quantica-pink); }
+  .section p { font-size: 15.5px; line-height: 1.75; margin-bottom: 14px; max-width: 780px; }
+  .section p strong { color: var(--quantica-pink); font-weight: 700; }
+
+  /* ─── VIOLET NOTE ─── */
+  .note-violet {
+    background: var(--mist);
+    border: 1.5px solid var(--violet-primary);
+    border-radius: var(--radius-md);
+    padding: 22px 26px;
+    margin: 22px 0;
+    max-width: 860px;
+  }
+  .note-violet p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--fg-1); font-weight: 500; max-width: none; }
+  .note-violet { display: flex; gap: 18px; align-items: flex-start; }
+  .note-violet .note-icon {
+    flex: none;
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-md);
+    background: rgba(112, 48, 160, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .note-violet .note-icon .icon { width: 23px; height: 23px; color: var(--violet-primary); }
+
+  /* ─── ICON CARDS (paragraphs split into smaller visual parts) ─── */
+  .split-grid { display: flex; flex-wrap: wrap; gap: 18px; margin: 26px 0; }
+  .icon-card {
+    flex: 1 1 280px;
+    min-width: 260px;
+    background: var(--bg-1);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+  }
+  .icon-chip {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--magenta-tint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  .icon-chip .icon { width: 22px; height: 22px; color: var(--quantica-pink); }
+  .icon-card p { margin: 0; max-width: none; font-size: 14.5px; line-height: 1.7; }
+
+  /* ─── SIMULATION ─── */
+  .sim-shell {
+    background: var(--ink);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    margin-top: 36px;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 60% 60% at 85% 10%, rgba(112, 48, 160, 0.30) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 60% at 5% 95%, rgba(210, 7, 87, 0.22) 0%, transparent 65%),
+      linear-gradient(150deg, #07151f 0%, #0A1F2C 55%, #0d2538 100%);
+  }
+  .sim-toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+  .sim-toolbar .toolbar-label {
+    flex-basis: 100%;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 2px;
+  }
+  .prompt-btn {
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    transition: border-color 200ms, background 200ms;
+  }
+  .prompt-btn .icon { width: 16px; height: 16px; color: var(--rose-pink); }
+  .prompt-btn:hover { border-color: var(--rose-pink); background: rgba(210, 7, 87, 0.12); }
+  .prompt-btn.active { border-color: var(--rose-pink); background: rgba(210, 7, 87, 0.20); }
+  .prompt-btn:focus-visible { outline: 2px solid var(--rose-pink); outline-offset: 2px; }
+
+  .sim-stage { position: relative; }
+  .sim-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 28px;
+    align-items: center;
+  }
+  .sim-col { display: flex; flex-direction: column; gap: 18px; }
+  .sim-node {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.22);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    transition: border-color 300ms, background 300ms, box-shadow 300ms;
+  }
+  .sim-node .node-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    color: var(--white);
+  }
+  .sim-node .node-head .icon { width: 19px; height: 19px; color: var(--rose-pink); flex: none; }
+  .sim-node .node-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.62);
+    margin-top: 7px;
+  }
+  .sim-node.lit {
+    border-color: var(--rose-pink);
+    background: rgba(210, 7, 87, 0.14);
+    box-shadow: 0 0 26px rgba(210, 7, 87, 0.30);
+  }
+  .sim-node.lit-violet {
+    border-color: #A66BD4;
+    background: rgba(112, 48, 160, 0.22);
+    box-shadow: 0 0 26px rgba(112, 48, 160, 0.38);
+  }
+  .sim-node.dim { opacity: 0.42; }
+  .sim-node.blocked { border-color: rgba(255, 255, 255, 0.14); }
+  .node-badge {
+    display: none;
+    margin-top: 11px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    align-items: center;
+    gap: 7px;
+    width: fit-content;
+  }
+  .node-badge .icon { width: 13px; height: 13px; flex: none; }
+  .sim-node.show-badge .node-badge { display: inline-flex; }
+  .badge-ok { background: rgba(210, 7, 87, 0.22); color: #ff9dbf; }
+  .badge-block { background: rgba(255, 255, 255, 0.08); color: rgba(255, 255, 255, 0.75); }
+
+  .sim-query-text {
+    margin-top: 11px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.85);
+    min-height: 3.2em;
+  }
+  .sim-query-text::before { content: "\201E"; }
+  .sim-query-text::after { content: "\201D"; }
+  .sim-query-text.empty { color: rgba(255, 255, 255, 0.4); font-style: italic; }
+  .sim-query-text.empty::before, .sim-query-text.empty::after { content: ""; }
+
+  .analysis-checks { display: flex; flex-direction: column; gap: 7px; margin-top: 12px; }
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .check-row .icon { width: 13px; height: 13px; flex: none; color: rgba(255, 255, 255, 0.45); }
+  .check-row.on { color: var(--white); }
+  .check-row.on .icon { color: var(--rose-pink); }
+
+  .packet {
+    position: absolute;
+    z-index: 5;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--rose-pink);
+    box-shadow: 0 0 14px rgba(210, 7, 87, 0.9), 0 0 34px rgba(210, 7, 87, 0.55);
+    top: 0; left: 0;
+    opacity: 0;
+    transition: transform 750ms cubic-bezier(0.45, 0, 0.25, 1), opacity 250ms;
+    pointer-events: none;
+  }
+  .packet.visible { opacity: 1; }
+  .packet.instant { transition: none; }
+
+  .sim-log {
+    margin-top: 26px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.85);
+    min-height: 108px;
+  }
+  .sim-log .log-line { display: flex; gap: 9px; }
+  .sim-log .log-line::before { content: ">"; color: var(--rose-pink); font-weight: 600; }
+  .sim-log .log-line.muted { color: rgba(255, 255, 255, 0.45); }
+
+  .sim-caption {
+    margin-top: 16px;
+    font-size: 12.5px;
+    color: var(--fg-3);
+    max-width: 780px;
+  }
+
+  /* ─── ROUTE CALLOUTS (flyer copy blocks) ─── */
+  .route-callout {
+    background: var(--magenta-tint);
+    color: var(--quantica-pink);
+    font-size: 14.5px;
+    line-height: 1.65;
+    font-weight: 500;
+    padding: 18px 24px 18px 42px;
+    margin: 16px 0 0;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    clip-path: polygon(0 50%, 20px 0, 100% 0, 100% 100%, 20px 100%);
+    max-width: 860px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .route-callout .icon { width: 20px; height: 20px; flex: none; margin-top: 2px; }
+  .route-cards { display: flex; gap: 18px; margin-top: 18px; max-width: 860px; }
+  .route-card {
+    flex: 1;
+    background: var(--bg-1);
+    border: 1.5px solid var(--quantica-pink);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+  }
+  .route-card .icon { width: 20px; height: 20px; color: var(--quantica-pink); margin-bottom: 10px; }
+  .route-card p { margin: 0; font-size: 13.5px; line-height: 1.65; color: var(--fg-1); }
+
+  /* ─── CAPABILITIES (flexbox, incomplete rows center) ─── */
+  .cap-grid { display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; margin-top: 40px; }
+  .cap-panel {
+    flex: 1 1 calc(50% - 11px);
+    min-width: 300px;
+    background: var(--bg-1);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-lg);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: var(--shadow-card);
+  }
+  .cap-head {
+    background: var(--violet-primary);
+    color: var(--white);
+    border-radius: var(--radius-md);
+    padding: 15px 18px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16.5px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cap-head .icon { width: 21px; height: 21px; flex: none; }
+  .cap-item {
+    background: var(--bg-2);
+    border-radius: var(--radius-sm);
+    padding: 12px 15px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--fg-1);
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+  }
+  .cap-item .icon { width: 16px; height: 16px; flex: none; color: var(--quantica-pink); margin-top: 3px; }
+
+  /* ─── BENEFITS ─── */
+  .benefit-grid { display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; margin-top: 40px; }
+  .benefit {
+    flex: 1 1 calc(50% - 11px);
+    min-width: 300px;
+    background: var(--bg-1);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 20px;
+    align-items: start;
+    box-shadow: var(--shadow-card);
+  }
+  .benefit .digit {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 0.9;
+    color: var(--quantica-pink);
+    letter-spacing: -0.04em;
+  }
+  .benefit h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--fg-1);
+    font-size: 18px;
+    margin-bottom: 10px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .benefit p { font-size: 14px; line-height: 1.7; margin: 0; }
+
+  /* ─── CONTACT ─── */
+  .contact {
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 50%, rgba(112, 48, 160, 0.28) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 70% at 0% 0%, rgba(210, 7, 87, 0.30) 0%, transparent 65%),
+      linear-gradient(135deg, #0A1F2C 0%, #0d2538 100%);
+    color: var(--white);
+    padding: 52px 56px;
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-q {
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 280px;
+    opacity: 0.14;
+    pointer-events: none;
+  }
+  .contact-q img { width: 100%; display: block; }
+  .contact .eyebrow { color: var(--rose-pink); }
+  .contact .eyebrow::before { background: var(--rose-pink); }
+  .contact h2 {
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.4vw, 36px);
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+  .contact p { color: rgba(255, 255, 255, 0.92); font-size: 15px; margin-bottom: 26px; max-width: 560px; position: relative; z-index: 1; }
+  .contact-pills { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; position: relative; z-index: 1; }
+  .contact .pill-solid { background: var(--white); color: var(--quantica-pink); }
+  .contact .pill-solid:hover { background: var(--magenta-tint); }
+  .contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    padding-top: 22px;
+    position: relative;
+    z-index: 1;
+  }
+  .contact-meta { font-size: 13px; color: var(--white); }
+  .contact-meta strong { font-weight: 600; }
+  .contact-logo img { height: 40px; width: auto; display: block; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    padding: 26px 0;
+    border-top: 1px solid var(--border-1);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: var(--fg-3);
+  }
+  .footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+    .hero { min-height: auto; padding: calc(var(--nav-h) + 56px) 0 96px; }
+    .hero-q { width: 70vw; right: -18%; opacity: 0.12; }
+    .section { padding: 60px 0; }
+    .wrap { padding: 0 20px; }
+    .nav-inner { padding: 0 20px; }
+    .sim-shell { padding: 20px; }
+    .sim-grid { grid-template-columns: 1fr; gap: 16px; }
+    .route-cards { flex-direction: column; }
+    .cap-panel, .benefit { flex-basis: 100%; min-width: 0; }
+    .benefit { padding: 22px; grid-template-columns: 54px 1fr; gap: 14px; }
+    .benefit .digit { font-size: 48px; }
+    .contact { padding: 34px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ NAV ════════════════ -->
+<nav class="nav" aria-label="Nawigacja">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top" aria-label="Quantica Lab">
+      <img src="quantica-logo-color.png" alt="Quantica Lab">
+    </a>
+    <div class="nav-links">
+      <a href="#jak-dziala">Jak działa</a>
+      <a href="#symulacja">Symulacja</a>
+      <a href="#mozliwosci">Możliwości</a>
+      <a href="#korzysci">Korzyści</a>
+      <a class="nav-cta" href="#kontakt">Kontakt</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════ HERO ════════════════ -->
+<header class="hero" id="top">
+  <div class="hero-q" aria-hidden="true"><img src="quantica-q-mark-white.png" alt=""></div>
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow">Quantica Lab</div>
+    <h1 class="hero-title">Klara</h1>
+    <div class="hero-subtitle">bezpieczny <em>chat AI</em></div>
+    <p class="hero-tagline">Kontrolowane wykorzystanie generatywnej AI z inteligentnym doborem modeli i optymalizacją kosztów</p>
+    <div class="hero-actions">
+      <a class="pill pill-solid" href="#kontakt"><i data-lucide="messages-square" class="icon"></i>Porozmawiajmy o wdrożeniu</a>
+      <a class="pill pill-outline" href="#symulacja"><i data-lucide="play" class="icon"></i>Zobacz symulację</a>
+    </div>
+  </div>
+  <div class="hero-footer wrap">
+    <div>quanticalab.ai</div>
+    <div>Klara · bezpieczny chat AI</div>
+  </div>
+</header>
+
+<main>
+
+<!-- ════════════════ JAK DZIAŁA ════════════════ -->
+<section class="section" id="jak-dziala">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Jak działa Klara</div>
+      <h2 class="h-section">Wygodny dostęp do AI, <span class="h-pink">pełna kontrola</span> po stronie organizacji</h2>
+    </div>
+
+    <div class="reveal">
+      <p><strong>Klara</strong> to bezpieczny chat AI, który zapewnia pracownikom wygodny dostęp do modeli językowych, a organizacji pozwala zachować kontrolę nad przepływem danych, wykorzystywanymi modelami i kosztami korzystania z AI.</p>
+    </div>
+
+    <div class="split-grid reveal">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="trending-up" class="icon"></i></div>
+        <p>Coraz więcej pracowników wykorzystuje narzędzia AI w codziennej pracy, ponieważ pozwalają szybciej analizować informacje, przygotowywać treści i realizować wiele rutynowych zadań.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="shield-alert" class="icon"></i></div>
+        <p>Jednocześnie organizacje często ograniczają dostęp do publicznych modeli językowych ze względu na ryzyko ujawnienia danych, brak kontroli nad sposobem ich przetwarzania oraz wymagania dotyczące bezpieczeństwa i zgodności.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="eye-off" class="icon"></i></div>
+        <p>Zakazy nie eliminują jednak potrzeby korzystania z AI i mogą prowadzić do rozwoju shadow AI – wykorzystywania nieautoryzowanych narzędzi poza wiedzą i kontrolą organizacji.</p>
+      </div>
+    </div>
+
+    <div class="note-violet reveal">
+      <div class="note-icon"><i data-lucide="shield-check" class="icon"></i></div>
+      <p>Klara ogranicza zjawisko shadow AI, zapewniając pracownikom bezpieczną i wygodną alternatywę dla publicznych chatów. Automatycznie chroni dane organizacji, dobiera model odpowiedni do rodzaju i złożoności zadania oraz ogranicza koszty, wykorzystując modele zewnętrzne tylko wtedy, gdy ich możliwości są rzeczywiście potrzebne.</p>
+    </div>
+
+    <div class="split-grid reveal">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="messages-square" class="icon"></i></div>
+        <p>Pracownicy korzystają z Klary tak samo jak z popularnych chatów AI: wpisują polecenia, zadają pytania, analizują dokumenty i przygotowują teksty.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="settings-2" class="icon"></i></div>
+        <p>W tle system automatycznie analizuje każde zapytanie, ocenia jego bezpieczeństwo i stopień złożoności, a następnie kieruje je do modelu najlepiej dopasowanego do danego zadania.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SYMULACJA ════════════════ -->
+<section class="section section-alt" id="symulacja">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Symulacja</div>
+      <h2 class="h-section">Zobacz, jak Klara <span class="h-pink">kieruje zapytania</span></h2>
+      <p>Wybierz przykładowe polecenie i obserwuj, jak system analizuje je pod kątem bezpieczeństwa i złożoności, a następnie kieruje do odpowiedniego modelu.</p>
+    </div>
+
+    <div class="sim-shell reveal" id="simShell">
+      <div class="sim-toolbar" role="group" aria-label="Przykładowe polecenia">
+        <div class="toolbar-label">Wybierz przykładowe polecenie</div>
+        <button class="prompt-btn" type="button" data-prompt="confidential">
+          <i data-lucide="lock" class="icon"></i>Polecenie z danymi poufnymi
+        </button>
+        <button class="prompt-btn" type="button" data-prompt="simple">
+          <i data-lucide="list-checks" class="icon"></i>Proste, rutynowe zadanie
+        </button>
+        <button class="prompt-btn" type="button" data-prompt="complex">
+          <i data-lucide="brain" class="icon"></i>Złożone zadanie analityczne
+        </button>
+      </div>
+
+      <div class="sim-stage" id="simStage">
+        <div class="packet" id="packet" aria-hidden="true"></div>
+        <div class="sim-grid">
+          <div class="sim-col">
+            <div class="sim-node" id="nodeQuery">
+              <div class="node-head"><i data-lucide="message-square-text" class="icon"></i>Zapytanie pracownika</div>
+              <div class="sim-query-text empty" id="queryText">wybierz polecenie powyżej</div>
+            </div>
+          </div>
+          <div class="sim-col">
+            <div class="sim-node" id="nodeAnalysis">
+              <div class="node-head"><i data-lucide="scan-search" class="icon"></i>Analiza zapytania</div>
+              <div class="analysis-checks">
+                <div class="check-row" id="checkSafety"><i data-lucide="shield" class="icon"></i>bezpieczeństwo danych</div>
+                <div class="check-row" id="checkComplexity"><i data-lucide="gauge" class="icon"></i>stopień złożoności</div>
+              </div>
+            </div>
+          </div>
+          <div class="sim-col">
+            <div class="sim-node" id="nodeLocal">
+              <div class="node-head"><i data-lucide="server" class="icon"></i>Model lokalny</div>
+              <div class="node-sub">infrastruktura organizacji</div>
+              <span class="node-badge badge-ok" id="badgeLocal"><i data-lucide="shield-check" class="icon"></i><span id="badgeLocalText"></span></span>
+            </div>
+            <div class="sim-node" id="nodeExternal">
+              <div class="node-head"><i data-lucide="cloud" class="icon"></i>Model zewnętrzny</div>
+              <div class="node-sub">GPT, Gemini</div>
+              <span class="node-badge" id="badgeExternal"><i data-lucide="ban" class="icon" id="badgeExternalIcon"></i><span id="badgeExternalText"></span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-log" id="simLog" aria-live="polite">
+        <div class="log-line muted">system gotowy - wybierz przykładowe polecenie</div>
+      </div>
+    </div>
+    <p class="sim-caption reveal">Symulacja poglądowa. Przykładowe polecenia i komunikaty ilustrują sposób działania mechanizmu kierowania zapytań.</p>
+
+    <div class="route-callout reveal"><i data-lucide="lock" class="icon"></i><span>Jeżeli polecenie zawiera informacje wewnętrzne, poufne lub inne dane, które zgodnie z polityką organizacji nie powinny być przetwarzane poza jej infrastrukturą, zadanie jest realizowane przez lokalny model językowy działający w kontrolowanym środowisku.</span></div>
+    <div class="route-callout reveal"><i data-lucide="route" class="icon"></i><span>Do realizacji pozostałych poleceń Klara wybiera model zapewniający odpowiednią jakość odpowiedzi przy możliwie efektywnym wykorzystaniu zasobów.</span></div>
+
+    <div class="route-cards reveal">
+      <div class="route-card">
+        <i data-lucide="server" class="icon"></i>
+        <p>Proste i rutynowe zadania są obsługiwane przez modele lokalne, co ogranicza koszty korzystania z zewnętrznych usług AI.</p>
+      </div>
+      <div class="route-card">
+        <i data-lucide="cloud" class="icon"></i>
+        <p>Zadania wymagające możliwości najbardziej zaawansowanych modeli są kierowane do wybranego modelu zewnętrznego, takiego jak GPT czy Gemini.</p>
+      </div>
+    </div>
+
+    <div class="split-grid reveal" style="max-width:860px;">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="coins" class="icon"></i></div>
+        <p>Pozwala to ograniczyć liczbę wywołań płatnych usług zewnętrznych i wykorzystać modele komercyjne wyłącznie tam, gdzie ich możliwości przynoszą rzeczywistą wartość.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MOŻLIWOŚCI ════════════════ -->
+<section class="section" id="mozliwosci">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Możliwości</div>
+      <h2 class="h-section h-pink">Co potrafi Klara?</h2>
+    </div>
+
+    <div class="note-violet reveal">
+      <div class="note-icon"><i data-lucide="user-check" class="icon"></i></div>
+      <p>Użytkownik nie musi wiedzieć, który model najlepiej nadaje się do danego zadania ani samodzielnie wybierać między dostępnymi rozwiązaniami. Korzysta z jednego interfejsu, a Klara automatycznie wybiera odpowiednią ścieżkę realizacji zadania.</p>
+    </div>
+
+    <div class="split-grid reveal">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="key-round" class="icon"></i></div>
+        <p>Organizacja zachowuje kontrolę nad dostępnymi modelami, regułami kierowania zapytań oraz zasadami przetwarzania informacji. Rozwiązanie może być dostosowane do wewnętrznych polityk bezpieczeństwa, struktury organizacyjnej i uprawnień poszczególnych użytkowników.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="badge-check" class="icon"></i></div>
+        <p>System został opracowany przez zespół specjalizujący się w bezpieczeństwie dużych modeli językowych. Twórcy rozwiązania pracowali m.in. nad zabezpieczeniem polskich modeli PLLuM, mechanizmami guardrails dostosowanymi do języka polskiego oraz narzędziami służącymi do wykrywania treści szkodliwych.</p>
+      </div>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap-panel reveal">
+        <div class="cap-head"><i data-lucide="shield-check" class="icon"></i>Bezpieczny dostęp do generatywnej AI</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Udostępnianie pracownikom jednego, kontrolowanego interfejsu do korzystania z modeli językowych</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Automatyczna analiza zapytań pod kątem informacji wewnętrznych, poufnych i innych danych wymagających ochrony</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Blokowanie przekazywania chronionych informacji do zewnętrznych dostawców modeli AI</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Możliwość dostosowania reguł bezpieczeństwa do polityk i wymagań organizacji</div>
+      </div>
+      <div class="cap-panel reveal">
+        <div class="cap-head"><i data-lucide="route" class="icon"></i>Inteligentny wybór modelu i optymalizacja kosztów</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Automatyczna ocena charakteru i złożoności zadania</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Kierowanie zapytań do odpowiednich modeli lokalnych lub zewnętrznych</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Dobór modelu z uwzględnieniem bezpieczeństwa, jakości odpowiedzi i kosztu</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Wykorzystanie płatnych modeli zewnętrznych tylko wtedy, gdy ich możliwości są rzeczywiście potrzebne</div>
+      </div>
+      <div class="cap-panel reveal">
+        <div class="cap-head"><i data-lucide="sliders-horizontal" class="icon"></i>Kontrola i zarządzanie wykorzystaniem AI</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Centralne zarządzanie modelami i usługami AI dostępnymi dla pracowników</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Możliwość definiowania zasad korzystania z modeli dla różnych grup użytkowników i rodzajów zadań</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Rejestrowanie i monitorowanie sposobu wykorzystania modeli AI w organizacji</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Dostęp do informacji o wykorzystaniu modeli, kosztach oraz sposobie kierowania zapytań</div>
+      </div>
+      <div class="cap-panel reveal">
+        <div class="cap-head"><i data-lucide="layers" class="icon"></i>Architektura i wdrożenie</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Wykorzystanie lokalnych modeli językowych działających w infrastrukturze organizacji</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Integracja z wybranymi zewnętrznymi dostawcami modeli językowych</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Możliwość dostosowania rozwiązania do wymagań bezpieczeństwa i architektury IT organizacji</div>
+        <div class="cap-item"><i data-lucide="check" class="icon"></i>Pełna kontrola nad modelami, zasadami przetwarzania danych i sposobem wykorzystania AI</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ KORZYŚCI ════════════════ -->
+<section class="section section-alt" id="korzysci">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Korzyści</div>
+      <h2 class="h-section h-pink">Co zyskuje organizacja?</h2>
+    </div>
+
+    <div class="benefit-grid">
+      <div class="benefit reveal">
+        <span class="digit">1</span>
+        <div>
+          <h3>Ograniczenie zjawiska shadow AI</h3>
+          <p>Pracownicy otrzymują wygodne narzędzie odpowiadające na rzeczywistą potrzebę korzystania z generatywnej AI. Organizacja ogranicza wykorzystanie nieautoryzowanych usług i odzyskuje kontrolę nad sposobem korzystania z modeli językowych.</p>
+        </div>
+      </div>
+      <div class="benefit reveal">
+        <span class="digit">2</span>
+        <div>
+          <h3>Ochrona danych organizacji</h3>
+          <p>Zapytania zawierające informacje wewnętrzne lub poufne są automatycznie kierowane do modeli działających w kontrolowanym środowisku. Dane wymagające ochrony nie są przekazywane do zewnętrznych dostawców modeli AI.</p>
+        </div>
+      </div>
+      <div class="benefit reveal">
+        <span class="digit">3</span>
+        <div>
+          <h3>Niższe i bardziej przewidywalne koszty korzystania z AI</h3>
+          <p>Proste i rutynowe zadania są obsługiwane przez modele lokalne, a płatne modele zewnętrzne wykorzystywane tylko wtedy, gdy ich możliwości są rzeczywiście potrzebne. Pozwala to ograniczyć koszty API i lepiej wykorzystać własną infrastrukturę.</p>
+        </div>
+      </div>
+      <div class="benefit reveal">
+        <span class="digit">4</span>
+        <div>
+          <h3>Lepsze zarządzanie wykorzystaniem AI</h3>
+          <p>Centralne środowisko pozwala monitorować sposób korzystania z modeli, zarządzać dostępem oraz rozwijać polityki wykorzystania AI na podstawie rzeczywistych potrzeb pracowników i organizacji.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ KONTAKT ════════════════ -->
+<section class="section" id="kontakt">
+  <div class="wrap">
+    <div class="contact reveal">
+      <div class="contact-q" aria-hidden="true"><img src="quantica-q-mark-white.png" alt=""></div>
+      <div class="eyebrow">Kontakt</div>
+      <h2>Porozmawiajmy o wdrożeniu</h2>
+      <p>Napisz do nas – pokażemy Klarę w działaniu i omówimy scenariusz wdrożenia dopasowany do Twojej organizacji.</p>
+      <div class="contact-pills">
+        <a class="pill pill-solid" href="mailto:kontakt@quanticalab.ai">kontakt@quanticalab.ai</a>
+        <a class="pill pill-outline" href="https://www.quanticalab.ai" target="_blank" rel="noopener">www.quanticalab.ai</a>
+      </div>
+      <div class="contact-info">
+        <div class="contact-logo"><img src="quantica-logo-white.png" alt="Quantica Lab"></div>
+        <div class="contact-meta"><strong>Quanticalab Sp. z o.o.</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div>quanticalab.ai</div>
+    <div>Klara · bezpieczny chat AI</div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+(function () {
+  "use strict";
+
+  // ─── Constants ───
+  var PHASE_MS = 950;
+  var REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var SCENARIOS = {
+    confidential: {
+      query: "Przygotuj podsumowanie notatki zawierającej dane wynagrodzeń pracowników",
+      safetyLog: "analiza bezpieczeństwa: wykryto dane wymagające ochrony",
+      complexityLog: "analiza złożoności: zadanie standardowe",
+      target: "local",
+      routeLog: "zadanie realizowane przez lokalny model językowy w kontrolowanym środowisku",
+      finalLog: "dane wymagające ochrony nie są przekazywane do zewnętrznych dostawców modeli AI",
+      localBadge: "dane pozostają w infrastrukturze organizacji",
+      externalBlocked: true
+    },
+    simple: {
+      query: "Popraw styl krótkiej wiadomości do zespołu",
+      safetyLog: "analiza bezpieczeństwa: brak danych wymagających ochrony",
+      complexityLog: "analiza złożoności: zadanie proste i rutynowe",
+      target: "local",
+      routeLog: "zadanie skierowane do modelu lokalnego",
+      finalLog: "ograniczenie kosztów korzystania z zewnętrznych usług AI",
+      localBadge: "efektywne wykorzystanie własnej infrastruktury",
+      externalBlocked: false
+    },
+    complex: {
+      query: "Przygotuj pogłębioną analizę dokumentu strategii na podstawie danych publicznych",
+      safetyLog: "analiza bezpieczeństwa: brak danych wymagających ochrony",
+      complexityLog: "analiza złożoności: zadanie wymaga zaawansowanego modelu",
+      target: "external",
+      routeLog: "zadanie skierowane do wybranego modelu zewnętrznego (GPT, Gemini)",
+      finalLog: "model komercyjny wykorzystany tam, gdzie jego możliwości przynoszą rzeczywistą wartość",
+      externalBadge: "odpowiednia jakość odpowiedzi dla złożonego zadania",
+      externalBlocked: false
+    }
+  };
+
+  // ─── State ───
+  var state = {
+    activePrompt: null,
+    timers: []
+  };
+
+  // ─── DOM refs ───
+  var stage = document.getElementById("simStage");
+  var packet = document.getElementById("packet");
+  var queryText = document.getElementById("queryText");
+  var nodeQuery = document.getElementById("nodeQuery");
+  var nodeAnalysis = document.getElementById("nodeAnalysis");
+  var nodeLocal = document.getElementById("nodeLocal");
+  var nodeExternal = document.getElementById("nodeExternal");
+  var checkSafety = document.getElementById("checkSafety");
+  var checkComplexity = document.getElementById("checkComplexity");
+  var badgeLocalText = document.getElementById("badgeLocalText");
+  var badgeExternal = document.getElementById("badgeExternal");
+  var badgeExternalText = document.getElementById("badgeExternalText");
+  var badgeExternalIcon = document.getElementById("badgeExternalIcon");
+  var simLog = document.getElementById("simLog");
+  var promptButtons = Array.prototype.slice.call(document.querySelectorAll(".prompt-btn"));
+
+  // ─── Helpers ───
+  function schedule(fn, delay) {
+    if (REDUCED_MOTION) { delay = Math.min(delay, 50); }
+    state.timers.push(window.setTimeout(fn, delay));
+  }
+
+  function clearTimers() {
+    state.timers.forEach(window.clearTimeout);
+    state.timers = [];
+  }
+
+  function nodeCenter(node) {
+    var stageRect = stage.getBoundingClientRect();
+    var rect = node.getBoundingClientRect();
+    return {
+      x: rect.left + rect.width / 2 - stageRect.left,
+      y: rect.top + rect.height / 2 - stageRect.top
+    };
+  }
+
+  function movePacket(node, instant) {
+    var c = nodeCenter(node);
+    packet.classList.toggle("instant", Boolean(instant) || REDUCED_MOTION);
+    packet.style.transform = "translate(" + (c.x - 7) + "px, " + (c.y - 7) + "px)";
+  }
+
+  function logLine(text, muted) {
+    var line = document.createElement("div");
+    line.className = "log-line" + (muted ? " muted" : "");
+    line.textContent = text;
+    simLog.appendChild(line);
+    simLog.scrollTop = simLog.scrollHeight;
+  }
+
+  function resetSim() {
+    clearTimers();
+    simLog.innerHTML = "";
+    [nodeQuery, nodeAnalysis, nodeLocal, nodeExternal].forEach(function (n) {
+      n.classList.remove("lit", "lit-violet", "dim", "blocked", "show-badge");
+    });
+    [checkSafety, checkComplexity].forEach(function (c) { c.classList.remove("on"); });
+    packet.classList.remove("visible");
+  }
+
+  // ─── Render (scenario playback) ───
+  function playScenario(id) {
+    var s = SCENARIOS[id];
+    if (!s) { return; }
+    resetSim();
+    state.activePrompt = id;
+    promptButtons.forEach(function (btn) {
+      btn.classList.toggle("active", btn.dataset.prompt === id);
+    });
+
+    queryText.textContent = s.query;
+    queryText.classList.remove("empty");
+
+    // Phase 1: query received
+    nodeQuery.classList.add("lit");
+    logLine("odebrano zapytanie");
+    movePacket(nodeQuery, true);
+    packet.classList.add("visible");
+
+    // Phase 2: travel to analysis
+    schedule(function () {
+      movePacket(nodeAnalysis);
+    }, PHASE_MS * 0.5);
+
+    // Phase 3: analysis
+    schedule(function () {
+      nodeQuery.classList.remove("lit");
+      nodeAnalysis.classList.add("lit-violet");
+      checkSafety.classList.add("on");
+      logLine(s.safetyLog);
+    }, PHASE_MS * 1.4);
+
+    schedule(function () {
+      checkComplexity.classList.add("on");
+      logLine(s.complexityLog);
+    }, PHASE_MS * 2.2);
+
+    // Phase 4: routing
+    schedule(function () {
+      nodeAnalysis.classList.remove("lit-violet");
+      var target = s.target === "local" ? nodeLocal : nodeExternal;
+      var other = s.target === "local" ? nodeExternal : nodeLocal;
+      movePacket(target);
+      other.classList.add("dim");
+      logLine(s.routeLog);
+    }, PHASE_MS * 3.0);
+
+    // Phase 5: arrival + badges
+    schedule(function () {
+      var target = s.target === "local" ? nodeLocal : nodeExternal;
+      target.classList.add("lit", "show-badge");
+      if (s.target === "local") {
+        badgeLocalText.textContent = s.localBadge;
+        if (s.externalBlocked) {
+          nodeExternal.classList.add("blocked", "show-badge");
+          badgeExternal.className = "node-badge badge-block";
+          badgeExternalText.textContent = "przekazanie danych zablokowane";
+          badgeExternalIcon.setAttribute("data-lucide", "ban");
+        }
+      } else {
+        badgeExternal.className = "node-badge badge-ok";
+        badgeExternalText.textContent = s.externalBadge;
+        badgeExternalIcon.setAttribute("data-lucide", "sparkles");
+      }
+      if (window.lucide) { window.lucide.createIcons(); }
+      logLine(s.finalLog);
+    }, PHASE_MS * 3.9);
+  }
+
+  // ─── Scroll reveal ───
+  function initReveal() {
+    var revealed = document.querySelectorAll(".reveal");
+    if (REDUCED_MOTION || !("IntersectionObserver" in window)) {
+      revealed.forEach(function (el) { el.classList.add("visible"); });
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealed.forEach(function (el) { observer.observe(el); });
+  }
+
+  // ─── Listeners ───
+  promptButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      playScenario(btn.dataset.prompt);
+    });
+  });
+
+  window.addEventListener("resize", function () {
+    if (state.activePrompt) { packet.classList.remove("visible"); }
+  });
+
+  // Keyboard shortcuts 1-3 select scenarios when the simulation is on screen
+  document.addEventListener("keydown", function (event) {
+    if (event.target !== document.body) { return; }
+    var index = ["1", "2", "3"].indexOf(event.key);
+    if (index === -1) { return; }
+    var rect = stage.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) { return; }
+    promptButtons[index].click();
+  });
+
+  // ─── Init ───
+  if (window.lucide) { window.lucide.createIcons(); }
+  initReveal();
+
+  // Auto-play the first scenario when the simulation scrolls into view
+  if ("IntersectionObserver" in window) {
+    var autoPlayed = false;
+    var simObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !autoPlayed) {
+          autoPlayed = true;
+          playScenario("confidential");
+          simObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.45 });
+    simObserver.observe(document.getElementById("simShell"));
+  }
+})();
+</script>
+
+</body>
+</html>
