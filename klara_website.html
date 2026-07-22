@@ -288,6 +288,42 @@
     max-width: 860px;
   }
   .note-violet p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--fg-1); font-weight: 500; max-width: none; }
+  .note-violet { display: flex; gap: 18px; align-items: flex-start; }
+  .note-violet .note-icon {
+    flex: none;
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-md);
+    background: rgba(112, 48, 160, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .note-violet .note-icon .icon { width: 23px; height: 23px; color: var(--violet-primary); }
+
+  /* ─── ICON CARDS (paragraphs split into smaller visual parts) ─── */
+  .split-grid { display: flex; flex-wrap: wrap; gap: 18px; margin: 26px 0; }
+  .icon-card {
+    flex: 1 1 280px;
+    min-width: 260px;
+    background: var(--bg-1);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+  }
+  .icon-chip {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--magenta-tint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  .icon-chip .icon { width: 22px; height: 22px; color: var(--quantica-pink); }
+  .icon-card p { margin: 0; max-width: none; font-size: 14.5px; line-height: 1.7; }
 
   /* ─── SIMULATION ─── */
   .sim-shell {
@@ -473,7 +509,11 @@
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
     clip-path: polygon(0 50%, 20px 0, 100% 0, 100% 100%, 20px 100%);
     max-width: 860px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
   }
+  .route-callout .icon { width: 20px; height: 20px; flex: none; margin-top: 2px; }
   .route-cards { display: flex; gap: 18px; margin-top: 18px; max-width: 860px; }
   .route-card {
     flex: 1;
@@ -690,15 +730,37 @@
 
     <div class="reveal">
       <p><strong>Klara</strong> to bezpieczny chat AI, który zapewnia pracownikom wygodny dostęp do modeli językowych, a organizacji pozwala zachować kontrolę nad przepływem danych, wykorzystywanymi modelami i kosztami korzystania z AI.</p>
-      <p>Coraz więcej pracowników wykorzystuje narzędzia AI w codziennej pracy, ponieważ pozwalają szybciej analizować informacje, przygotowywać treści i realizować wiele rutynowych zadań. Jednocześnie organizacje często ograniczają dostęp do publicznych modeli językowych ze względu na ryzyko ujawnienia danych, brak kontroli nad sposobem ich przetwarzania oraz wymagania dotyczące bezpieczeństwa i zgodności. Zakazy nie eliminują jednak potrzeby korzystania z AI i mogą prowadzić do rozwoju shadow AI – wykorzystywania nieautoryzowanych narzędzi poza wiedzą i kontrolą organizacji.</p>
+    </div>
+
+    <div class="split-grid reveal">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="trending-up" class="icon"></i></div>
+        <p>Coraz więcej pracowników wykorzystuje narzędzia AI w codziennej pracy, ponieważ pozwalają szybciej analizować informacje, przygotowywać treści i realizować wiele rutynowych zadań.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="shield-alert" class="icon"></i></div>
+        <p>Jednocześnie organizacje często ograniczają dostęp do publicznych modeli językowych ze względu na ryzyko ujawnienia danych, brak kontroli nad sposobem ich przetwarzania oraz wymagania dotyczące bezpieczeństwa i zgodności.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="eye-off" class="icon"></i></div>
+        <p>Zakazy nie eliminują jednak potrzeby korzystania z AI i mogą prowadzić do rozwoju shadow AI – wykorzystywania nieautoryzowanych narzędzi poza wiedzą i kontrolą organizacji.</p>
+      </div>
     </div>
 
     <div class="note-violet reveal">
+      <div class="note-icon"><i data-lucide="shield-check" class="icon"></i></div>
       <p>Klara ogranicza zjawisko shadow AI, zapewniając pracownikom bezpieczną i wygodną alternatywę dla publicznych chatów. Automatycznie chroni dane organizacji, dobiera model odpowiedni do rodzaju i złożoności zadania oraz ogranicza koszty, wykorzystując modele zewnętrzne tylko wtedy, gdy ich możliwości są rzeczywiście potrzebne.</p>
     </div>
 
-    <div class="reveal">
-      <p>Pracownicy korzystają z Klary tak samo jak z popularnych chatów AI: wpisują polecenia, zadają pytania, analizują dokumenty i przygotowują teksty. W tle system automatycznie analizuje każde zapytanie, ocenia jego bezpieczeństwo i stopień złożoności, a następnie kieruje je do modelu najlepiej dopasowanego do danego zadania.</p>
+    <div class="split-grid reveal">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="messages-square" class="icon"></i></div>
+        <p>Pracownicy korzystają z Klary tak samo jak z popularnych chatów AI: wpisują polecenia, zadają pytania, analizują dokumenty i przygotowują teksty.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="settings-2" class="icon"></i></div>
+        <p>W tle system automatycznie analizuje każde zapytanie, ocenia jego bezpieczeństwo i stopień złożoności, a następnie kieruje je do modelu najlepiej dopasowanego do danego zadania.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -765,8 +827,8 @@
     </div>
     <p class="sim-caption reveal">Symulacja poglądowa. Przykładowe polecenia i komunikaty ilustrują sposób działania mechanizmu kierowania zapytań.</p>
 
-    <div class="route-callout reveal">Jeżeli polecenie zawiera informacje wewnętrzne, poufne lub inne dane, które zgodnie z polityką organizacji nie powinny być przetwarzane poza jej infrastrukturą, zadanie jest realizowane przez lokalny model językowy działający w kontrolowanym środowisku.</div>
-    <div class="route-callout reveal">Do realizacji pozostałych poleceń Klara wybiera model zapewniający odpowiednią jakość odpowiedzi przy możliwie efektywnym wykorzystaniu zasobów.</div>
+    <div class="route-callout reveal"><i data-lucide="lock" class="icon"></i><span>Jeżeli polecenie zawiera informacje wewnętrzne, poufne lub inne dane, które zgodnie z polityką organizacji nie powinny być przetwarzane poza jej infrastrukturą, zadanie jest realizowane przez lokalny model językowy działający w kontrolowanym środowisku.</span></div>
+    <div class="route-callout reveal"><i data-lucide="route" class="icon"></i><span>Do realizacji pozostałych poleceń Klara wybiera model zapewniający odpowiednią jakość odpowiedzi przy możliwie efektywnym wykorzystaniu zasobów.</span></div>
 
     <div class="route-cards reveal">
       <div class="route-card">
@@ -779,7 +841,12 @@
       </div>
     </div>
 
-    <p class="reveal" style="margin-top:22px;">Pozwala to ograniczyć liczbę wywołań płatnych usług zewnętrznych i wykorzystać modele komercyjne wyłącznie tam, gdzie ich możliwości przynoszą rzeczywistą wartość.</p>
+    <div class="split-grid reveal" style="max-width:860px;">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="coins" class="icon"></i></div>
+        <p>Pozwala to ograniczyć liczbę wywołań płatnych usług zewnętrznych i wykorzystać modele komercyjne wyłącznie tam, gdzie ich możliwości przynoszą rzeczywistą wartość.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -792,12 +859,19 @@
     </div>
 
     <div class="note-violet reveal">
+      <div class="note-icon"><i data-lucide="user-check" class="icon"></i></div>
       <p>Użytkownik nie musi wiedzieć, który model najlepiej nadaje się do danego zadania ani samodzielnie wybierać między dostępnymi rozwiązaniami. Korzysta z jednego interfejsu, a Klara automatycznie wybiera odpowiednią ścieżkę realizacji zadania.</p>
     </div>
 
-    <div class="reveal">
-      <p>Organizacja zachowuje kontrolę nad dostępnymi modelami, regułami kierowania zapytań oraz zasadami przetwarzania informacji. Rozwiązanie może być dostosowane do wewnętrznych polityk bezpieczeństwa, struktury organizacyjnej i uprawnień poszczególnych użytkowników.</p>
-      <p>System został opracowany przez zespół specjalizujący się w bezpieczeństwie dużych modeli językowych. Twórcy rozwiązania pracowali m.in. nad zabezpieczeniem polskich modeli PLLuM, mechanizmami guardrails dostosowanymi do języka polskiego oraz narzędziami służącymi do wykrywania treści szkodliwych.</p>
+    <div class="split-grid reveal">
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="key-round" class="icon"></i></div>
+        <p>Organizacja zachowuje kontrolę nad dostępnymi modelami, regułami kierowania zapytań oraz zasadami przetwarzania informacji. Rozwiązanie może być dostosowane do wewnętrznych polityk bezpieczeństwa, struktury organizacyjnej i uprawnień poszczególnych użytkowników.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon-chip"><i data-lucide="badge-check" class="icon"></i></div>
+        <p>System został opracowany przez zespół specjalizujący się w bezpieczeństwie dużych modeli językowych. Twórcy rozwiązania pracowali m.in. nad zabezpieczeniem polskich modeli PLLuM, mechanizmami guardrails dostosowanymi do języka polskiego oraz narzędziami służącymi do wykrywania treści szkodliwych.</p>
+      </div>
     </div>
 
     <div class="cap-grid">
