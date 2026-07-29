@@ -220,21 +220,14 @@
     align-items: center;
     color: var(--white);
     padding: calc(var(--nav-h) + 48px) 0 72px;
-    background:
-      radial-gradient(ellipse 70% 55% at 78% 70%, rgba(112, 48, 160, 0.36) 0%, transparent 65%),
-      radial-gradient(ellipse 60% 45% at 18% 22%, rgba(210, 7, 87, 0.55) 0%, transparent 70%),
-      linear-gradient(160deg, #07151f 0%, #0A1F2C 50%, #0d2538 100%);
+    background: var(--ink);
     overflow: hidden;
   }
-  .hero::before {
-    content: "";
+  #dots {
     position: absolute;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse 90% 70% at 50% 60%, black 30%, transparent 90%);
+    width: 100%;
+    height: 100%;
     pointer-events: none;
   }
   .hero-q {
@@ -244,7 +237,6 @@
     transform: translateY(-50%);
     width: min(46vw, 640px);
     opacity: 0.16;
-    filter: drop-shadow(0 30px 60px rgba(210, 7, 87, 0.45));
     pointer-events: none;
   }
   .hero-q img { width: 100%; display: block; }
@@ -572,6 +564,7 @@
 
 <!-- ════════════════ HERO ════════════════ -->
 <header class="hero" id="top">
+  <canvas id="dots" aria-hidden="true"></canvas>
   <div class="hero-q" aria-hidden="true"><img src="quantica-q-mark-white.png" alt=""></div>
   <div class="wrap hero-inner">
     <div class="hero-eyebrow">Oferta szkoleń</div>
@@ -860,6 +853,43 @@
 (function () {
   "use strict";
 
+  // ─── Hero dot particles ───
+  function initDots() {
+    var canvas = document.getElementById("dots");
+    if (!canvas) { return; }
+    var ctx = canvas.getContext("2d");
+    var dots = [];
+    function resize() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+    for (var i = 0; i < 70; i++) {
+      dots.push({
+        x: Math.random(), y: Math.random(),
+        r: 1 + Math.random() * 2.2,
+        vx: (Math.random() - 0.5) * 0.0004,
+        vy: (Math.random() - 0.5) * 0.0004,
+        o: 0.12 + Math.random() * 0.5
+      });
+    }
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function frame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      dots.forEach(function (d) {
+        d.x = (d.x + d.vx + 1) % 1;
+        d.y = (d.y + d.vy + 1) % 1;
+        ctx.beginPath();
+        ctx.arc(d.x * canvas.width, d.y * canvas.height, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(210, 7, 87, " + d.o + ")";
+        ctx.fill();
+      });
+      if (!reduced) { requestAnimationFrame(frame); }
+    }
+    frame();
+  }
+
   // ─── Scroll reveal ───
   function initReveal() {
     var revealed = document.querySelectorAll(".reveal");
@@ -880,6 +910,7 @@
 
   // ─── Init ───
   if (window.lucide) { window.lucide.createIcons(); }
+  initDots();
   initReveal();
 })();
 </script>
